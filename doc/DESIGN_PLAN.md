@@ -148,21 +148,22 @@ We also spent a decent amount of time debating which of our classes should chang
 
 ## Use Cases
 
-1. Apply the rules to a middle cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors)
-    * Call grid[r][c].update(), which will check the state of the neighbors grid[r±1][c±1] and based on what percentage meets the dead condition, we will change the state of the cell or not using grid[r][c].updateState(*Fill in state*)
+Apply the rules to a middle cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors)
+* Call grid[r][c].update(), which will check the state of the neighbors grid[r±1][c±1] and based on what percentage meets the dead condition, we will change the state of the cell or not using grid[r][c].updateState(*Fill in state*)
 
-2. Apply the rules to an edge cell: set the next state of a cell to live by counting its number of neighbors using the Game of Life rules for a cell on the edge (i.e., with some of its neighbors missing)
-    * Call grid[r][c].update(), which will check the state of the neighbors grid[r±1][c±1] using validIndex(r, c) and based on what percentage meets the live condition, we will change the state of the cell or not using grid[r][c].updateState(*Fill in state*)
+Apply the rules to an edge cell: set the next state of a cell to live by counting its number of neighbors using the Game of Life rules for a cell on the edge (i.e., with some of its neighbors missing)
+* Call grid[r][c].update(), which will check the state of the neighbors grid[r±1][c±1] using validIndex(r, c) and based on what percentage meets the live condition, we will change the state of the cell or not using grid[r][c].updateState(*Fill in state*)
 
-3. Move to the next generation: update all cells in a simulation from their current state to their next state and display the results graphically
-    * We will have 2 grids: grid1 and grid2. Grid1 will hold the current state of the grid and grid2 will be used to update. We will call grid2.update(grid1) which will iterate through each of the cells of grid2 and call update() on each of the cells. The update() method will use the states of grid1 to find its new state. Once grid2 is updated, grid1 will be set equal to grid2 so that the updated status is displayed via the SimulationLoader class.
+Move to the next generation: update all cells in a simulation from their current state to their next state and display the results graphically
+* We will have 2 grids: grid1 and grid2. Grid1 will hold the current state of the grid and grid2 will be used to update. We will call grid2.update(grid1) which will iterate through each of the cells of grid2 and call update() on each of the cells. The update() method will use the states of grid1 to find its new state. Once grid2 is updated, grid1 will be set equal to grid2 so that the updated status is displayed.
 
-4. Set a simulation parameter: set the value of a global configuration parameter, probCatch, for a simulation, Fire, based on the value given in an XML fire
-    * probCatch will be a variable in a Cell subclass in particular. This is because some simulations have a specific probability like Spreading of Fire, while some are not based on probability but directly on conditions like their neighbors (e.g. Game of Life). This probCatch variable will be set from the configuration file into the Cell subclass and then this probCatch variable will be used in the update method of this particular simulation Cell subclass.
+Set a simulation parameter: set the value of a global configuration parameter, probCatch, for a simulation, Fire, based on the value given in an XML fire
+* probCatch will be variable in the Game class. The Game class will have a method that parses the configuration file, which will update the probCatch variable accordingly with the right value.
 
-5. Switch simulations: load a new simulation from an XML file, stopping the current running simulation, Segregation, and starting the newly loaded simulation, Wator
-    * User will use the load Simulation menu on the simulations graphic user interface to select the simulation that they want, and then press load. 
-    * Pressing load will call Main again, which will call the parseConfig method to get the new simulation and will automatically interrupt the current ongoing simulation. After that, the program will launch the new simulation automatically.
+Switch simulations: load a new simulation from an XML file, stopping the current running simulation, Segregation, and starting the newly loaded simulation, Wator
+* Call the parseConfig method to get the new simulation, which will automatically interrupt the current ongoing simulation. After that, the program will need to be launched as usual to run the new simulation.
+
+
 
 ## Team Responsibilities
 

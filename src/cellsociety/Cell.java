@@ -11,12 +11,15 @@ import javafx.scene.shape.Shape;
  * Cell acts as a node of the grid for the simulation
  */
 public abstract class Cell {
-    private int myRow, myCol;
-    private int myState;
+    private static int myRow, myCol;
+    public int myState;
     private Rectangle myRect;
     private ImageView myImage; // This may be on a subclass by subclass basis
-    private static int[] neighborColIndex; // Dependent on cell type ------ = {0, 1, 0, -1};
-    private static int[] neighborRowIndex; // Dependent on cell type ------ = {-1, 0, 1, 0};
+    public int[] neighborColIndex;
+    public int[] neighborRowIndex;
+    public Color[] cellFillColors;
+    public Color[] cellStrokeColors;
+
 
     /**
      * Constructor for master class Cell object
@@ -36,6 +39,7 @@ public abstract class Cell {
         myRect = new Rectangle(xCoor, yCoor, width, height);
         myRect.setFill(Color.WHITE);
         myRect.setStroke(Color.BLACK);
+
 ;    }
 
     /**
@@ -53,7 +57,7 @@ public abstract class Cell {
      * @param theGrid current Grid to update state based on
      * @return array of neighboring states
      */
-    private int[] getNeighborStates(Grid theGrid) {
+    public int[] getNeighborStates(Grid theGrid) {
         int[] neighborStates = new int [neighborColIndex.length];
         for (int i = 0; i < neighborColIndex.length; i++) {
             if (theGrid.validIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
@@ -84,6 +88,14 @@ public abstract class Cell {
      */
     private void setCellImage() {
 
+    }
+
+    /**
+     * Update the fill and the stroke color of the rectangle based on current state
+     */
+    public void updateRectangle() {
+        myRect.setFill(cellFillColors[myState]);
+        myRect.setStroke(cellStrokeColors[myState]);
     }
 
 }

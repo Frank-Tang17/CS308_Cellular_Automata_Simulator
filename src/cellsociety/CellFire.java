@@ -4,7 +4,7 @@ import java.lang.Math;
 Cell class for the fire simulation
 
  */
-public class Cell{
+public class CellFire{
 
 
     /**
@@ -19,7 +19,7 @@ public class Cell{
     int row;
     int col;
 
-    public Cell(int cellType, int cellState, int cellProb, int cellRow, int cellCol){
+    public CellFire(int cellType, int cellState, int cellProb, int cellRow, int cellCol){
         this.state = cellState;
         this.prob = cellProb;
         this.type = cellType;

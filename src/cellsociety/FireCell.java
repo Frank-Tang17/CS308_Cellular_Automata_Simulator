@@ -1,11 +1,9 @@
 package cellsociety;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
 import javafx.scene.paint.Color;
 
-public class GameOfLifeCell extends Cell {
+public class FireCell extends Cell {
+  private int prob;
 
   /**
    * Constructor for master class Cell object
@@ -18,7 +16,7 @@ public class GameOfLifeCell extends Cell {
    * @param height        the height of the cell
    * @param startingState the starting state of the cell
    */
-  public GameOfLifeCell(int row, int col, int xCoor, int yCoor, int width, int height,
+  public FireCell(int row, int col, int xCoor, int yCoor, int width, int height,
       int startingState) {
     super(row, col, xCoor, yCoor, width, height, startingState);
     this.neighborColIndex = new int[]{0, 1, 0, -1}; // Define sets of coordinates for neighbors
@@ -30,24 +28,14 @@ public class GameOfLifeCell extends Cell {
     this.updateRectangle();
   }
 
-  /**
-   * Implements rules for simulation and updates the appearance of the cell
-   *
-   * @param theGrid current Grid to update state based on
-   */
   @Override
   public void update(Grid theGrid) {
-    List neighborStatesAsList = Arrays.asList(this.getNeighborStates(theGrid));
+    int rand = (int) (Math.random() * 100);
+    int compProb = 100 * prob;
 
-    int numNeighborAlive = Collections.frequency(neighborStatesAsList, 1);
-
-    if (this.myState == 0 && numNeighborAlive == 3) {
-      this.myState = 1;
-    } else if (this.myState == 1 && (numNeighborAlive < 2 || numNeighborAlive > 3)) {
+    if (this.myState == 2) {
       this.myState = 0;
-    }
 
-    this.updateRectangle();
+    }
   }
 }
-

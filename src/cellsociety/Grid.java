@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Grid {
 
 
-  int[][] grid;
+  Cell[][] grid;
   int height;
   int width;
 
@@ -13,7 +13,7 @@ public class Grid {
   private final int simulationScreenHeight = 450;
 
   public Grid(int row, int col /** Parameter indicating initial config */) {
-    grid = new int[row][col];
+    grid = new Cell[row][col];
     width = col;
     height = row;
 
@@ -23,15 +23,14 @@ public class Grid {
 
   public void fillInitState(ArrayList<Integer> init_state) {
     //Need to figure out how the state data is incoming, whether we can store it in an ArrayList.
+    double cellSize = determineCellSize(height, width);
     int k = 0;
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        grid[i][j] = init_state.get(k);
+        grid[i][j] = new FireCell(i, j, cellSize, init_state.get(k));
         k++;
       }
     }
-
-
   }
 
   public int getHeight() {
@@ -42,15 +41,15 @@ public class Grid {
     return width;
   }
 
-  public void updateGrid() {
+  public void updateGrid(Grid oldGrid) {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        grid[i][j].update();
+        grid[i][j].update(oldGrid);
       }
     }
   }
 
-  public int[][] getGrid() {
+  public Cell[][] getGrid() {
     return grid;
   }
 

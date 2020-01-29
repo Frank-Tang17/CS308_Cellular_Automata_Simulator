@@ -32,7 +32,7 @@ public abstract class Cell {
    * @param size          the width and height of cell
    * @param startingState the starting state of the cell
    */
-  public Cell(int row, int col, int size, int startingState) {
+  public Cell(int row, int col, double size, int startingState) {
     myState = startingState;
     myRow = row;
     myCol = col;
@@ -70,9 +70,9 @@ public abstract class Cell {
   /**
    * Cell type dependent method that changes the current state of the cell
    *
-   * @param theGrid current Grid to update state based on
+   * @param theOldGrid current Grid to update state based on
    */
-  public abstract void update(Grid theGrid);
+  public abstract void update(Grid theOldGrid);
 
   /**
    * Getter method for the current state of the Cell

@@ -1,5 +1,7 @@
 package cellsociety;
 
+import java.util.Arrays;
+import java.util.List;
 import javafx.scene.paint.Color;
 
 public class FireCell extends Cell {
@@ -19,23 +21,27 @@ public class FireCell extends Cell {
   public FireCell(int row, int col, int xCoor, int yCoor, int width, int height,
       int startingState) {
     super(row, col, xCoor, yCoor, width, height, startingState);
-    this.neighborColIndex = new int[]{0, 1, 0, -1}; // Define sets of coordinates for neighbors
-    this.neighborRowIndex = new int[]{-1, 0, 1, 0}; // Define sets of coordinates for neighbors
-    this.cellFillColors = new Color[]{Color.WHITE,
-        Color.BLACK}; // Colors should align will cell state number
-    this.cellStrokeColors = new Color[]{Color.GREY,
-        Color.GREY}; // Colors should align will cell state number
-    this.updateRectangle();
+    neighborColIndex = new int[]{0, 1, 0, -1}; // Define sets of coordinates for neighbors
+    neighborRowIndex = new int[]{-1, 0, 1, 0}; // Define sets of coordinates for neighbors
+    cellFillColors = new Color[]{Color.YELLOW, Color.GREEN, Color.FIREBRICK};
+    cellStrokeColors = new Color[]{Color.BLACK, Color.BLACK, Color.BLACK};
+    updateRectangle();
   }
 
   @Override
   public void update(Grid theGrid) {
+    List neighborStatesAsList = Arrays.asList(this.getNeighborStates(theGrid));
+
     int rand = (int) (Math.random() * 100);
     int compProb = 100 * prob;
 
     if (this.myState == 2) {
       this.myState = 0;
-
+    } else if (neighborStatesAsList.contains(2) && myState == 1) {
+      myState = 2;
     }
+
+    updateRectangle();
+
   }
 }

@@ -31,8 +31,9 @@ public class SimulationLoader extends Application{
     private static final Paint BACKGROUND = Color.AZURE;
     private static int heightForGameStatusText = 20;
     public static final int SIZE = 600;
-    public static final int getGameStatusDisplayHeightBottom = SIZE/4;
     public static int gameStatusDisplayHeight = 30;
+    public static final int getGameStatusDisplayHeightBottom = SIZE - SIZE/4 + gameStatusDisplayHeight;
+
 
     public static Group root = new Group();
     private Group buttons = new Group();
@@ -120,13 +121,13 @@ public class SimulationLoader extends Application{
         speedUpButton.setLayoutX(60);
         speedUpButton.setPrefWidth(120);
         speedUpButton.setLayoutY(gameStatusDisplayBottom.getY() + 60);
-        //speedUpButton.setOnAction(e -> Main.speedUpSimulation());
+        speedUpButton.setOnAction(e -> Main.speedUpSimulation());
 
         speedDownButton.setFont(Font.font(15));
         speedDownButton.setLayoutX(240);
         speedDownButton.setPrefWidth(120);
         speedDownButton.setLayoutY(gameStatusDisplayBottom.getY() + 60);
-        //speedDownButton.setOnAction(e -> Main.slowDownSimulation());
+        speedDownButton.setOnAction(e -> Main.slowDownSimulation());
 
 
     }
@@ -140,7 +141,7 @@ public class SimulationLoader extends Application{
         gameStatusDisplayTop.setFill(Color.LIGHTGREY);
         gameStatusDisplayTop.setStroke(Color.GREY);
 
-        gameStatusDisplayBottom = new Rectangle(0,SIZE - SIZE/4, SIZE, SIZE/4);
+        gameStatusDisplayBottom = new Rectangle(0,getGameStatusDisplayHeightBottom, SIZE, SIZE/4);
         gameStatusDisplayBottom.setFill(Color.LIGHTGREY);
         gameStatusDisplayBottom.setStroke(Color.GREY);
 

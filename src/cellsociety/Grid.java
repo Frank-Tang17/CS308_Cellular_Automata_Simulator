@@ -9,6 +9,9 @@ public class Grid {
   int height;
   int width;
 
+  private final int simulationScreenWidth = 450;
+  private final int simulationScreenHeight = 450;
+
   public Grid(int row, int col /** Parameter indicating initial config */) {
     grid = new int[row][col];
     width = col;
@@ -40,10 +43,9 @@ public class Grid {
   }
 
   public void updateGrid() {
-
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        grid[i][j].updateCell();
+        grid[i][j].update();
       }
     }
   }
@@ -54,6 +56,14 @@ public class Grid {
 
   public boolean isValidIndex(int row, int col) {
     return (row >= 0 && row < grid.length && col >= 0 && col < grid[0].length);
+  }
+
+  private double determineCellSize(int numRows, int numCols) {
+    double maxWidth = simulationScreenWidth / numCols;
+    double maxHeight = simulationScreenHeight / numRows;
+
+    return Math.min(maxWidth, maxHeight);
+
   }
 
 }

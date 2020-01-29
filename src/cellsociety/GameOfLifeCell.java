@@ -12,15 +12,11 @@ public class GameOfLifeCell extends Cell {
    *
    * @param row           the cells row in the grid
    * @param col           the cells col in the grid
-   * @param xCoor         the x-coordinate of the upper left hand corner of the cell
-   * @param yCoor         the y-coordinate of the upper left hand corner of the cell
-   * @param width         the width of the cell
-   * @param height        the height of the cell
+   * @param size          the width and height of the cell
    * @param startingState the starting state of the cell
    */
-  public GameOfLifeCell(int row, int col, int xCoor, int yCoor, int width, int height,
-      int startingState) {
-    super(row, col, xCoor, yCoor, width, height, startingState);
+  public GameOfLifeCell(int row, int col, int size, int startingState) {
+    super(row, col, size, startingState);
     neighborColIndex = new int[]{0, 1, 0, -1}; // Define sets of coordinates for neighbors
     neighborRowIndex = new int[]{-1, 0, 1, 0}; // Define sets of coordinates for neighbors
     cellFillColors = new Color[]{Color.WHITE,

@@ -21,30 +21,24 @@ public abstract class Cell {
   public Color[] cellFillColors;
   public Color[] cellStrokeColors;
 
-  // 0, 30 for upper left hand corner of grid
-  // 450 across 450 from top to bottom
+  private final int upperLeftX = 0;
+  private final int upperLeftY = 30;
 
   /**
    * Constructor for master class Cell object
    *
    * @param row           the cells row in the grid
    * @param col           the cells col in the grid
-   * @param xCoor         the x-coordinate of the upper left hand corner of the cell
-   * @param yCoor         the y-coordinate of the upper left hand corner of the cell
-   * @param width         the width of the cell
-   * @param height        the height of the cell
+   * @param size          the width and height of cell
    * @param startingState the starting state of the cell
    */
-  public Cell(int row, int col, int xCoor, int yCoor, int width, int height, int startingState) {
+  public Cell(int row, int col, int size, int startingState) {
     myState = startingState;
     myRow = row;
     myCol = col;
-    myRect = new Rectangle(xCoor, yCoor, width, height);
+    myRect = new Rectangle(col * size + upperLeftX, row * size + upperLeftY, size, size);
     myRect.setStrokeType(Main.cellStrokeType);
-    myRect.setStrokeWidth(Main.cellStrokeProportion * width);
-
-
-
+    myRect.setStrokeWidth(Main.cellStrokeProportion * size);
   }
 
   /**

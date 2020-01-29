@@ -12,15 +12,11 @@ public class FireCell extends Cell {
    *
    * @param row           the cells row in the grid
    * @param col           the cells col in the grid
-   * @param xCoor         the x-coordinate of the upper left hand corner of the cell
-   * @param yCoor         the y-coordinate of the upper left hand corner of the cell
-   * @param width         the width of the cell
-   * @param height        the height of the cell
+   * @param size          the width and height of the cell
    * @param startingState the starting state of the cell
    */
-  public FireCell(int row, int col, int xCoor, int yCoor, int width, int height,
-      int startingState) {
-    super(row, col, xCoor, yCoor, width, height, startingState);
+  public FireCell(int row, int col, int size, int startingState) {
+    super(row, col, size, startingState);
     neighborColIndex = new int[]{0, 1, 0, -1}; // Define sets of coordinates for neighbors
     neighborRowIndex = new int[]{-1, 0, 1, 0}; // Define sets of coordinates for neighbors
     cellFillColors = new Color[]{Color.YELLOW, Color.GREEN, Color.FIREBRICK};
@@ -37,11 +33,10 @@ public class FireCell extends Cell {
 
     if (this.myState == 2) {
       this.myState = 0;
-    } else if (neighborStatesAsList.contains(2) && myState == 1) {
+    } else if (neighborStatesAsList.contains(2) && myState == 1 && (rand <= compProb)) {
       myState = 2;
     }
 
     updateRectangle();
-
   }
 }

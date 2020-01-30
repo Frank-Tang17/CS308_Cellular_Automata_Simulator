@@ -16,10 +16,10 @@ public class Grid {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         if (i % 4 == 0 || j % 2 == 0){
-          grid[i][j] = new GameOfLifeCell(j, i, (j * 20) + 100, (i * 20) + 100, 7 , 7, 1);
+          grid[i][j] = new GameOfLifeCell(j, i, (j * (Main.simulationGridSize/col)) + 75, (i * (Main.simulationGridSize/col)) + 30, Main.simulationGridSize/col, Main.simulationGridSize/row, 1);
         }
         else{
-          grid[i][j] = new GameOfLifeCell(j, i, (j * 20) + 100, (i * 20) + 100, 7, 7, 0);
+          grid[i][j] = new GameOfLifeCell(j, i, (j * (Main.simulationGridSize/col)) + 75, (i * (Main.simulationGridSize/row)) + 30, Main.simulationGridSize/col, Main.simulationGridSize/row, 0);
         }
       }
     }

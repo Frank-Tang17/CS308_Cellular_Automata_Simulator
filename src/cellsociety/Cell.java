@@ -43,7 +43,7 @@ public abstract class Cell {
         myCol = col;
         myRect = new Rectangle(xCoor, yCoor, width, height);
         myRect.setStrokeType(Main.cellStrokeType);
-        myRect.setStrokeWidth(Main.cellStrokeProportion * width);
+        myRect.setStrokeWidth(Main.cellStrokeProportion * 1);
     }
 
     /**

@@ -16,8 +16,8 @@ public class Main extends SimulationLoader {
   private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
   private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
   private static boolean runSimulation = true;
-  private static int simulationGridSize = 450;
-  public static StrokeType cellStrokeType = StrokeType.OUTSIDE;
+  public static int simulationGridSize = 450;
+  public static StrokeType cellStrokeType = StrokeType.INSIDE;
   public static int cellStrokeProportion = 2;
 
   private static double simulationRate = 1;

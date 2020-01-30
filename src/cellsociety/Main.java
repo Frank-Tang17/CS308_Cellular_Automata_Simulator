@@ -23,10 +23,6 @@ public class Main extends SimulationLoader {
   private static double simulationRate = 1;
   private static Timeline animation = new Timeline();
 
-  private static Rectangle display = new Rectangle((SIZE - simulationGridSize) / 2,
-      gameStatusDisplayHeight, simulationGridSize, simulationGridSize);
-  private static int framingTest = 0;
-
   private static Grid mainGrid;
   private static Grid updateGrid;
 
@@ -38,8 +34,8 @@ public class Main extends SimulationLoader {
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
-    mainGrid = new Grid(10,10);
-    updateGrid = new Grid(10,10);
+    mainGrid = new Grid(15,15);
+    updateGrid = new Grid(15,15);
     mainGrid.gridVisualization();
 
   }
@@ -48,17 +44,6 @@ public class Main extends SimulationLoader {
     if (runSimulation) {
       mainGrid.updateGrid(updateGrid);
       mainGrid.copyGrid(updateGrid);
-
-
-//      if (framingTest % 2 == 0) {
-//                display.setFill(Color.RED);
-//            } else {
-//                display.setFill(Color.BLUE);
-//            }
-//            framingTest++;
-//
-//      }
-
     }
   }
 

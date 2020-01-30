@@ -6,6 +6,9 @@ import javafx.scene.paint.Color;
 
 public class FireCell extends Cell {
   private int prob;
+  private static int emptyState = 0;
+  private static int treeState = 1;
+  private static int burningState = 2;
 
   /**
    * Constructor for master class Cell object
@@ -31,10 +34,10 @@ public class FireCell extends Cell {
     int rand = (int) (Math.random() * 100);
     int compProb = 100 * prob;
 
-    if (theOldGrid.getGrid()[myRow][myCol].myState == 2) {
-      myState = 0;
-    } else if (neighborStatesAsList.contains(2) && theOldGrid.getGrid()[myRow][myCol].myState == 1 && (rand <= compProb)) {
-      myState = 2;
+    if (theOldGrid.getGrid()[myRow][myCol].myState == burningState) {
+      myState = emptyState;
+    } else if (neighborStatesAsList.contains(burningState) && theOldGrid.getGrid()[myRow][myCol].myState == treeState && (rand <= compProb)) {
+      myState = burningState;
     }
 
     updateRectangle();

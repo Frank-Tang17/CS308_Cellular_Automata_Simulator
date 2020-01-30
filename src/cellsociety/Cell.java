@@ -11,7 +11,6 @@ import javafx.scene.shape.Shape;
  * Cell acts as a node of the grid for the simulation
  */
 public abstract class Cell {
-
   protected int myRow, myCol;
   protected int myState;
   private Rectangle myRect;

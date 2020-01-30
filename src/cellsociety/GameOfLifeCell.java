@@ -6,6 +6,11 @@ import java.util.List;
 import javafx.scene.paint.Color;
 
 public class GameOfLifeCell extends Cell {
+  private static int deadState = 0;
+  private static int aliveState = 1;
+  private static int cellsNeededForLife = 3;
+  private static int upperAliveCellBound = 3;
+  private static int lowerAliveCellBound = 2;
 
   /**
    * Constructor for master class Cell object
@@ -33,12 +38,12 @@ public class GameOfLifeCell extends Cell {
   public void update(Grid theOldGrid) {
     List neighborStatesAsList = Arrays.asList(getNeighborStates(theOldGrid));
 
-    int numNeighborAlive = Collections.frequency(neighborStatesAsList, 1);
+    int numNeighborAlive = Collections.frequency(neighborStatesAsList, aliveState);
 
-    if (theOldGrid.getGrid()[myRow][myCol].myState == 0 && numNeighborAlive == 3) {
-      myState = 1;
-    } else if (theOldGrid.getGrid()[myRow][myCol].myState == 1 && (numNeighborAlive < 2 || numNeighborAlive > 3)) {
-      myState = 0;
+    if (theOldGrid.getGrid()[myRow][myCol].myState == deadState && numNeighborAlive == cellsNeededForLife) {
+      myState = aliveState;
+    } else if (theOldGrid.getGrid()[myRow][myCol].myState == aliveState && (numNeighborAlive < lowerAliveCellBound || numNeighborAlive > upperAliveCellBound)) {
+      myState = deadState;
     }
 
     updateRectangle();

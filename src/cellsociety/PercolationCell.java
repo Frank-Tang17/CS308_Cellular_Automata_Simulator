@@ -5,7 +5,9 @@ import java.util.List;
 import javafx.scene.paint.Color;
 
 public class PercolationCell extends Cell {
-
+  private static int blockedState = 0;
+  private static int openState = 1;
+  private static int waterState = 2;
 
   /**
    * Constructor for master class Cell object
@@ -28,8 +30,8 @@ public class PercolationCell extends Cell {
   public void update(Grid theOldGrid) {
     List neighborStatesAsList = Arrays.asList(getNeighborStates(theOldGrid));
 
-    if (theOldGrid.getGrid()[myRow][myCol].myState == 0 && neighborStatesAsList.contains(2)) {
-      myState = 2;
+    if (theOldGrid.getGrid()[myRow][myCol].myState == openState && neighborStatesAsList.contains(waterState)) {
+      myState = waterState;
     }
   }
 }

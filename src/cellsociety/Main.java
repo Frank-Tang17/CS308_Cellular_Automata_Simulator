@@ -17,42 +17,48 @@ public class Main extends SimulationLoader {
   public static final StrokeType cellStrokeType = StrokeType.CENTERED; // INSIDE, OUTSIDE, or CENTERED
   public static final double cellStrokeProportion = 0.05;
   private static boolean runSimulation = true;
-  private static int simulationGridSize = 450;
-
+  public static int simulationGridSize = 450;
+  public static StrokeType cellStrokeType = StrokeType.INSIDE;
+  public static int cellStrokeProportion = 1;
   private static double simulationRate = 1;
   private static Timeline animation = new Timeline();
 
-  private static Rectangle display = new Rectangle((SIZE - simulationGridSize)/2, gameStatusDisplayHeight, simulationGridSize,simulationGridSize);
-  private static int framingTest = 0;
+  private static Grid mainGrid;
+  private static Grid updateGrid;
+
 
   public static void test() {
-    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {step(SECOND_DELAY);});
+    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
+      step(SECOND_DELAY);
+    });
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
-    SimulationLoader.root.getChildren().add(display);
+    mainGrid = new Grid(50,50);
+    updateGrid = new Grid(50,50);
+    mainGrid.gridVisualization();
+
   }
-  private static void step (double elapsedTime) {
-    if(runSimulation) {
-      if (framingTest % 2 == 0) {
-        display.setFill(Color.RED);
-      } else {
-        display.setFill(Color.BLUE);
-      }
-      framingTest++;
+
+  private static void step(double elapsedTime) {
+    if (runSimulation) {
+      mainGrid.updateGrid(updateGrid);
+      mainGrid.copyGrid(updateGrid);
     }
   }
 
-  public static void pauseResume(){
-    runSimulation = !runSimulation;
-  }
-  public static void speedUpSimulation(){
-    simulationRate *= 2;
-    animation.setRate(simulationRate);
-  }
-  public static void slowDownSimulation(){
-    simulationRate /= 2;
-    animation.setRate(simulationRate);
-  }
+    public static void pauseResume () {
+      runSimulation = !runSimulation;
+    }
 
-}
+    public static void speedUpSimulation () {
+      simulationRate *= 2;
+      animation.setRate(simulationRate);
+    }
+
+    public static void slowDownSimulation () {
+      simulationRate /= 2;
+      animation.setRate(simulationRate);
+    }
+
+  }

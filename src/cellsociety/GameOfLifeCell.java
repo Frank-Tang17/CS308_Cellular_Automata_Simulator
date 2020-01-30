@@ -36,7 +36,7 @@ public class GameOfLifeCell extends Cell {
    */
   @Override
   public void update(Grid theOldGrid) {
-    List neighborStatesAsList = Arrays.asList(getNeighborStates(theOldGrid));
+    ArrayList<Integer> neighborStatesAsList = this.getNeighborStates(theGrid);
 
     int numNeighborAlive = Collections.frequency(neighborStatesAsList, aliveState);
 
@@ -45,8 +45,6 @@ public class GameOfLifeCell extends Cell {
     } else if (theOldGrid.getGrid()[myRow][myCol].myState == aliveState && (numNeighborAlive < lowerAliveCellBound || numNeighborAlive > upperAliveCellBound)) {
       myState = deadState;
     }
-
-    updateRectangle();
   }
 }
 

@@ -3,24 +3,33 @@ package cellsociety;
 import java.util.ArrayList;
 
 public class Grid {
+  private Cell[][] grid;
+  private int height;
+  private int width;
 
-
-  Cell[][] grid;
-  int height;
-  int width;
 
   private final int simulationScreenWidth = 450;
   private final int simulationScreenHeight = 450;
 
-  public Grid(int row, int col /** Parameter indicating initial config */) {
+  public Grid(int row, int col) {
     grid = new Cell[row][col];
     width = col;
     height = row;
-
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        if (i % 4 == 0 || j % 2 == 0){
+          grid[i][j] = new GameOfLifeCell(j, i, (j * (Main.simulationGridSize/col)) + 75, (i * (Main.simulationGridSize/row)) + 30, Main.simulationGridSize/col, Main.simulationGridSize/row, 1);
+        }
+        else{
+          grid[i][j] = new GameOfLifeCell(j, i, (j * (Main.simulationGridSize/col)) + 75, (i * (Main.simulationGridSize/row)) + 30, Main.simulationGridSize/col, Main.simulationGridSize/row, 0);
+        }
+      }
+    }
   }
 
-  //Populate the grid values with the initial state//
 
+  //Populate the grid values with the initial state//
+    /*
   public void fillInitState(ArrayList<Integer> init_state) {
     //Need to figure out how the state data is incoming, whether we can store it in an ArrayList.
     double cellSize = determineCellSize(height, width);
@@ -29,6 +38,14 @@ public class Grid {
       for (int j = 0; j < width; j++) {
         grid[i][j] = new FireCell(i, j, cellSize, init_state.get(k));
         k++;
+      }
+    }
+    */
+    
+  public void gridVisualization(){
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        SimulationLoader.grid.getChildren().add(grid[i][j].getCellNode());
       }
     }
   }
@@ -41,6 +58,7 @@ public class Grid {
     return width;
   }
 
+
   public void updateGrid(Grid oldGrid) {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
@@ -49,8 +67,28 @@ public class Grid {
     }
   }
 
+/*
+  public void updateGrid(Grid gridnew) {
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        gridnew.getCell(i, j).update(this);
+        */
+
+
   public Cell[][] getGrid() {
     return grid;
+  }
+
+  public void copyGrid(Grid gridnew) {
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        grid[i][j].setCellState(gridnew.getCell(i, j).getCurrentState());
+        grid[i][j].updateRectangle();
+      }
+    }
+  }
+  public Cell getCell(int row, int col) {
+    return grid[row][col];
   }
 
   public boolean isValidIndex(int row, int col) {
@@ -62,7 +100,6 @@ public class Grid {
     double maxHeight = simulationScreenHeight / numRows;
 
     return Math.min(maxWidth, maxHeight);
-
   }
 
 }

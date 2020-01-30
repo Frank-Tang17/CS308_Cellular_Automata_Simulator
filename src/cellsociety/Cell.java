@@ -1,5 +1,7 @@
 package cellsociety;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import javax.swing.text.html.ImageView;
 import java.awt.*;
 import javafx.scene.paint.Color;
@@ -11,6 +13,7 @@ import javafx.scene.shape.Shape;
  * Cell acts as a node of the grid for the simulation
  */
 public abstract class Cell {
+
   protected int myRow, myCol;
   protected int myState;
   private Rectangle myRect;
@@ -39,32 +42,52 @@ public abstract class Cell {
     myRect.setStrokeType(Main.cellStrokeType);
     myRect.setStrokeWidth(Main.cellStrokeProportion * size);
   }
-
-  /**
-   * Getter method for row and column
-   *
-   * @return array of Cell row and col in that order
-   */
-  public int[] getRowAndCol() {
-    return new int[]{myRow, myCol};
-  }
-
-  /**
-   * Returns the states of each neighboring cell
-   *
-   * @param theGrid current Grid to update state based on
-   * @return array of neighboring states
-   */
-  public int[] getNeighborStates(Grid theGrid) {
-    int[] neighborStates = new int[neighborColIndex.length];
-    for (int i = 0; i < neighborColIndex.length; i++) {
-      if (theGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
-        neighborStates[i] = theGrid.getGrid()[myRow + neighborRowIndex[i]][myCol
-            + neighborColIndex[i]].getCurrentState();
-      }
+    /*
+    public Cell(int row, int col, int xCoor, int yCoor, int width, int height, int startingState) {
+        myState = startingState;
+        myRow = row;
+        myCol = col;
+        myRect = new Rectangle(xCoor, yCoor, width, height);
+        myRect.setStrokeType(Main.cellStrokeType);
+        myRect.setStrokeWidth(Main.cellStrokeProportion * 1);
     }
-    return neighborStates;
+    */
+
+    /**
+     * Getter method for row and column
+     *
+     * @return array of Cell row and col in that order
+     */
+    public int[] getRowAndCol() {
+        return new int[] {myRow, myCol};
+    }
+
+    /**
+     * Returns the states of each neighboring cell
+     *
+     * @param theGrid current Grid to update state based on
+     * @return array of neighboring states
+     */
+    public ArrayList<Integer> getNeighborStates(Grid theGrid) {
+        ArrayList<Integer> neighborStates = new ArrayList();
+        for (int i = 0; i < neighborColIndex.length; i++) {
+            if (theGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
+                neighborStates.add(theGrid.getCell((myRow + neighborRowIndex[i]),(myCol + neighborColIndex[i])).getCurrentState());
+            }
+        }
+
+        return neighborStates;
+    }
+
+
+  public void setCellState(int newState) {
+    myState = newState;
   }
+
+    public Rectangle getCellNode(){
+      return this.myRect;
+    }
+
 
   /**
    * Cell type dependent method that changes the current state of the cell

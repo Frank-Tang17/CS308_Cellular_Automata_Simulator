@@ -25,17 +25,19 @@ import javafx.util.Duration;
  *
  * @author Frank Tang
  */
-public class SimulationLoader extends Application{
+public class SimulationLoader extends Application {
+
   private static final String TITLE = "Simulation";
 
   private static final Paint BACKGROUND = Color.AZURE;
   private static int heightForGameStatusText = 20;
   public static final int SIZE = 600;
   public static int gameStatusDisplayHeight = 30;
-  public static final int getGameStatusDisplayHeightBottom = SIZE - SIZE/4 + gameStatusDisplayHeight;
-
+  public static final int getGameStatusDisplayHeightBottom =
+      SIZE - SIZE / 4 + gameStatusDisplayHeight;
 
   public static Group root = new Group();
+  public static Group grid = new Group();
   private Group buttons = new Group();
 
 
@@ -65,7 +67,7 @@ public class SimulationLoader extends Application{
   /**
    * Initialize what will be displayed and how it will be updated.
    */
-  public void start (Stage stage) {
+  public void start(Stage stage) {
     // attach scene to the stage and display it
     myScene = setupGame(SIZE, SIZE, BACKGROUND);
     stage.setScene(myScene);
@@ -76,7 +78,8 @@ public class SimulationLoader extends Application{
   }
 
   // Create the game's "scene": what shapes will be in the game and their starting properties
-  private Scene setupGame (int width, int height, Paint background) {
+
+  private Scene setupGame(int width, int height, Paint background) {
     // create one top level collection to organize the things in the scene
     // make some shapes and set their properties
     // x and y represent the top left corner, so center it in window
@@ -85,6 +88,7 @@ public class SimulationLoader extends Application{
     setUpButtons();
     // order added to the group is the order in which they are drawn
     root.getChildren().add(buttons);
+    root.getChildren().add(grid);
     buttons.getChildren().add(pauseButton);
     buttons.getChildren().add(forwardButton);
     buttons.getChildren().add(resetButton);
@@ -99,7 +103,7 @@ public class SimulationLoader extends Application{
     return scene;
   }
 
-  public void setUpButtons(){
+  public void setUpButtons() {
     pauseButton.setFont(Font.font(15));
     pauseButton.setLayoutX(60);
     pauseButton.setLayoutY(gameStatusDisplayBottom.getY() + 15);
@@ -136,24 +140,24 @@ public class SimulationLoader extends Application{
   /**
    * Sets up the game status display at the top of the game's screen
    */
-  public void setUpGameStatusDisplay(){
-    gameStatusDisplayTop = new Rectangle(0,0, SIZE, gameStatusDisplayHeight);
+  public void setUpGameStatusDisplay() {
+    gameStatusDisplayTop = new Rectangle(0, 0, SIZE, gameStatusDisplayHeight);
     gameStatusDisplayTop.setFill(Color.LIGHTGREY);
     gameStatusDisplayTop.setStroke(Color.GREY);
 
-    gameStatusDisplayBottom = new Rectangle(0,getGameStatusDisplayHeightBottom, SIZE, SIZE/4);
+    gameStatusDisplayBottom = new Rectangle(0, getGameStatusDisplayHeightBottom, SIZE, SIZE / 4);
     gameStatusDisplayBottom.setFill(Color.LIGHTGREY);
     gameStatusDisplayBottom.setStroke(Color.GREY);
 
     frameDisplay.setText("Frame:"); //will need to be retrieved from Main file
     titleDisplay.setText("Simulation Type"); //will need to be retrieved from configuration file
 
-    titleDisplay.setX(SIZE/2 - titleDisplay.getBoundsInParent().getWidth()/2);
+
+    titleDisplay.setX(SIZE / 2 - titleDisplay.getBoundsInParent().getWidth() / 2);
     titleDisplay.setY(heightForGameStatusText);
 
     frameDisplay.setX(frameDisplay.getBoundsInParent().getWidth());
     frameDisplay.setY(heightForGameStatusText);
-
 
     root.getChildren().add(gameStatusDisplayBottom);
     root.getChildren().add(gameStatusDisplayTop);
@@ -161,17 +165,17 @@ public class SimulationLoader extends Application{
     root.getChildren().add(frameDisplay);
   }
 
-
-
   /**
    * Handles key inputs -- primarily used for cheat keys
+   *
    * @param code is the KeyCode necessary to identify the key being pressed
    */
-  private void handleKeyInput (KeyCode code) {
+  private void handleKeyInput(KeyCode code) {
   }
 
   /**
    * Handles mouse input -- used to control the paddle
+<<<<<<< HEAD
    * @param x is the double position of the mouse's x coordinate
    * @param y is the double position of the mouse's y coordinate
    */
@@ -181,7 +185,8 @@ public class SimulationLoader extends Application{
   /**
    * Start the program.
    */
-  public static void main (String[] args) {
+
+  public static void main(String[] args) {
     launch(args);
   }
 }

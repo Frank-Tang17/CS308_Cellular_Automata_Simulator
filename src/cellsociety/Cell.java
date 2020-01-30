@@ -13,30 +13,36 @@ import javafx.scene.shape.Shape;
  * Cell acts as a node of the grid for the simulation
  */
 public abstract class Cell {
-    private int myRow, myCol;
-    public int myState;
-    private Rectangle myRect;
-    private ImageView myImage; // This may be on a subclass by subclass basis
-    public int[] neighborColIndex;
-    public int[] neighborRowIndex;
-    public Color[] cellFillColors;
-    public Color[] cellStrokeColors;
 
+  protected int myRow, myCol;
+  protected int myState;
+  private Rectangle myRect;
+  private ImageView myImage; // This may be on a subclass by subclass basis
+  protected int[] neighborColIndex;
+  protected int[] neighborRowIndex;
+  protected Color[] cellFillColors;
+  protected Color[] cellStrokeColors;
 
-    // 0, 30 for upper left hand corner of grid
-    // 450 across 450 from top to bottom
+  private final int upperLeftX = 0;
+  private final int upperLeftY = 30;
 
-    /**
-     * Constructor for master class Cell object
-     *
-     * @param row the cells row in the grid
-     * @param col the cells col in the grid
-     * @param xCoor the x-coordinate of the upper left hand corner of the cell
-     * @param yCoor the y-coordinate of the upper left hand corner of the cell
-     * @param width the width of the cell
-     * @param height the height of the cell
-     * @param startingState the starting state of the cell
-     */
+  /**
+   * Constructor for master class Cell object
+   *
+   * @param row           the cells row in the grid
+   * @param col           the cells col in the grid
+   * @param size          the width and height of cell
+   * @param startingState the starting state of the cell
+   */
+  public Cell(int row, int col, double size, int startingState) {
+    myState = startingState;
+    myRow = row;
+    myCol = col;
+    myRect = new Rectangle(col * size + upperLeftX, row * size + upperLeftY, size, size);
+    myRect.setStrokeType(Main.cellStrokeType);
+    myRect.setStrokeWidth(Main.cellStrokeProportion * size);
+  }
+    /*
     public Cell(int row, int col, int xCoor, int yCoor, int width, int height, int startingState) {
         myState = startingState;
         myRow = row;
@@ -45,6 +51,7 @@ public abstract class Cell {
         myRect.setStrokeType(Main.cellStrokeType);
         myRect.setStrokeWidth(Main.cellStrokeProportion * 1);
     }
+    */
 
     /**
      * Getter method for row and column
@@ -72,6 +79,7 @@ public abstract class Cell {
         return neighborStates;
     }
 
+
   public void setCellState(int newState) {
     myState = newState;
   }
@@ -84,9 +92,9 @@ public abstract class Cell {
   /**
    * Cell type dependent method that changes the current state of the cell
    *
-   * @param theGrid current Grid to update state based on
+   * @param theOldGrid current Grid to update state based on
    */
-  public abstract void update(Grid theGrid);
+  public abstract void update(Grid theOldGrid);
 
   /**
    * Getter method for the current state of the Cell

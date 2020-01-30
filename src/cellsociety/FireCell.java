@@ -1,41 +1,45 @@
 package cellsociety;
 
+import java.util.Arrays;
+import java.util.List;
 import javafx.scene.paint.Color;
 
 public class FireCell extends Cell {
   private int prob;
+  private static int emptyState = 0;
+  private static int treeState = 1;
+  private static int burningState = 2;
 
   /**
    * Constructor for master class Cell object
    *
    * @param row           the cells row in the grid
    * @param col           the cells col in the grid
-   * @param xCoor         the x-coordinate of the upper left hand corner of the cell
-   * @param yCoor         the y-coordinate of the upper left hand corner of the cell
-   * @param width         the width of the cell
-   * @param height        the height of the cell
+   * @param size          the width and height of the cell
    * @param startingState the starting state of the cell
    */
-  public FireCell(int row, int col, int xCoor, int yCoor, int width, int height,
-      int startingState) {
-    super(row, col, xCoor, yCoor, width, height, startingState);
-    this.neighborColIndex = new int[]{0, 1, 0, -1}; // Define sets of coordinates for neighbors
-    this.neighborRowIndex = new int[]{-1, 0, 1, 0}; // Define sets of coordinates for neighbors
-    this.cellFillColors = new Color[]{Color.WHITE,
-        Color.BLACK}; // Colors should align will cell state number
-    this.cellStrokeColors = new Color[]{Color.GREY,
-        Color.GREY}; // Colors should align will cell state number
-    this.updateRectangle();
+  public FireCell(int row, int col, double size, int startingState) {
+    super(row, col, size, startingState);
+    neighborColIndex = new int[]{0, 1, 0, -1}; // Define sets of coordinates for neighbors
+    neighborRowIndex = new int[]{-1, 0, 1, 0}; // Define sets of coordinates for neighbors
+    cellFillColors = new Color[]{Color.YELLOW, Color.GREEN, Color.FIREBRICK};
+    cellStrokeColors = new Color[]{Color.BLACK, Color.BLACK, Color.BLACK};
+    updateRectangle();
   }
 
   @Override
-  public void update(Grid theGrid) {
+  public void update(Grid theOldGrid) {
+    List neighborStatesAsList = Arrays.asList(this.getNeighborStates(theOldGrid));
+
     int rand = (int) (Math.random() * 100);
     int compProb = 100 * prob;
 
-    if (this.myState == 2) {
-      this.myState = 0;
-
+    if (theOldGrid.getGrid()[myRow][myCol].myState == burningState) {
+      myState = emptyState;
+    } else if (neighborStatesAsList.contains(burningState) && theOldGrid.getGrid()[myRow][myCol].myState == treeState && (rand <= compProb)) {
+      myState = burningState;
     }
+
+    updateRectangle();
   }
 }

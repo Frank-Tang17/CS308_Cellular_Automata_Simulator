@@ -38,13 +38,18 @@ public class Main extends SimulationLoader {
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
-    mainGrid = new Grid(4,4);
+    mainGrid = new Grid(10,10);
+    updateGrid = new Grid(10,10);
+    mainGrid.gridVisualization();
 
   }
 
   private static void step(double elapsedTime) {
     if (runSimulation) {
-      mainGrid.updateGrid();
+      mainGrid.updateGrid(updateGrid);
+      mainGrid.copyGrid(updateGrid);
+
+
 //      if (framingTest % 2 == 0) {
 //                display.setFill(Color.RED);
 //            } else {

@@ -13,7 +13,7 @@ import javafx.scene.shape.Shape;
  * Cell acts as a node of the grid for the simulation
  */
 public abstract class Cell {
-    private static int myRow, myCol;
+    private int myRow, myCol;
     public int myState;
     private Rectangle myRect;
     private ImageView myImage; // This may be on a subclass by subclass basis
@@ -64,13 +64,10 @@ public abstract class Cell {
     public ArrayList<Integer> getNeighborStates(Grid theGrid) {
         ArrayList<Integer> neighborStates = new ArrayList();
         for (int i = 0; i < neighborColIndex.length; i++) {
-          System.out.print(myRow + neighborRowIndex[i]);
-          System.out.println(myCol + neighborColIndex[i]);
             if (theGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
                 neighborStates.add(theGrid.getCell((myRow + neighborRowIndex[i]),(myCol + neighborColIndex[i])).getCurrentState());
             }
         }
-        System.out.println(neighborStates);
 
         return neighborStates;
     }
@@ -90,6 +87,10 @@ public abstract class Cell {
     public int getCurrentState() {
         return myState;
     }
+
+  public void setCellState(int newState) {
+    myState = newState;
+  }
 
     public Rectangle getCellNode(){
       return this.myRect;

@@ -21,13 +21,17 @@ public class Grid {
         else{
           grid[i][j] = new GameOfLifeCell(j, i, (j * 20) + 100, (i * 20) + 100, 5, 5, 0);
         }
+      }
+    }
+  }
+
+  public void gridVisualization(){
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
         SimulationLoader.grid.getChildren().add(grid[i][j].getCellNode());
       }
     }
-
-
   }
-
   //Populate the grid values with the initial state//
 
   public void fillInitState(ArrayList<Integer> init_state) {
@@ -50,14 +54,22 @@ public class Grid {
     return width;
   }
 
-  public void updateGrid() {
+  public void updateGrid(Grid gridnew) {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        grid[i][j].update(this);
+        gridnew.getCell(i, j).update(this);
       }
     }
   }
 
+  public void copyGrid(Grid gridnew) {
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        grid[i][j].setCellState(gridnew.getCell(i, j).getCurrentState());
+        grid[i][j].updateRectangle();
+      }
+    }
+  }
   public Cell getCell(int row, int col) {
     return grid[row][col];
   }

@@ -39,19 +39,14 @@ public class GameOfLifeCell extends Cell {
   @Override
   public void update(Grid theGrid) {
     ArrayList<Integer> neighborStatesAsList = this.getNeighborStates(theGrid);
-
-//    for (int i = 0; i < neighborStatesAsList.size(); i++) {
-//      System.out.print(neighborStatesAsList.get(i));
-//    }
-//    System.out.print("\n");
-
+    
     int numNeighborAlive = Collections.frequency(neighborStatesAsList, 1);
     if (this.myState == 0 && (numNeighborAlive == 3 || numNeighborAlive == 2)) {
       this.myState = 1;
     } else if (this.myState == 1 && (numNeighborAlive < 2 || numNeighborAlive > 3)) {
       this.myState = 0;
     }
-    this.updateRectangle();
+//    this.updateRectangle();
   }
 }
 

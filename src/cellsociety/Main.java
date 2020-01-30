@@ -18,7 +18,7 @@ public class Main extends SimulationLoader {
   private static boolean runSimulation = true;
   public static int simulationGridSize = 450;
   public static StrokeType cellStrokeType = StrokeType.INSIDE;
-  public static int cellStrokeProportion = 2;
+  public static int cellStrokeProportion = 1;
 
   private static double simulationRate = 1;
   private static Timeline animation = new Timeline();
@@ -34,8 +34,8 @@ public class Main extends SimulationLoader {
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
-    mainGrid = new Grid(15,15);
-    updateGrid = new Grid(15,15);
+    mainGrid = new Grid(50,50);
+    updateGrid = new Grid(50,50);
     mainGrid.gridVisualization();
 
   }

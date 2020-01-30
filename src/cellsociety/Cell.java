@@ -12,14 +12,14 @@ import javafx.scene.shape.Shape;
  */
 public abstract class Cell {
 
-  public static int myRow, myCol;
-  public int myState;
+  protected int myRow, myCol;
+  protected int myState;
   private Rectangle myRect;
   private ImageView myImage; // This may be on a subclass by subclass basis
-  public int[] neighborColIndex;
-  public int[] neighborRowIndex;
-  public Color[] cellFillColors;
-  public Color[] cellStrokeColors;
+  protected int[] neighborColIndex;
+  protected int[] neighborRowIndex;
+  protected Color[] cellFillColors;
+  protected Color[] cellStrokeColors;
 
   private final int upperLeftX = 0;
   private final int upperLeftY = 30;

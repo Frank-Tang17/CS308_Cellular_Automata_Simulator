@@ -1,57 +1,69 @@
+package cellsociety;
+
 import java.util.ArrayList;
 
-public class Grid{
+public class Grid {
 
 
-    int[][] grid;
-    int height;
-    int width;
+  private Cell[][] grid;
+  private int height;
+  private int width;
 
-    public Grid(int row, int col, /** Parameter indicating initial config */){
-        grid = new int[row][col];
-        width = col;
-        height = row;
-
-    }
-
-    //Populate the grid values with the initial state//
-
-    public void fillInitState(ArrayList<Integer> init_state){
-        //Need to figure out how the state data is incoming, whether we can store it in an ArrayList.
-        int k = 0;
-        for(int i = 0; i<height; i++){
-            for(int j= 0; j<width; j++){
-                grid[i][j] = init_state.get(k);
-                k++;
-            }
+  public Grid(int row, int col) {
+    grid = new Cell[row][col];
+    width = col;
+    height = row;
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        if (i % 4 == 0 || j % 2 == 0){
+          grid[i][j] = new GameOfLifeCell(j, i, (j * 20) + 100, (i * 20) + 100, 5, 5, 1);
         }
-        
-
-    }
-  
-    public int getHeight(){
-        return height;
-    }
-
-    public int getWidth(){
-        return width;
-    }
-
-    public void updateGrid(){
-
-        for(int i = 0; i<height; i++){
-            for(int j = 0; j<width; j++){
-                grid[i][j].updateCell();
-            }
+        else{
+          grid[i][j] = new GameOfLifeCell(j, i, (j * 20) + 100, (i * 20) + 100, 5, 5, 0);
         }
+        SimulationLoader.grid.getChildren().add(grid[i][j].getCellNode());
+      }
     }
 
-    public int[][] getGrid(){
-        return grid;
-    }
 
-    public boolean isValidIndex(int row, int col){
-        return (row>=0 && row<grid.length && col>=0 && col<grid[0].length);
+  }
+
+  //Populate the grid values with the initial state//
+
+  public void fillInitState(ArrayList<Integer> init_state) {
+    //Need to figure out how the state data is incoming, whether we can store it in an ArrayList.
+    int k = 0;
+//        for(int i = 0; i<height; i++){
+//            for(int j= 0; j<width; j++){
+//                grid[i][j] = init_state.get(k);
+//                k++;
+//            }
+//        }
+
+  }
+
+  public int getHeight() {
+    return height;
+  }
+
+  public int getWidth() {
+    return width;
+  }
+
+  public void updateGrid() {
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        grid[i][j].update(this);
+      }
     }
+  }
+
+  public Cell getCell(int row, int col) {
+    return grid[row][col];
+  }
+
+  public boolean isValidIndex(int row, int col) {
+    return (row >= 0 && row < grid.length && col >= 0 && col < grid[0].length);
+  }
 
 }

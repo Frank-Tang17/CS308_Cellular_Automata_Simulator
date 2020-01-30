@@ -1,5 +1,7 @@
 package cellsociety;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import javax.swing.text.html.ImageView;
 import java.awt.*;
 import javafx.scene.paint.Color;
@@ -42,7 +44,7 @@ public abstract class Cell {
         myRect = new Rectangle(xCoor, yCoor, width, height);
         myRect.setStrokeType(Main.cellStrokeType);
         myRect.setStrokeWidth(Main.cellStrokeProportion * width);
-        ;    }
+    }
 
     /**
      * Getter method for row and column
@@ -59,13 +61,17 @@ public abstract class Cell {
      * @param theGrid current Grid to update state based on
      * @return array of neighboring states
      */
-    public int[] getNeighborStates(Grid theGrid) {
-        int[] neighborStates = new int [neighborColIndex.length];
+    public ArrayList<Integer> getNeighborStates(Grid theGrid) {
+        ArrayList<Integer> neighborStates = new ArrayList();
         for (int i = 0; i < neighborColIndex.length; i++) {
-            if (theGrid.validIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
-                neighborStates[i] = theGrid.getMyGrid[myRow + neighborRowIndex[i]][myCol + neighborColIndex[i]].getCurrentState();
+          System.out.print(myRow + neighborRowIndex[i]);
+          System.out.println(myCol + neighborColIndex[i]);
+            if (theGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
+                neighborStates.add(theGrid.getCell((myRow + neighborRowIndex[i]),(myCol + neighborColIndex[i])).getCurrentState());
             }
         }
+        System.out.println(neighborStates);
+
         return neighborStates;
     }
 
@@ -83,6 +89,10 @@ public abstract class Cell {
      */
     public int getCurrentState() {
         return myState;
+    }
+
+    public Rectangle getCellNode(){
+      return this.myRect;
     }
 
     /**

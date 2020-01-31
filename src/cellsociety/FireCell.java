@@ -1,14 +1,16 @@
 package cellsociety;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javafx.scene.paint.Color;
 
 public class FireCell extends Cell {
-  private int prob;
+  private double prob = .5;
   private static int emptyState = 0;
   private static int treeState = 1;
   private static int burningState = 2;
+
 
   /**
    * Constructor for master class Cell object
@@ -29,10 +31,10 @@ public class FireCell extends Cell {
 
   @Override
   public void update(Grid theOldGrid) {
-    List neighborStatesAsList = Arrays.asList(this.getNeighborStates(theOldGrid));
+    ArrayList<Integer> neighborStatesAsList = this.getNeighborStates(theOldGrid);
 
-    int rand = (int) (Math.random() * 100);
-    int compProb = 100 * prob;
+    double rand = (Math.random() * 100);
+    double compProb = 100 * prob;
 
     if (theOldGrid.getGrid()[myRow][myCol].myState == burningState) {
       myState = emptyState;

@@ -6,8 +6,6 @@ public class Grid {
   private Cell[][] grid;
   private int height;
   private int width;
-
-
   private final int simulationScreenWidth = 450;
   private final int simulationScreenHeight = 450;
 
@@ -15,13 +13,14 @@ public class Grid {
     grid = new Cell[row][col];
     width = col;
     height = row;
+    double size  = determineCellSize(row, col);
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         if (i % 4 == 0 || j % 2 == 0){
-          grid[i][j] = new GameOfLifeCell(j, i, (j * (Main.simulationGridSize/col)) + 75, (i * (Main.simulationGridSize/row)) + 30, Main.simulationGridSize/col, Main.simulationGridSize/row, 1);
+          grid[i][j] = new FireCell(i, j, size, 1);
         }
-        else{
-          grid[i][j] = new GameOfLifeCell(j, i, (j * (Main.simulationGridSize/col)) + 75, (i * (Main.simulationGridSize/row)) + 30, Main.simulationGridSize/col, Main.simulationGridSize/row, 0);
+        else {
+          grid[i][j] = new FireCell(i, j, size, 2);
         }
       }
     }

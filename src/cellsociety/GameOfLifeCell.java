@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 public class GameOfLifeCell extends Cell {
   private static int deadState = 0;
   private static int aliveState = 1;
-  private static int cellsNeededForLife = 3;
+  private static int cellsNeededForLife = 2;
   private static int upperAliveCellBound = 3;
   private static int lowerAliveCellBound = 2;
 
@@ -35,16 +35,20 @@ public class GameOfLifeCell extends Cell {
    * @param theOldGrid current Grid to update state based on
    */
   @Override
+
   public void update(Grid theOldGrid) {
-    ArrayList<Integer> neighborStatesAsList = this.getNeighborStates(theGrid);
+    ArrayList<Integer> neighborStatesAsList = this.getNeighborStates(theOldGrid);
 
     int numNeighborAlive = Collections.frequency(neighborStatesAsList, aliveState);
 
-    if (theOldGrid.getGrid()[myRow][myCol].myState == deadState && numNeighborAlive == cellsNeededForLife) {
-      myState = aliveState;
-    } else if (theOldGrid.getGrid()[myRow][myCol].myState == aliveState && (numNeighborAlive < lowerAliveCellBound || numNeighborAlive > upperAliveCellBound)) {
-      myState = deadState;
+    if (theOldGrid.getCell(myRow, myCol).getCurrentState() == 0 && (numNeighborAlive == 3 || numNeighborAlive == 2)) {
+      this.myState = 1;
+    } else if (theOldGrid.getCell(myRow, myCol).getCurrentState() == 1 && (numNeighborAlive < 2 || numNeighborAlive > 3)) {
+      this.myState = 0;
     }
   }
 }
+
+
+
 

@@ -15,11 +15,9 @@ public class Main extends SimulationLoader {
   private static final int MILLISECOND_DELAY = 1000/FRAMES_PER_SECOND;
   private static final double SECOND_DELAY = 1.0/FRAMES_PER_SECOND;
   public static final StrokeType cellStrokeType = StrokeType.CENTERED; // INSIDE, OUTSIDE, or CENTERED
-  public static final double cellStrokeProportion = 0.05;
+  public static final double cellStrokeProportion = 0.1;
   private static boolean runSimulation = true;
   public static int simulationGridSize = 450;
-  public static StrokeType cellStrokeType = StrokeType.INSIDE;
-  public static int cellStrokeProportion = 1;
   private static double simulationRate = 1;
   private static Timeline animation = new Timeline();
 
@@ -42,7 +40,7 @@ public class Main extends SimulationLoader {
 
   private static void step(double elapsedTime) {
     if (runSimulation) {
-      mainGrid.updateGrid(updateGrid);
+      updateGrid.updateGrid(mainGrid);
       mainGrid.copyGrid(updateGrid);
     }
   }

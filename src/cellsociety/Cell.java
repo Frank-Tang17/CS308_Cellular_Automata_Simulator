@@ -15,7 +15,7 @@ import javafx.scene.shape.Shape;
 public abstract class Cell {
 
   protected int myRow, myCol;
-  protected int myState;
+  public int myState;
   private Rectangle myRect;
   private ImageView myImage; // This may be on a subclass by subclass basis
   protected int[] neighborColIndex;
@@ -23,7 +23,7 @@ public abstract class Cell {
   protected Color[] cellFillColors;
   protected Color[] cellStrokeColors;
 
-  private final int upperLeftX = 0;
+  private final int upperLeftX = 75;
   private final int upperLeftY = 30;
 
   /**

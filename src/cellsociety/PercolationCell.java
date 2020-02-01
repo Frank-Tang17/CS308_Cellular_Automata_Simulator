@@ -1,14 +1,12 @@
 package cellsociety;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import javafx.scene.paint.Color;
 
 public class PercolationCell extends Cell {
-  private int blockedState = 0;
-  private int openState = 1;
-  private int waterState = 2;
+  private final int blockedState = 0;
+  private final int openState = 1;
+  private final int waterState = 2;
 
   /**
    * Constructor for master class Cell object
@@ -28,7 +26,7 @@ public class PercolationCell extends Cell {
   }
 
   @Override
-  public void update(Grid theOldGrid) {
+  public void update(Grid theOldGrid, Grid theNewGrid) {
     ArrayList<Integer> neighborStatesAsList = this.getNeighborStates(theOldGrid);
 
     if (theOldGrid.getCell(myRow, myCol).myState == openState && neighborStatesAsList.contains(waterState)) {

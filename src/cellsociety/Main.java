@@ -32,8 +32,8 @@ public class Main extends SimulationLoader {
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
-    mainGrid = new Grid(50,50);
-    updateGrid = new Grid(50,50);
+    mainGrid = new Grid(10,10);
+    updateGrid = new Grid(10,10);
     mainGrid.gridVisualization();
 
   }

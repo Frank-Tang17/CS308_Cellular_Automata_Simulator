@@ -3,6 +3,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -13,7 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -55,6 +59,8 @@ public class UserInterface {
   private Rectangle gameStatusDisplayTop;
   private Text titleDisplay = new Text();
   private Text frameDisplay = new Text();
+  private String controlPanelID = "controlPanel";
+  private String gameDisplayID = "gameDisplay";
 
   private Button pauseButton;
   private Button forwardButton;
@@ -93,12 +99,9 @@ public class UserInterface {
   // Create the game's "scene": what shapes will be in the game and their starting properties
   public Scene setupUserInterface(int width, int height) {
     BorderPane root = new BorderPane();
-    root.setBottom(makeSimulationControlPanel());
-    // must be first since other panels may refer to page
-//    root.setCenter(makePageDisplay());
-//    root.setTop(makeInputPanel());
-//    root.setBottom(makeInformationPanel());
-//    // control the navigation
+    root.setBottom(makeSimulationControlPanel(controlPanelID));
+    root.setTop(makeGameDisplayPanel(gameDisplayID));
+
 //    enableButtons();
     // create scene to hold UI
     Scene scene = new Scene(root, width, height);
@@ -146,25 +149,35 @@ public class UserInterface {
 //  }
 
   // make the panel where "would-be" clicked URL is displayed
-  private Node makeSimulationControlPanel () {
-    HBox controlPanel = new HBox();
+  private Node makeSimulationControlPanel (String nodeID) {
+    GridPane controlPanel = new GridPane();
+
     pauseButton = makeButton("pauseButton", e -> Simulator.pauseResume());
-    controlPanel.getChildren().add(pauseButton);
+    controlPanel.add(pauseButton, 0, 0);
 
     forwardButton = makeButton("forwardButton", e -> Simulator.pauseResume());
-    controlPanel.getChildren().add(forwardButton);
+    controlPanel.add(forwardButton, 1, 0);
 
     resetButton = makeButton("resetButton", e -> Simulator.pauseResume());
-    controlPanel.getChildren().add(resetButton);
+    controlPanel.add(resetButton, 2, 0);
 
     speedUpButton = makeButton("speedUpButton", e -> Simulator.pauseResume());
-    controlPanel.getChildren().add(speedUpButton);
+    controlPanel.add(speedUpButton, 0, 1);
 
     slowDownButton = makeButton("slowDownButton", e -> Simulator.pauseResume());
-    controlPanel.getChildren().add(slowDownButton);
+    controlPanel.add(slowDownButton, 1, 1);
 
-    // BLANK must be non-empty or status label will not be displayed in GUI
+    controlPanel.setHgap(10);
+    controlPanel.setVgap(10);
+
+    controlPanel.setId(nodeID);
     return controlPanel;
+  }
+  private Node makeGameDisplayPanel (String nodeID) {
+    HBox gameDisplay = new HBox();
+
+    gameDisplay.setId(nodeID);
+    return gameDisplay;
   }
 
   public void setUpButtons() {

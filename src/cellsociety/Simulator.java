@@ -2,15 +2,13 @@ package cellsociety;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.util.Duration;
 
 /**
  * Feel free to completely change this code or delete it entirely.
  */
-public class Main extends SimulationLoader {
+public class Simulator {
   private static final int FRAMES_PER_SECOND = 1;
   private static final int MILLISECOND_DELAY = 1000/FRAMES_PER_SECOND;
   private static final double SECOND_DELAY = 1.0/FRAMES_PER_SECOND;

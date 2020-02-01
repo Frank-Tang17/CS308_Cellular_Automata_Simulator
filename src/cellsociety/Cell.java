@@ -1,13 +1,9 @@
 package cellsociety;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import javax.swing.text.html.ImageView;
-import java.awt.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 /**
  * Cell acts as a node of the grid for the simulation
@@ -39,8 +35,8 @@ public abstract class Cell {
     myRow = row;
     myCol = col;
     myRect = new Rectangle(col * size + upperLeftX, row * size + upperLeftY, size, size);
-    myRect.setStrokeType(Main.cellStrokeType);
-    myRect.setStrokeWidth(Main.cellStrokeProportion * size);
+    myRect.setStrokeType(Simulator.cellStrokeType);
+    myRect.setStrokeWidth(Simulator.cellStrokeProportion * size);
   }
     /*
     public Cell(int row, int col, int xCoor, int yCoor, int width, int height, int startingState) {

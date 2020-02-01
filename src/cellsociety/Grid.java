@@ -1,7 +1,5 @@
 package cellsociety;
 
-import java.util.ArrayList;
-
 public class Grid {
   private Cell[][] grid;
   private int height;
@@ -44,7 +42,7 @@ public class Grid {
   public void gridVisualization(){
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        SimulationLoader.grid.getChildren().add(grid[i][j].getCellNode());
+//        UserInterface.grid.getChildren().add(grid[i][j].getCellNode());
       }
     }
   }

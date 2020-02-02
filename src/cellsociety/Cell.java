@@ -19,6 +19,8 @@ public abstract class Cell {
   protected Color[] cellFillColors;
   protected Color[] cellStrokeColors;
 
+  public boolean justSwitched;
+
   private final int upperLeftX = 75;
   private final int upperLeftY = 30;
 
@@ -89,8 +91,9 @@ public abstract class Cell {
    * Cell type dependent method that changes the current state of the cell
    *
    * @param theOldGrid current Grid to update state based on
+   * @param theNewGrid
    */
-  public abstract void update(Grid theOldGrid);
+  public abstract void update(Grid theOldGrid, Grid theNewGrid);
 
   /**
    * Getter method for the current state of the Cell
@@ -115,6 +118,32 @@ public abstract class Cell {
     myRect.setFill(cellFillColors[myState]);
     myRect.setStroke(cellStrokeColors[myState]);
   }
-
 }
 
+/*
+public enum CellTypeEnum {
+
+  GAMEOFLIFE {
+    @Override
+    Cell create(String name) {
+      return null;
+    }
+
+    public Cell create(int i, int j, double size, int type) {
+      return new GameOfLifeCell(i, j, size, type);
+    }
+  },
+  FIRE {
+    public Cell create(int i, int j, double size, int type) {
+      return new FireCell(i, j, size, type);
+    }
+  },
+  PREDATORPREY {
+    public Cell create(int i, int j, double size, int type) {
+      return new PredatorPreyCell(i, j, size, type);
+    }
+  };
+
+  abstract Cell create(String name);
+}
+*/

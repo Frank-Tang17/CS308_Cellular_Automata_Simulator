@@ -61,18 +61,11 @@ public class Grid {
   public void updateGrid(Grid oldGrid) {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        grid[i][j].update(oldGrid);
+        grid[i][j].update(oldGrid, this);
+
       }
     }
   }
-
-/*
-  public void updateGrid(Grid gridnew) {
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        gridnew.getCell(i, j).update(this);
-        */
-
 
   public Cell[][] getGrid() {
     return grid;
@@ -83,6 +76,7 @@ public class Grid {
       for (int j = 0; j < width; j++) {
         grid[i][j].setCellState(gridnew.getCell(i, j).getCurrentState());
         grid[i][j].updateRectangle();
+        grid[i][j].justSwitched = false;
       }
     }
   }

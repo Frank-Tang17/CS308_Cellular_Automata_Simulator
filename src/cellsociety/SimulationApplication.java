@@ -17,12 +17,11 @@ public class SimulationApplication extends Application {
 
     // attach scene to the stage and display it
     Simulator simulationModel = new Simulator();
-    UserInterface GUI = new UserInterface("English");
+    UserInterface GUI = new UserInterface(simulationModel,"English");
 
     stage.setTitle(TITLE);
     stage.setScene(GUI.setupUserInterface(WINDOW_SIZE.width, WINDOW_SIZE.height));
     stage.show();
-    //Simulator.test();
   }
 
 

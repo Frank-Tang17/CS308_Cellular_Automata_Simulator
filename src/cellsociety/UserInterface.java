@@ -44,11 +44,6 @@ public class UserInterface {
 
   private static int heightForGameStatusText = 20;
 
-  //  public static final int SIZE = 600;
-  public final int gameStatusDisplayHeight = 30;
-//  public final int getGameStatusDisplayHeightBottom =
-//      WINDOW_SIZE.height - WINDOW_SIZE.height / 4 + gameStatusDisplayHeight;
-
   public Group root = new Group();
   public Group grid = new Group();
   private Group buttons = new Group();
@@ -69,31 +64,18 @@ public class UserInterface {
   private Button slowDownButton;
 
   private ResourceBundle myResources;
+  private Simulator currentSimulation;
 
-  public UserInterface(String language){
+  public UserInterface(Simulator simulationLoaded, String language){
+    currentSimulation = simulationLoaded;
     myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+
   }
   /**
    * Initialize what will be displayed and how it will be updated.
    */
 
-  // create one top level collection to organize the things in the scene
-  // make some shapes and set their properties
-  // x and y represent the top left corner, so center it in window
-//  setUpGameStatusDisplay();
-//  setUpButtons();
-//  // order added to the group is the order in which they are drawn
-//    root.getChildren().add(buttons);
-//    root.getChildren().add(grid);
-//    buttons.getChildren().add(pauseButton);
-//    buttons.getChildren().add(forwardButton);
-//    buttons.getChildren().add(resetButton);
-//    buttons.getChildren().add(speedDownButton);
-//    buttons.getChildren().add(speedUpButton);
-//
-//  // create a place to see the shapes
-//  Scene scene = new Scene(root, width, height, background);
-//  // respond to input
+
 //    scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 //    scene.setOnMouseMoved(e -> handleMouseInput(e.getX(), e.getY()));
   // Create the game's "scene": what shapes will be in the game and their starting properties
@@ -101,12 +83,14 @@ public class UserInterface {
     BorderPane root = new BorderPane();
     root.setBottom(makeSimulationControlPanel(controlPanelID));
     root.setTop(makeGameDisplayPanel(gameDisplayID));
-
-//    enableButtons();
-    // create scene to hold UI
+    root.getChildren().add(grid);
+    enableButtons();
     Scene scene = new Scene(root, width, height);
     // activate CSS styling
+
     scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
+
+    currentSimulation.test(grid);
 
     return scene;
   }
@@ -137,34 +121,26 @@ public class UserInterface {
 
   // only enable buttons when useful to user
   private void enableButtons () {
-   // forwardButton.setDisable(!runSimulation);
-
+    forwardButton.setDisable(!currentSimulation.getSimulationStatus());
   }
-
-//  private Node makeSimulationDisplayPanel () {
-//    HBox result = new HBox();
-//
-//
-//    return result;
-//  }
 
   // make the panel where "would-be" clicked URL is displayed
   private Node makeSimulationControlPanel (String nodeID) {
     GridPane controlPanel = new GridPane();
 
-    pauseButton = makeButton("pauseButton", e -> Simulator.pauseResume());
+    pauseButton = makeButton("pauseButton", e -> currentSimulation.pauseResume());
     controlPanel.add(pauseButton, 0, 0);
 
-    forwardButton = makeButton("forwardButton", e -> Simulator.pauseResume());
+    forwardButton = makeButton("forwardButton", e -> System.out.println(12));
     controlPanel.add(forwardButton, 1, 0);
 
-    resetButton = makeButton("resetButton", e -> Simulator.pauseResume());
+    resetButton = makeButton("resetButton", e -> resetSimulation());
     controlPanel.add(resetButton, 2, 0);
 
-    speedUpButton = makeButton("speedUpButton", e -> Simulator.pauseResume());
+    speedUpButton = makeButton("speedUpButton", e -> currentSimulation.speedUpSimulation());
     controlPanel.add(speedUpButton, 0, 1);
 
-    slowDownButton = makeButton("slowDownButton", e -> Simulator.pauseResume());
+    slowDownButton = makeButton("slowDownButton", e -> currentSimulation.slowDownSimulation());
     controlPanel.add(slowDownButton, 1, 1);
 
     controlPanel.setHgap(10);
@@ -173,6 +149,10 @@ public class UserInterface {
     controlPanel.setId(nodeID);
     return controlPanel;
   }
+
+  private void loadSimulation(){
+
+  }
   private Node makeGameDisplayPanel (String nodeID) {
     HBox gameDisplay = new HBox();
 
@@ -180,73 +160,11 @@ public class UserInterface {
     return gameDisplay;
   }
 
-  public void setUpButtons() {
-
-    pauseButton.setFont(Font.font(15));
-    pauseButton.setLayoutX(60);
-    pauseButton.setLayoutY(gameStatusDisplayBottom.getY() + 15);
-    pauseButton.setPrefWidth(120);
-    pauseButton.setOnAction(e -> Simulator.pauseResume());
-
-    forwardButton.setFont(Font.font(15));
-    forwardButton.setLayoutX(pauseButton.getLayoutX() + 180);
-    forwardButton.setPrefWidth(120);
-    forwardButton.setLayoutY(gameStatusDisplayBottom.getY() + 15);
-    pauseButton.setOnAction(e -> Simulator.pauseResume());
-
-    resetButton.setFont(Font.font(15));
-    resetButton.setLayoutX(forwardButton.getLayoutX() + 180);
-    resetButton.setPrefWidth(120);
-    resetButton.setLayoutY(gameStatusDisplayBottom.getY() + 15);
-    resetButton.setOnAction(e -> resetSimulation());
-
-    speedUpButton.setFont(Font.font(15));
-    speedUpButton.setLayoutX(60);
-    speedUpButton.setPrefWidth(120);
-    speedUpButton.setLayoutY(gameStatusDisplayBottom.getY() + 60);
-    speedUpButton.setOnAction(e -> Simulator.speedUpSimulation());
-
-    slowDownButton.setFont(Font.font(15));
-    slowDownButton.setLayoutX(240);
-    slowDownButton.setPrefWidth(120);
-    slowDownButton.setLayoutY(gameStatusDisplayBottom.getY() + 60);
-    slowDownButton.setOnAction(e -> Simulator.slowDownSimulation());
-
-
-  }
-
   public void resetSimulation() {
     grid.getChildren().clear();
-    Simulator.test();
+    currentSimulation = new Simulator();
+    currentSimulation.test(grid);
 
-  }
-
-  /**
-   * Sets up the game status display at the top of the game's screen
-   */
-  public void setUpGameStatusDisplay() {
-//    gameStatusDisplayTop = new Rectangle(0, 0, WINDOW_SIZE.width, gameStatusDisplayHeight);
-//    gameStatusDisplayTop.setFill(Color.LIGHTGREY);
-//    gameStatusDisplayTop.setStroke(Color.GREY);
-//
-//    gameStatusDisplayBottom = new Rectangle(0, getGameStatusDisplayHeightBottom, WINDOW_SIZE.width,
-//        WINDOW_SIZE.height / 4);
-//    gameStatusDisplayBottom.setFill(Color.LIGHTGREY);
-//    gameStatusDisplayBottom.setStroke(Color.GREY);
-//
-//    frameDisplay.setText("Frame:"); //will need to be retrieved from Main file
-//    titleDisplay.setText("Simulation Type"); //will need to be retrieved from configuration file
-//
-//    titleDisplay.setX(WINDOW_SIZE.width / 2 - titleDisplay.getBoundsInParent().getWidth() / 2);
-//    titleDisplay.setY(heightForGameStatusText);
-//
-//    frameDisplay.setX(frameDisplay.getBoundsInParent().getWidth());
-//    frameDisplay.setY(heightForGameStatusText);
-//
-//    root.getChildren().add(gameStatusDisplayBottom);
-//    root.getChildren().add(gameStatusDisplayTop);
-//    root.getChildren().add(titleDisplay);
-//    root.getChildren().add(frameDisplay);
   }
 
   /**

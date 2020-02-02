@@ -20,7 +20,7 @@ public class SegregationCell extends Cell {
    */
   public SegregationCell(int row, int col, double size, int startingState) {
     super(row, col, size, startingState);
-    threshold = .25;
+    threshold = .5;
     neighborColIndex = new int[]{0, 1, 1, 1, 0, -1, -1, -1}; // Define sets of coordinates for neighbors
     neighborRowIndex = new int[]{-1, -1, 0, 1, 1, 1, 0, -1}; // Define sets of coordinates for neighbors
     cellFillColors = new Color[]{Color.WHITE, Color.BLUE, Color.RED};

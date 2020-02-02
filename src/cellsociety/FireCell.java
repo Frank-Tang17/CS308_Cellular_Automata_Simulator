@@ -39,7 +39,5 @@ public class FireCell extends Cell {
     } else if (neighborStatesAsList.contains(burningState) && theOldGrid.getGrid()[myRow][myCol].myState == treeState && (rand <= compProb)) {
       myState = burningState;
     }
-
-    updateRectangle();
   }
 }

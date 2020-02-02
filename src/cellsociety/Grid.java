@@ -15,11 +15,11 @@ public class Grid {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         if (i % 4 == 0){
-          grid[i][j] = new PredatorPreyCell(i, j, size, 1);
+          grid[i][j] = new SegregationCell(i, j, size, 1);
         } else if (j % 2 == 0) {
-          grid[i][j] = new PredatorPreyCell(i, j, size, 2);
+          grid[i][j] = new SegregationCell(i, j, size, 2);
         } else {
-          grid[i][j] = new PredatorPreyCell(i, j, size, 0);
+          grid[i][j] = new SegregationCell(i, j, size, 0);
         }
       }
     }

@@ -1,0 +1,49 @@
+.root {
+  -fx-font-size: 14pt;
+  -fx-font-family: "Courier New";
+  -fx-background: #cce0ff;
+}
+
+#gameDisplay{
+  -fx-pref-height: 30px;
+  -fx-border-width: 2px;
+  -fx-border-color: #737373;
+  -fx-background-color: #b3b3b3;
+}
+
+#controlPanel{
+  -fx-pref-height: 120px;
+  -fx-padding: 10px;
+  -fx-border-width: 2px;
+  -fx-border-color: #737373;
+  -fx-background-color: #b3b3b3;
+}
+.button {
+  -fx-font-size: 12pt;
+  -fx-pref-width: 150px;
+  -fx-font-family: "Times New Roman";
+  -fx-border-width: 2px;
+  -fx-border-color: #000000;
+  -fx-border-radius: 5px;
+  -fx-text-fill: #000000;
+  -fx-background-color: #a6a6a6;
+  -fx-background-radius: 5px;
+  -fx-padding: 5;
+}
+
+.button:hover {
+  -fx-background-color: #3a3a3a;
+}
+
+.combo-box-base {
+  -fx-text-base-color: #006464;
+  -fx-background-color: #DFB951;
+  -fx-border-radius: 20;
+  -fx-background-radius: 20;
+}
+.combo-box-base:hover {
+  -fx-background-color: #3a3a3a;
+}
+
+
+

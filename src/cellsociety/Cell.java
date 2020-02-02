@@ -37,8 +37,8 @@ public abstract class Cell {
     myRow = row;
     myCol = col;
     myRect = new Rectangle(col * size + upperLeftX, row * size + upperLeftY, size, size);
-    myRect.setStrokeType(Main.cellStrokeType);
-    myRect.setStrokeWidth(Main.cellStrokeProportion * size);
+    myRect.setStrokeType(Simulator.cellStrokeType);
+    myRect.setStrokeWidth(Simulator.cellStrokeProportion * size);
   }
     /*
     public Cell(int row, int col, int xCoor, int yCoor, int width, int height, int startingState) {

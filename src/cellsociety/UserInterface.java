@@ -1,6 +1,9 @@
 package cellsociety;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -10,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -50,10 +54,6 @@ public class UserInterface {
 
   private Scene userInterfaceScene;
 
-  private Rectangle gameStatusDisplayBottom;
-  private Rectangle gameStatusDisplayTop;
-  private Text titleDisplay = new Text();
-  private Text frameDisplay = new Text();
   private String controlPanelID = "controlPanel";
   private String gameDisplayID = "gameDisplay";
 
@@ -62,6 +62,10 @@ public class UserInterface {
   private Button resetButton;
   private Button speedUpButton;
   private Button slowDownButton;
+  private Button loadSimulationButton;
+  private ComboBox selectSimulationBox;
+  private ObservableList<String> configurationArray = FXCollections.observableArrayList("Percolation", "GameofLife", "Fire", "Segregation", "Predator-Prey");
+  private String selectedSimulation;
 
   private ResourceBundle myResources;
   private Simulator currentSimulation;
@@ -85,30 +89,42 @@ public class UserInterface {
     root.setTop(makeGameDisplayPanel(gameDisplayID));
     root.getChildren().add(grid);
     enableButtons();
-    Scene scene = new Scene(root, width, height);
+    userInterfaceScene = new Scene(root, width, height);
     // activate CSS styling
 
-    scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
+    userInterfaceScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
 
     currentSimulation.test(grid);
 
-    return scene;
+    return userInterfaceScene;
   }
 
   // makes a button using either an image or a label
   private Button makeButton (String property, EventHandler<ActionEvent> handler) {
     // represent all supported image suffixes
     final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
-    Button result = new Button();
+    Button resultButton = new Button();
     String label = myResources.getString(property);
     if (label.matches(IMAGEFILE_SUFFIXES)) {
-      result.setGraphic(new ImageView(new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_FOLDER + label))));
+      resultButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_FOLDER + label))));
     }
-   else {
-      result.setText(label);
+    else {
+      resultButton.setText(label);
     }
-    result.setOnAction(handler);
-    return result;
+    resultButton.setOnAction(handler);
+    resultButton.setId(property);
+    return resultButton;
+  }
+
+  private ComboBox makeComboBox (String property, ObservableList options) {
+    // represent all supported image suffixes
+//    final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
+    ComboBox resultBox = new ComboBox(options);
+    String label = myResources.getString(property);
+
+    resultBox.setId(property);
+
+    return resultBox;
   }
 
   // Display given message as an error in the GUI
@@ -134,7 +150,7 @@ public class UserInterface {
     forwardButton = makeButton("forwardButton", e -> System.out.println(12));
     controlPanel.add(forwardButton, 1, 0);
 
-    resetButton = makeButton("resetButton", e -> resetSimulation());
+    resetButton = makeButton("resetButton", e -> resetSimulation("test"));
     controlPanel.add(resetButton, 2, 0);
 
     speedUpButton = makeButton("speedUpButton", e -> currentSimulation.speedUpSimulation());
@@ -143,16 +159,16 @@ public class UserInterface {
     slowDownButton = makeButton("slowDownButton", e -> currentSimulation.slowDownSimulation());
     controlPanel.add(slowDownButton, 1, 1);
 
-    controlPanel.setHgap(10);
-    controlPanel.setVgap(10);
+    loadSimulationButton = makeButton("loadSimulationButton", e -> System.out.println("test"));
+    controlPanel.add(loadSimulationButton, 2, 1);
+
+    selectSimulationBox = makeComboBox("selectSimulationBox", configurationArray);
+    controlPanel.add(selectSimulationBox, 2, 1);
 
     controlPanel.setId(nodeID);
     return controlPanel;
   }
 
-  private void loadSimulation(){
-
-  }
   private Node makeGameDisplayPanel (String nodeID) {
     HBox gameDisplay = new HBox();
 
@@ -160,7 +176,9 @@ public class UserInterface {
     return gameDisplay;
   }
 
-  public void resetSimulation() {
+  public void resetSimulation(String selectedSimulation) {
+
+    currentSimulation = null;
     grid.getChildren().clear();
     currentSimulation = new Simulator();
     currentSimulation.test(grid);

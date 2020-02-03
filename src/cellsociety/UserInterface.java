@@ -159,7 +159,7 @@ public class UserInterface {
     slowDownButton = makeButton("slowDownButton", e -> currentSimulation.slowDownSimulation());
     controlPanel.add(slowDownButton, 1, 1);
 
-    loadSimulationButton = makeButton("loadSimulationButton", e -> System.out.println("test"));
+    loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(selectSimulationBox.getValue()));
     controlPanel.add(loadSimulationButton, 2, 1);
 
     selectSimulationBox = makeComboBox("selectSimulationBox", configurationArray);
@@ -174,6 +174,16 @@ public class UserInterface {
 
     gameDisplay.setId(nodeID);
     return gameDisplay;
+  }
+
+  private void loadSimulation(Object selectBoxObject){
+    if(selectBoxObject == null){
+      showError(myResources.getString("NullSelection"));
+    }
+    else{
+      selectedSimulation = selectBoxObject.toString();
+      System.out.println(selectedSimulation);
+    }
   }
 
   public void resetSimulation(String selectedSimulation) {

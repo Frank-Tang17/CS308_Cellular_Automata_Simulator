@@ -23,7 +23,7 @@ public class Simulator {
   private Grid mainGrid;
   private Grid updateGrid;
 
-  public Simulator() {
+  public Simulator(String selectedSimulation) {
     mainGrid = new Grid(50, 50);
     updateGrid = new Grid(50, 50);
   }

@@ -45,12 +45,18 @@ public class UserInterface {
   public static final String STYLESHEET = "userInterface.css";
   public static final String BLANK = " ";
 
-
-  private static int heightForGameStatusText = 20;
-
   public Group root = new Group();
   public Group grid = new Group();
   private Group buttons = new Group();
+
+  private static final int FIRST_ROW = 0;
+  private static final int SECOND_ROW = 1;
+
+  private static final int FIRST_COL = 0;
+  private static final int SECOND_COL = 1;
+  private static final int THIRD_COL = 2;
+
+
 
   private Scene userInterfaceScene;
 
@@ -79,9 +85,6 @@ public class UserInterface {
    * Initialize what will be displayed and how it will be updated.
    */
 
-
-//    scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-//    scene.setOnMouseMoved(e -> handleMouseInput(e.getX(), e.getY()));
   // Create the game's "scene": what shapes will be in the game and their starting properties
   public Scene setupUserInterface(int width, int height) {
     BorderPane root = new BorderPane();
@@ -117,13 +120,8 @@ public class UserInterface {
   }
 
   private ComboBox makeComboBox (String property, ObservableList options) {
-    // represent all supported image suffixes
-//    final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
     ComboBox resultBox = new ComboBox(options);
-    String label = myResources.getString(property);
-
     resultBox.setId(property);
-
     return resultBox;
   }
 
@@ -145,25 +143,25 @@ public class UserInterface {
     GridPane controlPanel = new GridPane();
 
     pauseButton = makeButton("pauseButton", e -> currentSimulation.pauseResume());
-    controlPanel.add(pauseButton, 0, 0);
+    controlPanel.add(pauseButton, FIRST_COL, FIRST_ROW);
 
     forwardButton = makeButton("forwardButton", e -> System.out.println(12));
-    controlPanel.add(forwardButton, 1, 0);
+    controlPanel.add(forwardButton, SECOND_COL, FIRST_ROW);
 
-    resetButton = makeButton("resetButton", e -> resetSimulation("test"));
-    controlPanel.add(resetButton, 2, 0);
+    resetButton = makeButton("resetButton", e -> resetSimulation());
+    controlPanel.add(resetButton, THIRD_COL, FIRST_ROW);
 
     speedUpButton = makeButton("speedUpButton", e -> currentSimulation.speedUpSimulation());
-    controlPanel.add(speedUpButton, 0, 1);
+    controlPanel.add(speedUpButton, FIRST_COL, SECOND_ROW);
 
     slowDownButton = makeButton("slowDownButton", e -> currentSimulation.slowDownSimulation());
-    controlPanel.add(slowDownButton, 1, 1);
+    controlPanel.add(slowDownButton, SECOND_COL, SECOND_ROW);
 
     loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(selectSimulationBox.getValue()));
-    controlPanel.add(loadSimulationButton, 2, 1);
+    controlPanel.add(loadSimulationButton, THIRD_COL, SECOND_ROW);
 
     selectSimulationBox = makeComboBox("selectSimulationBox", configurationArray);
-    controlPanel.add(selectSimulationBox, 2, 1);
+    controlPanel.add(selectSimulationBox, THIRD_COL, SECOND_ROW);
 
     controlPanel.setId(nodeID);
     return controlPanel;
@@ -171,6 +169,7 @@ public class UserInterface {
 
   private Node makeGameDisplayPanel (String nodeID) {
     HBox gameDisplay = new HBox();
+
 
     gameDisplay.setId(nodeID);
     return gameDisplay;
@@ -183,37 +182,19 @@ public class UserInterface {
     else{
       selectedSimulation = selectBoxObject.toString();
       System.out.println(selectedSimulation);
+//      makeSimulation();
     }
   }
 
-  public void resetSimulation(String selectedSimulation) {
-
+  public void resetSimulation() {
     currentSimulation = null;
     grid.getChildren().clear();
+    makeSimulation(selectedSimulation);
+  }
+
+  public void makeSimulation(String selectedSimulation){
     currentSimulation = new Simulator();
     currentSimulation.test(grid);
-
   }
-
-  /**
-   * Handles key inputs -- primarily used for cheat keys
-   *
-   * @param code is the KeyCode necessary to identify the key being pressed
-   */
-  private void handleKeyInput(KeyCode code) {
-  }
-
-  /**
-   * Handles mouse input -- used to control the paddle <<<<<<< HEAD
-   *
-   * @param x is the double position of the mouse's x coordinate
-   * @param y is the double position of the mouse's y coordinate
-   */
-  private void handleMouseInput(double x, double y) {
-  }
-
-  /**
-   * Start the program.
-   */
 }
 

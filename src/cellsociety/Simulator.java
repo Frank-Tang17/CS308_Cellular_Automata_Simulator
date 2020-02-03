@@ -28,14 +28,13 @@ public class Simulator {
     updateGrid = new Grid(50, 50);
   }
 
-  public void test(Group grid){
+  public void runSimulation(Group grid){
     KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
       step();
     });
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
-
     mainGrid.gridVisualization(grid);
 
   }

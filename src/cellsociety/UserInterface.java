@@ -193,7 +193,7 @@ public class UserInterface {
   }
 
   public void makeSimulation(String selectedSimulation){
-    currentSimulation = new Simulator();
+    currentSimulation = new Simulator(selectedSimulation);
     currentSimulation.test(grid);
   }
 }

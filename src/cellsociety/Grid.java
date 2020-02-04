@@ -1,6 +1,7 @@
 package cellsociety;
 
-import java.util.ArrayList;
+import javafx.scene.Group;
+
 
 public class Grid {
   private Cell[][] grid;
@@ -8,19 +9,21 @@ public class Grid {
   private int width;
   private final int simulationScreenWidth = 450;
   private final int simulationScreenHeight = 450;
+  private Configuration simulationLoaded;
 
-  public Grid(int row, int col) {
+  public Grid(int row, int col, String selectedSimulation) {
     grid = new Cell[row][col];
+    simulationLoaded = new Configuration(selectedSimulation);
     width = col;
     height = row;
     double size  = determineCellSize(row, col);
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        if (i % 4 == 0 || j % 2 == 0){
-          grid[i][j] = new FireCell(i, j, size, 1);
+        if (j % 50 == 0){
+          grid[i][j] = new FireCell(i, j, size, 2);
         }
         else {
-          grid[i][j] = new FireCell(i, j, size, 2);
+          grid[i][j] = new FireCell(i, j, size, 1);
         }
       }
     }
@@ -41,10 +44,10 @@ public class Grid {
     }
     */
     
-  public void gridVisualization(){
+  public void gridVisualization(Group node){
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        SimulationLoader.grid.getChildren().add(grid[i][j].getCellNode());
+        node.getChildren().add(grid[i][j].getCellNode());
       }
     }
   }
@@ -61,18 +64,11 @@ public class Grid {
   public void updateGrid(Grid oldGrid) {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        grid[i][j].update(oldGrid);
+        grid[i][j].update(oldGrid, this);
+
       }
     }
   }
-
-/*
-  public void updateGrid(Grid gridnew) {
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        gridnew.getCell(i, j).update(this);
-        */
-
 
   public Cell[][] getGrid() {
     return grid;
@@ -83,6 +79,7 @@ public class Grid {
       for (int j = 0; j < width; j++) {
         grid[i][j].setCellState(gridnew.getCell(i, j).getCurrentState());
         grid[i][j].updateRectangle();
+        grid[i][j].justSwitched = false;
       }
     }
   }

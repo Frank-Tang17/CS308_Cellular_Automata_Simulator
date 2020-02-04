@@ -1,0 +1,65 @@
+.root {
+  -fx-font-size: 12pt;
+  -fx-font-family: "Times New Roman";
+  -fx-background: #cce0ff;
+}
+
+#gameDisplay{
+  -fx-pref-height: 30px;
+  -fx-border-width: 2px;
+  -fx-border-color: #737373;
+  -fx-background-color: #b3b3b3;
+}
+
+#controlPanel{
+  -fx-pref-height: 120px;
+  -fx-padding: 10px;
+  -fx-border-width: 2px;
+  -fx-border-color: #737373;
+  -fx-background-color: #b3b3b3;
+  -fx-alignment: center;
+  -fx-vgap: 10px;
+  -fx-hgap: 10px;
+
+}
+.button {
+  -fx-pref-width: 185px;
+  -fx-pref-height: 50px;
+  -fx-border-width: 2px;
+  -fx-border-color: #000000;
+  -fx-border-radius: 5px;
+  -fx-text-fill: #000000;
+  -fx-background-color: #a6a6a6;
+  -fx-background-radius: 5px;
+}
+
+#loadSimulationButton{
+  -fx-pref-width: 65px;
+  -fx-translate-x: 120px;
+}
+
+
+.button:hover {
+  -fx-background-color: #3a3a3a;
+}
+
+.combo-box-base {
+  -fx-text-base-color: #000000;
+  -fx-border-width: 2px;
+  -fx-border-color: #000000;
+  -fx-background-color: #a6a6a6;
+  -fx-border-radius: 5;
+  -fx-background-radius: 5;
+  -fx-pref-width: 120px;
+  -fx-pref-height: 50px;
+}
+.combo-box-base:hover {
+  -fx-background-color: #3a3a3a;
+}
+
+#initialDirections {
+  -fx-font-size: 8px;
+}
+
+
+

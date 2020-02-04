@@ -1,13 +1,9 @@
 package cellsociety;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import javax.swing.text.html.ImageView;
-import java.awt.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 /**
  * Cell acts as a node of the grid for the simulation
@@ -22,6 +18,8 @@ public abstract class Cell {
   protected int[] neighborRowIndex;
   protected Color[] cellFillColors;
   protected Color[] cellStrokeColors;
+
+  public boolean justSwitched;
 
   private final int upperLeftX = 75;
   private final int upperLeftY = 30;
@@ -39,8 +37,8 @@ public abstract class Cell {
     myRow = row;
     myCol = col;
     myRect = new Rectangle(col * size + upperLeftX, row * size + upperLeftY, size, size);
-    myRect.setStrokeType(Main.cellStrokeType);
-    myRect.setStrokeWidth(Main.cellStrokeProportion * size);
+    myRect.setStrokeType(Simulator.cellStrokeType);
+    myRect.setStrokeWidth(Simulator.cellStrokeProportion * size);
   }
     /*
     public Cell(int row, int col, int xCoor, int yCoor, int width, int height, int startingState) {
@@ -93,8 +91,9 @@ public abstract class Cell {
    * Cell type dependent method that changes the current state of the cell
    *
    * @param theOldGrid current Grid to update state based on
+   * @param theNewGrid
    */
-  public abstract void update(Grid theOldGrid);
+  public abstract void update(Grid theOldGrid, Grid theNewGrid);
 
   /**
    * Getter method for the current state of the Cell
@@ -119,6 +118,32 @@ public abstract class Cell {
     myRect.setFill(cellFillColors[myState]);
     myRect.setStroke(cellStrokeColors[myState]);
   }
-
 }
 
+/*
+public enum CellTypeEnum {
+
+  GAMEOFLIFE {
+    @Override
+    Cell create(String name) {
+      return null;
+    }
+
+    public Cell create(int i, int j, double size, int type) {
+      return new GameOfLifeCell(i, j, size, type);
+    }
+  },
+  FIRE {
+    public Cell create(int i, int j, double size, int type) {
+      return new FireCell(i, j, size, type);
+    }
+  },
+  PREDATORPREY {
+    public Cell create(int i, int j, double size, int type) {
+      return new PredatorPreyCell(i, j, size, type);
+    }
+  };
+
+  abstract Cell create(String name);
+}
+*/

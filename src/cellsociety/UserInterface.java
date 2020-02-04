@@ -1,12 +1,9 @@
 package cellsociety;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -17,20 +14,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.web.WebView;
 import javax.imageio.ImageIO;
-
 
 /**
  * Class to launch the simulation program
@@ -62,6 +50,7 @@ public class UserInterface {
 
   private String controlPanelID = "controlPanel";
   private String gameDisplayID = "gameDisplay";
+  private String initialDirectionsID = "initialDirections";
 
   private Button pauseButton;
   private Button forwardButton;
@@ -70,16 +59,15 @@ public class UserInterface {
   private Button slowDownButton;
   private Button loadSimulationButton;
   private ComboBox selectSimulationBox;
+  private Text initialDirections;
   private ObservableList<String> configurationArray = FXCollections.observableArrayList("Percolation", "GameofLife", "Fire", "Segregation", "Predator-Prey");
-  private String selectedSimulation;
+  private String selectedSimulationName;
 
-  private ResourceBundle myResources;
+  private ResourceBundle userInterfaceResources;
   private Simulator currentSimulation;
 
-  public UserInterface(Simulator simulationLoaded, String language){
-    currentSimulation = simulationLoaded;
-    myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
-
+  public UserInterface(String language){
+    userInterfaceResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
   }
   /**
    * Initialize what will be displayed and how it will be updated.
@@ -90,14 +78,14 @@ public class UserInterface {
     BorderPane root = new BorderPane();
     root.setBottom(makeSimulationControlPanel(controlPanelID));
     root.setTop(makeGameDisplayPanel(gameDisplayID));
+    //root.setCenter(makeInitialDirections(initialDirectionsID));
     root.getChildren().add(grid);
-    enableButtons();
+    //enableButtons();
     userInterfaceScene = new Scene(root, width, height);
     // activate CSS styling
-
     userInterfaceScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
 
-    currentSimulation.test(grid);
+//    currentSimulation.runSimulation(grid);
 
     return userInterfaceScene;
   }
@@ -107,7 +95,7 @@ public class UserInterface {
     // represent all supported image suffixes
     final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
     Button resultButton = new Button();
-    String label = myResources.getString(property);
+    String label = userInterfaceResources.getString(property);
     if (label.matches(IMAGEFILE_SUFFIXES)) {
       resultButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_FOLDER + label))));
     }
@@ -125,10 +113,11 @@ public class UserInterface {
     return resultBox;
   }
 
+
   // Display given message as an error in the GUI
   private void showError (String message) {
     Alert alert = new Alert(AlertType.ERROR);
-    alert.setTitle(myResources.getString("ErrorTitle"));
+    alert.setTitle(userInterfaceResources.getString("ErrorTitle"));
     alert.setContentText(message);
     alert.showAndWait();
   }
@@ -138,6 +127,18 @@ public class UserInterface {
     forwardButton.setDisable(!currentSimulation.getSimulationStatus());
   }
 
+  private Node makeInitialDirections (String directionText){
+    initialDirections = new Text();
+    initialDirections.setText(userInterfaceResources.getString(directionText));
+    initialDirections.setId(directionText);
+    return initialDirections;
+  }
+
+  private void removeInitialDirections (){
+    if (initialDirections != null){
+      root.getChildren().remove(initialDirections);
+    }
+  }
   // make the panel where "would-be" clicked URL is displayed
   private Node makeSimulationControlPanel (String nodeID) {
     GridPane controlPanel = new GridPane();
@@ -169,32 +170,30 @@ public class UserInterface {
 
   private Node makeGameDisplayPanel (String nodeID) {
     HBox gameDisplay = new HBox();
-
-
     gameDisplay.setId(nodeID);
     return gameDisplay;
   }
 
   private void loadSimulation(Object selectBoxObject){
     if(selectBoxObject == null){
-      showError(myResources.getString("NullSelection"));
+      showError(userInterfaceResources.getString("NullSelection"));
     }
     else{
-      selectedSimulation = selectBoxObject.toString();
-      System.out.println(selectedSimulation);
-//      makeSimulation();
+      //removeInitialDirections();
+      selectedSimulationName = selectBoxObject.toString();
+      makeSimulation(selectedSimulationName);
     }
   }
 
   public void resetSimulation() {
     currentSimulation = null;
     grid.getChildren().clear();
-    makeSimulation(selectedSimulation);
+    makeSimulation(selectedSimulationName);
   }
 
-  public void makeSimulation(String selectedSimulation){
-    currentSimulation = new Simulator(selectedSimulation);
-    currentSimulation.test(grid);
+  public void makeSimulation(String selectedSimulationName){
+    currentSimulation = new Simulator(selectedSimulationName);
+    currentSimulation.runSimulation(grid);
   }
 }
 

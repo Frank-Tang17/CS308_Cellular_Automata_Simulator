@@ -2,15 +2,18 @@ package cellsociety;
 
 import javafx.scene.Group;
 
+
 public class Grid {
   private Cell[][] grid;
   private int height;
   private int width;
   private final int simulationScreenWidth = 450;
   private final int simulationScreenHeight = 450;
+  private Configuration simulationLoaded;
 
-  public Grid(int row, int col) {
+  public Grid(int row, int col, String selectedSimulation) {
     grid = new Cell[row][col];
+    simulationLoaded = new Configuration(selectedSimulation);
     width = col;
     height = row;
     double size  = determineCellSize(row, col);

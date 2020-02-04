@@ -16,8 +16,7 @@ public class SimulationApplication extends Application {
   public void start(Stage stage) {
 
     // attach scene to the stage and display it
-    Simulator simulationModel = new Simulator("test");
-    UserInterface GUI = new UserInterface(simulationModel,"English");
+    UserInterface GUI = new UserInterface("English");
 
     stage.setTitle(TITLE);
     stage.setScene(GUI.setupUserInterface(WINDOW_SIZE.width, WINDOW_SIZE.height));

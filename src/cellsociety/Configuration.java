@@ -16,7 +16,7 @@ public class Configuration {
     public static int height;
     public static String type;
     public static String author;
-    public static ArrayList<Integer> init_state = new ArrayList<Integer>();
+    public static ArrayList<Integer> init_state = new ArrayList<>();
     public static double prob;
     public int starting_energy_shark;
     public int energy_in_fish;

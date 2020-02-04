@@ -24,8 +24,8 @@ public class Simulator {
   private Grid updateGrid;
 
   public Simulator(String selectedSimulation) {
-    mainGrid = new Grid(50, 50, selectedSimulation);
-    updateGrid = new Grid(50, 50, selectedSimulation);
+    mainGrid = new Grid(selectedSimulation);
+    updateGrid = new Grid(selectedSimulation);
   }
 
   public void runSimulation(Group grid){

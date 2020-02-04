@@ -60,7 +60,7 @@ public class UserInterface {
   private Button loadSimulationButton;
   private ComboBox selectSimulationBox;
   private Text initialDirections;
-  private ObservableList<String> configurationArray = FXCollections.observableArrayList("Percolation", "GameofLife", "Fire", "Segregation", "Predator-Prey");
+  private ObservableList<String> configurationArray = FXCollections.observableArrayList("Percolation", "GameOfLife", "Fire", "Segregation", "PredatorPrey");
   private String selectedSimulationName;
 
   private ResourceBundle userInterfaceResources;

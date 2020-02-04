@@ -12,22 +12,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Configuration {
-    public static int width;
-    public static int height;
-    public static String type;
-    public static String author;
-    public static ArrayList<Integer> init_state = new ArrayList<>();
-    public static double prob;
-    public int starting_energy_shark;
-    public int energy_in_fish;
-    public int num_frames_for_shark;
-    public int num_frames_for_fish;
-    public int seg_thresh;
-    public String frontpath = "src/cellsociety/";
-    public String fpath = ".txt";
-    String celltype;
+    private int width;
+    private int height;
+    private String type;
+    private String author;
+    private ArrayList<Integer> init_state = new ArrayList<>();
+    private double prob;
+    private int starting_energy_shark;
+    private int energy_in_fish;
+    private int num_frames_for_shark;
+    private int num_frames_for_fish;
+    private double seg_thresh;
+    private String frontpath = "src/cellsociety/";
+    private String fpath = ".txt";
+    private String celltype;
 
     public Configuration(String filename){
+        System.out.println("Type is: " + filename);
         type = filename;
         String xmlpath = frontpath+type+fpath;
 
@@ -70,7 +71,6 @@ public class Configuration {
                     for(int i = 0; i<width*height; i++){
                         init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
                     }
-                    type = nNode.getNodeName();
                 }
             }
 
@@ -106,7 +106,6 @@ public class Configuration {
                     num_frames_for_shark = Integer.parseInt(eElement.getElementsByTagName("num_frames_for_shark").item(0).getTextContent());
                     starting_energy_shark = Integer.parseInt(eElement.getElementsByTagName("starting_energy_shark").item(0).getTextContent());
                     energy_in_fish = Integer.parseInt(eElement.getElementsByTagName("energy_in_fish").item(0).getTextContent());
-                    type = nNode.getNodeName();
                 }
             }
 
@@ -139,8 +138,7 @@ public class Configuration {
                     for(int i = 0; i<width*height; i++){
                         init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
                     }
-                    seg_thresh = Integer.parseInt(eElement.getElementsByTagName("threshold").item(0).getTextContent());
-                    type = nNode.getNodeName();
+                    seg_thresh = Double.parseDouble(eElement.getElementsByTagName("threshold").item(0).getTextContent());
                 }
             }
         } catch(Exception e){
@@ -169,7 +167,6 @@ public class Configuration {
                     for(int i = 0; i<width*height; i++){
                         init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
                     }
-                    type = nNode.getNodeName();
                 }
             }
         } catch(Exception e){
@@ -177,7 +174,7 @@ public class Configuration {
         }
     }
 
-    public static void parseFire(String filename){
+    public void parseFire(String filename){
         try{
             File fxml = new File(filename);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -191,16 +188,15 @@ public class Configuration {
 
                 if(nNode.getNodeType() == Node.ELEMENT_NODE){
                     Element eElement = (Element) nNode;
-                    width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
-                    height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
+                    this.width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
+                    this.height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
 
-                    for(int i = 0; i<width*height; i++){
+                    for(int i = 0; i<this.width*this.height; i++){
                         int test = Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent());
                         init_state.add(test);
                     }
-                    prob = Double.parseDouble(eElement.getElementsByTagName("prob").item(0).getTextContent());
-                    author = eElement.getElementsByTagName("author").item(0).getTextContent();
-                    type = eElement.getElementsByTagName("sim_type").item(0).getTextContent();
+                    this.prob = Double.parseDouble(eElement.getElementsByTagName("prob").item(0).getTextContent());
+                    this.author = eElement.getElementsByTagName("author").item(0).getTextContent();
                 }
             }
             System.out.println(width);
@@ -213,5 +209,21 @@ public class Configuration {
         } catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public int getWidth(){
+        return this.width;
+    }
+
+    public int getHeight(){
+        return this.height;
+    }
+
+    public String getType(){
+        return this.type;
+    }
+
+    public ArrayList<Integer> getInitState(){
+        return this.init_state;
     }
 }

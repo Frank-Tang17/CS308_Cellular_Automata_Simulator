@@ -2,6 +2,8 @@ package cellsociety;
 
 import javafx.scene.Group;
 
+import java.util.ArrayList;
+
 
 public class Grid {
   private Cell[][] grid;
@@ -11,39 +13,60 @@ public class Grid {
   private final int simulationScreenHeight = 450;
   private Configuration simulationLoaded;
 
-  public Grid(int row, int col, String selectedSimulation) {
-    grid = new Cell[row][col];
+  public Grid(String selectedSimulation) {
     simulationLoaded = new Configuration(selectedSimulation);
-    width = col;
-    height = row;
-    double size  = determineCellSize(row, col);
+    width = simulationLoaded.getWidth();
+    height = simulationLoaded.getHeight();
+    grid = new Cell[height][width];
+
+//    double size  = determineCellSize(height, width);
+//    for (int i = 0; i < height; i++) {
+//      for (int j = 0; j < width; j++) {
+//        if (j % 50 == 0){
+//          grid[i][j] = new FireCell(i, j, size, 2);
+//        }
+//        else {
+//          grid[i][j] = new FireCell(i, j, size, 1);
+//        }
+//      }
+//    }
+
+    fillInitState(simulationLoaded.getInitState());
+  }
+
+
+  //Populate the grid values with the initial state//
+
+  public void fillInitState(ArrayList<Integer> init_state) {
+    //Need to figure out how the state data is incoming, whether we can store it in an ArrayList.
+    double cellSize = determineCellSize(height, width);
+    int k = 0;
+    String sim_type = simulationLoaded.getType();
+
+    System.out.println(sim_type);
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        if (j % 50 == 0){
-          grid[i][j] = new FireCell(i, j, size, 2);
+        if(sim_type.equals("Fire")){
+          grid[i][j] = new FireCell(i, j, cellSize, init_state.get(k));
         }
-        else {
-          grid[i][j] = new FireCell(i, j, size, 1);
+        else if(sim_type.equals("GameOfLife")){
+          grid[i][j] = new GameOfLifeCell(i, j, cellSize, init_state.get(k));
         }
+        else if(sim_type.equals("Percolation")){
+          grid[i][j] = new PercolationCell(i, j, cellSize, init_state.get(k));
+        }
+        else if(sim_type.equals("Segregation")){
+          grid[i][j] = new SegregationCell(i, j, cellSize, init_state.get(k));
+        }
+        else if(sim_type.equals("PredatorPrey")){
+          grid[i][j] = new PredatorPreyCell(i, j, cellSize, init_state.get(k));
+        }
+        k++;
       }
     }
   }
 
 
-  //Populate the grid values with the initial state//
-    /*
-  public void fillInitState(ArrayList<Integer> init_state) {
-    //Need to figure out how the state data is incoming, whether we can store it in an ArrayList.
-    double cellSize = determineCellSize(height, width);
-    int k = 0;
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        grid[i][j] = new FireCell(i, j, cellSize, init_state.get(k));
-        k++;
-      }
-    }
-    */
-    
   public void gridVisualization(Group node){
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {

@@ -11,219 +11,213 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Class to handle the configuration file parsing and feeding the data back to the main classes for each simulation to use.
+ */
 public class Configuration {
-    private int width;
-    private int height;
-    private String type;
-    private String author;
-    private ArrayList<Integer> init_state = new ArrayList<>();
-    private double prob;
-    private int starting_energy_shark;
-    private int energy_in_fish;
-    private int num_frames_for_shark;
-    private int num_frames_for_fish;
-    private double seg_thresh;
-    private String frontpath = "src/cellsociety/";
-    private String fpath = ".txt";
-    private String celltype;
+  private int width;
+  private int height;
+  private String type;
+  private String author;
+  private ArrayList<Integer> init_state = new ArrayList<>();
+  private double prob;
+  private int starting_energy_shark;
+  private int energy_in_fish;
+  private int num_frames_for_shark;
+  private int num_frames_for_fish;
+  private double seg_thresh;
+  private String frontpath = "src/cellsociety/";
+  private String fpath = ".txt";
+  private String celltype;
+  private NodeList nList;
 
-    public Configuration(String filename){
-        System.out.println("Type is: " + filename);
-        type = filename;
-        String xmlpath = frontpath+type+fpath;
-
-        if(type.equals("Fire")){
-            parseFire(xmlpath);
-        }
-        else if(type.equals("GameOfLife")){
-            parseGameLife(xmlpath);
-        }
-        else if(type.equals("Percolation")){
-            parsePercolation(xmlpath);
-        }
-        else if(type.equals("PredatorPrey")){
-            parsePredPray(xmlpath);
-        }
-        else if(type.equals("Segregation")){
-            parseSeg(xmlpath);
-        }
-
+  /**
+   * Constructor for a configuration object, takes in the filename and decides which type of the simulation the contents of the file represent.
+   * Based on what type of simulation it is, the appropriate method will be called for parsing.
+   * @param filename
+   */
+  public Configuration(String filename){
+    System.out.println("Type is: " + filename);
+    type = filename;
+    String xmlpath = frontpath+type+fpath;
+    docInit(xmlpath);
+    if(type.equals("Fire")){
+      parseFire(xmlpath);
+    }
+    else if(type.equals("GameOfLife")){
+      parseGameLife(xmlpath);
+    }
+    else if(type.equals("Percolation")){
+      parsePercolation(xmlpath);
+    }
+    else if(type.equals("PredatorPrey")){
+      parsePredPray(xmlpath);
+    }
+    else if(type.equals("Segregation")){
+      parseSeg(xmlpath);
     }
 
-    public void parsePercolation(String filename){
-        try{
-            File fxml = new File(filename);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(fxml);
+  }
 
-            doc.getDocumentElement().normalize();
+  /**
+   * Method to iniitialize the variables needed to extract information from the xml file that is read in. Reduces the amount of duplicate code
+   * needed from each simulation's parser.
+   * @param filename
+   */
 
-            NodeList nList = doc.getElementsByTagName("type");
+  public void docInit(String filename){
+    try{
+      File fxml = new File(filename);
+      DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+      Document doc = dBuilder.parse(fxml);
 
-            for(int temp = 0; temp<nList.getLength(); temp++){
-                Node nNode = nList.item(temp);
+      doc.getDocumentElement().normalize();
 
-                if(nNode.getNodeType() == Node.ELEMENT_NODE){
-                    Element eElement = (Element) nNode;
-                    width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
-                    height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
-                    for(int i = 0; i<width*height; i++){
-                        init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
-                    }
-                }
-            }
+      nList = doc.getElementsByTagName("type");
+    } catch(Exception e){
+      e.printStackTrace();
+    }
 
-        } catch(Exception e){
-            e.printStackTrace();
+
+  }
+
+  /**
+   * Method to parse the variables and information from an xml file containing information on how to run a percolation simulation.
+   * @param filename
+   */
+
+  public void parsePercolation(String filename){
+    for(int temp = 0; temp<nList.getLength(); temp++){
+      Node nNode = nList.item(temp);
+
+      if(nNode.getNodeType() == Node.ELEMENT_NODE){
+        Element eElement = (Element) nNode;
+        width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
+        height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
+        for(int i = 0; i<width*height; i++){
+          init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
         }
-
+      }
     }
+  }
 
-    public void parsePredPray(String filename){
-        try{
-            File fxml = new File(filename);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(fxml);
+  /**
+   * Method to parse the variables and information from an xml file containing information on how to run a Predator Prey simulation.
+   * @param filename
+   */
+  public void parsePredPray(String filename){
+    for(int temp = 0; temp<nList.getLength(); temp++){
+      Node nNode = nList.item(temp);
 
-            doc.getDocumentElement().normalize();
-
-            NodeList nList = doc.getElementsByTagName("type");
-
-            for(int temp = 0; temp<nList.getLength(); temp++){
-                Node nNode = nList.item(temp);
-
-                if(nNode.getNodeType() == Node.ELEMENT_NODE){
-                    Element eElement = (Element) nNode;
-                    width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
-                    height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
-                    for(int i = 0; i<width*height; i++){
-                        System.out.println(i);
-                        init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
-                    }
-                    num_frames_for_fish = Integer.parseInt(eElement.getElementsByTagName("num_frames_for_fish").item(0).getTextContent());
-                    num_frames_for_shark = Integer.parseInt(eElement.getElementsByTagName("num_frames_for_shark").item(0).getTextContent());
-                    starting_energy_shark = Integer.parseInt(eElement.getElementsByTagName("starting_energy_shark").item(0).getTextContent());
-                    energy_in_fish = Integer.parseInt(eElement.getElementsByTagName("energy_in_fish").item(0).getTextContent());
-                }
-            }
-
-        } catch(Exception e){
-            e.printStackTrace();
+      if(nNode.getNodeType() == Node.ELEMENT_NODE){
+        Element eElement = (Element) nNode;
+        width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
+        height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
+        for(int i = 0; i<width*height; i++){
+          System.out.println(i);
+          init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
         }
-
+        num_frames_for_fish = Integer.parseInt(eElement.getElementsByTagName("num_frames_for_fish").item(0).getTextContent());
+        num_frames_for_shark = Integer.parseInt(eElement.getElementsByTagName("num_frames_for_shark").item(0).getTextContent());
+        starting_energy_shark = Integer.parseInt(eElement.getElementsByTagName("starting_energy_shark").item(0).getTextContent());
+        energy_in_fish = Integer.parseInt(eElement.getElementsByTagName("energy_in_fish").item(0).getTextContent());
+      }
     }
+  }
 
-    public void parseSeg(String filename){
-        try{
-            File fxml = new File(filename);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(fxml);
+  /**
+   * Method to parse the variables and information from an xml file containing information on how to run a segmentation simulation.
+   * @param filename
+   */
+  public void parseSeg(String filename){
+    for(int temp = 0; temp<nList.getLength(); temp++){
+      Node nNode = nList.item(temp);
 
-            doc.getDocumentElement().normalize();
-
-            NodeList nList = doc.getElementsByTagName("type");
-
-            init_state = new ArrayList<Integer>();
-
-            for(int temp = 0; temp<nList.getLength(); temp++){
-                Node nNode = nList.item(temp);
-
-                if(nNode.getNodeType() == Node.ELEMENT_NODE){
-                    Element eElement = (Element) nNode;
-                    width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
-                    height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
-                    for(int i = 0; i<width*height; i++){
-                        init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
-                    }
-                    seg_thresh = Double.parseDouble(eElement.getElementsByTagName("threshold").item(0).getTextContent());
-                }
-            }
-        } catch(Exception e){
-            e.printStackTrace();
+      if(nNode.getNodeType() == Node.ELEMENT_NODE){
+        Element eElement = (Element) nNode;
+        width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
+        height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
+        for(int i = 0; i<width*height; i++){
+          init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
         }
+        seg_thresh = Double.parseDouble(eElement.getElementsByTagName("threshold").item(0).getTextContent());
+      }
     }
+  }
 
-    public void parseGameLife(String filename){
-        try{
-            File fxml = new File(filename);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(fxml);
+  /**
+   * Method to parse the variables and information from an xml file containing information on how to run a Game of Life simulation.
+   * @param filename
+   */
 
-            doc.getDocumentElement().normalize();
+  public void parseGameLife(String filename){
+    for(int temp = 0; temp<nList.getLength(); temp++){
+      Node nNode = nList.item(temp);
 
-            NodeList nList = doc.getElementsByTagName("type");
-
-            for(int temp = 0; temp<nList.getLength(); temp++){
-                Node nNode = nList.item(temp);
-
-                if(nNode.getNodeType() == Node.ELEMENT_NODE){
-                    Element eElement = (Element) nNode;
-                    width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
-                    height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
-                    for(int i = 0; i<width*height; i++){
-                        init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
-                    }
-                }
-            }
-        } catch(Exception e){
-            e.printStackTrace();
+      if(nNode.getNodeType() == Node.ELEMENT_NODE){
+        Element eElement = (Element) nNode;
+        width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
+        height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
+        for(int i = 0; i<width*height; i++){
+          init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
         }
+      }
     }
+  }
 
-    public void parseFire(String filename){
-        try{
-            File fxml = new File(filename);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(fxml);
-            doc.getDocumentElement().normalize();
-            NodeList nList = doc.getElementsByTagName("type");
+  /**
+   * Method to parse the variables and information from an xml file containing information on how to run a Fire simulation.
+   * @param filename
+   */
+  public void parseFire(String filename){
+    for(int temp = 0; temp<nList.getLength(); temp++){
+      Node nNode = nList.item(temp);
 
-            for(int temp = 0; temp<nList.getLength(); temp++){
-                Node nNode = nList.item(temp);
+      if(nNode.getNodeType() == Node.ELEMENT_NODE){
+        Element eElement = (Element) nNode;
+        this.width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
+        this.height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
 
-                if(nNode.getNodeType() == Node.ELEMENT_NODE){
-                    Element eElement = (Element) nNode;
-                    this.width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
-                    this.height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
-
-                    for(int i = 0; i<this.width*this.height; i++){
-                        int test = Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent());
-                        init_state.add(test);
-                    }
-                    this.prob = Double.parseDouble(eElement.getElementsByTagName("prob").item(0).getTextContent());
-                    this.author = eElement.getElementsByTagName("author").item(0).getTextContent();
-                }
-            }
-            System.out.println(width);
-            System.out.println(height);
-            System.out.println(type);
-            System.out.println(Arrays.toString(init_state.toArray()));
-            System.out.println(prob);
-            System.out.println(author);
-
-        } catch(Exception e){
-            e.printStackTrace();
+        for(int i = 0; i<this.width*this.height; i++){
+          int test = Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent());
+          init_state.add(test);
         }
+        this.prob = Double.parseDouble(eElement.getElementsByTagName("prob").item(0).getTextContent());
+        this.author = eElement.getElementsByTagName("author").item(0).getTextContent();
+      }
     }
+  }
 
-    public int getWidth(){
-        return this.width;
-    }
+  /**
+   * Getter method to retrieve the width of the simulation grid
+   * @return
+   */
+  public int getWidth(){
+    return this.width;
+  }
 
-    public int getHeight(){
-        return this.height;
-    }
+  /**
+   * Getter method to retrieve the height of the simulation grid
+   * @return
+   */
+  public int getHeight(){
+    return this.height;
+  }
 
-    public String getType(){
-        return this.type;
-    }
+  /**
+   * Getter method to retrieve the type of the simulation grid
+   * @return
+   */
+  public String getType(){
+    return this.type;
+  }
 
-    public ArrayList<Integer> getInitState(){
-        return this.init_state;
-    }
+  /**
+   * Getter method to retrieve the initial state of the simulation grid
+   * @return
+   */
+  public ArrayList<Integer> getInitState(){
+    return this.init_state;
+  }
 }

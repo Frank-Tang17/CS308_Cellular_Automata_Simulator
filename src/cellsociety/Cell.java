@@ -20,6 +20,8 @@ public abstract class Cell {
   protected Color[] cellStrokeColors;
 
   public boolean justSwitched;
+  public int numFramesAlive;
+  public int myEnergy;
 
   private final int upperLeftX = 75;
   private final int upperLeftY = 30;

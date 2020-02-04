@@ -23,10 +23,30 @@ public class Configuration {
     public int num_frames_for_shark;
     public int num_frames_for_fish;
     public int seg_thresh;
+    public String frontpath = "src/cellsociety/";
+    public String fpath = ".txt";
     String celltype;
 
     public Configuration(String filename){
-        celltype = filename;
+        type = filename;
+        String xmlpath = frontpath+type+fpath;
+
+        if(type.equals("Fire")){
+            parseFire(xmlpath);
+        }
+        else if(type.equals("GameOfLife")){
+            parseGameLife(xmlpath);
+        }
+        else if(type.equals("Percolation")){
+            parsePercolation(xmlpath);
+        }
+        else if(type.equals("PredatorPrey")){
+            parsePredPray(xmlpath);
+        }
+        else if(type.equals("Segregation")){
+            parseSeg(xmlpath);
+        }
+
     }
 
     public void parsePercolation(String filename){

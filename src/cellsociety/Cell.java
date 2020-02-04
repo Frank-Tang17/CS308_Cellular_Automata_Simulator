@@ -20,6 +20,8 @@ public abstract class Cell {
   protected Color[] cellStrokeColors;
 
   public boolean justSwitched;
+  public int numFramesAlive;
+  public int myEnergy;
 
   private final int upperLeftX = 75;
   private final int upperLeftY = 30;
@@ -79,7 +81,7 @@ public abstract class Cell {
 
 
   public void setCellState(int newState) {
-    myState = newState;
+    this.myState = newState;
   }
 
     public Rectangle getCellNode(){

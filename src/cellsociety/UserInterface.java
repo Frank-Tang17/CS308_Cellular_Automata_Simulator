@@ -11,7 +11,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -35,7 +34,6 @@ public class UserInterface {
 
   public Group root = new Group();
   public Group grid = new Group();
-  private Group buttons = new Group();
 
   private static final int FIRST_ROW = 0;
   private static final int SECOND_ROW = 1;
@@ -59,6 +57,9 @@ public class UserInterface {
   private Button slowDownButton;
   private Button loadSimulationButton;
   private ComboBox selectSimulationBox;
+  private Text frameCounter;
+  private Text simulationTitle;
+  private Text simulationRate;
   private Text initialDirections;
   private ObservableList<String> configurationArray = FXCollections.observableArrayList("Percolation", "GameOfLife", "Fire", "Segregation", "PredatorPrey");
   private String selectedSimulationName;
@@ -78,14 +79,12 @@ public class UserInterface {
     BorderPane root = new BorderPane();
     root.setBottom(makeSimulationControlPanel(controlPanelID));
     root.setTop(makeGameDisplayPanel(gameDisplayID));
-    //root.setCenter(makeInitialDirections(initialDirectionsID));
+    //root.setCenter(makeText(initialDirectionsID));
     root.getChildren().add(grid);
     //enableButtons();
     userInterfaceScene = new Scene(root, width, height);
     // activate CSS styling
     userInterfaceScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
-
-//    currentSimulation.runSimulation(grid);
 
     return userInterfaceScene;
   }
@@ -127,18 +126,18 @@ public class UserInterface {
     forwardButton.setDisable(!currentSimulation.getSimulationStatus());
   }
 
-  private Node makeInitialDirections (String directionText){
-    initialDirections = new Text();
-    initialDirections.setText(userInterfaceResources.getString(directionText));
-    initialDirections.setId(directionText);
-    return initialDirections;
-  }
-
-  private void removeInitialDirections (){
-    if (initialDirections != null){
-      root.getChildren().remove(initialDirections);
-    }
-  }
+//  private Node makeInitialDirections (String directionText){
+//    initialDirections = new Text();
+//    initialDirections.setText(userInterfaceResources.getString(directionText));
+//    initialDirections.setId(directionText);
+//    return initialDirections;
+//  }
+//
+//  private void removeInitialDirections (){
+//    if (initialDirections != null){
+//      root.getChildren().remove(initialDirections);
+//    }
+//  }
   // make the panel where "would-be" clicked URL is displayed
   private Node makeSimulationControlPanel (String nodeID) {
     GridPane controlPanel = new GridPane();
@@ -146,7 +145,7 @@ public class UserInterface {
     pauseButton = makeButton("pauseButton", e -> currentSimulation.pauseResume());
     controlPanel.add(pauseButton, FIRST_COL, FIRST_ROW);
 
-    forwardButton = makeButton("forwardButton", e -> System.out.println(12));
+    forwardButton = makeButton("forwardButton", e -> currentSimulation.stepForward());
     controlPanel.add(forwardButton, SECOND_COL, FIRST_ROW);
 
     resetButton = makeButton("resetButton", e -> resetSimulation());
@@ -169,10 +168,27 @@ public class UserInterface {
   }
 
   private Node makeGameDisplayPanel (String nodeID) {
-    HBox gameDisplay = new HBox();
+    GridPane gameDisplay = new GridPane();
+    frameCounter = makeText("frameCounterID");
+    gameDisplay.add(frameCounter, FIRST_COL, FIRST_ROW);
+
+    simulationTitle = makeText("simulationTypeID");
+    gameDisplay.add(simulationTitle, SECOND_COL, FIRST_ROW);
+
+    simulationRate = makeText("simulationRateID");
+    gameDisplay.add(simulationRate, THIRD_COL, FIRST_ROW);
+
     gameDisplay.setId(nodeID);
     return gameDisplay;
   }
+
+  private Text makeText(String inputTextID){
+    Text newText = new Text();
+    newText.setText(userInterfaceResources.getString(inputTextID));
+    newText.setId(inputTextID);
+    return newText;
+  }
+
 
   private void loadSimulation(Object selectBoxObject){
     if(selectBoxObject == null){

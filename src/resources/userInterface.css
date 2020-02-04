@@ -57,5 +57,9 @@
   -fx-background-color: #3a3a3a;
 }
 
+#initialDirections {
+  -fx-font-size: 8px;
+}
+
 
 

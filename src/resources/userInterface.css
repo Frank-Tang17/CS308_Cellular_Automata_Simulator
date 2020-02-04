@@ -7,8 +7,16 @@
 #gameDisplay{
   -fx-pref-height: 30px;
   -fx-border-width: 2px;
+  -fx-padding: 10px;
+  -fx-alignment: center;
+  -fx-vgap: 10px;
+  -fx-hgap: 10px;
   -fx-border-color: #737373;
   -fx-background-color: #b3b3b3;
+}
+
+#frameCounterID{
+  -fx-alignment: left;
 }
 
 #controlPanel{
@@ -20,7 +28,6 @@
   -fx-alignment: center;
   -fx-vgap: 10px;
   -fx-hgap: 10px;
-
 }
 .button {
   -fx-pref-width: 185px;

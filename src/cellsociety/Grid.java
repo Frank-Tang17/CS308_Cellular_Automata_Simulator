@@ -43,7 +43,6 @@ public class Grid {
     int k = 0;
     String sim_type = simulationLoaded.getType();
 
-    System.out.println(sim_type);
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         if(sim_type.equals("Fire")){

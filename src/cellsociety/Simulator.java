@@ -18,6 +18,12 @@ public class Simulator {
   public static final double cellStrokeProportion = 0.1;
   private boolean runSimulation = true;
   private double simulationRate = 1;
+  private double maxSimulationRate = 16;
+  private double minSimulationRate = 0.0625;
+  private int frameCounter = 0;
+  private int forwardFrameCounter;
+  private int framesToStepForward = 1;
+
   private Timeline animation = new Timeline();
 
   private Grid mainGrid;
@@ -39,30 +45,58 @@ public class Simulator {
 
   }
   private void step() {
-    if (runSimulation) {
-      updateGrid.updateGrid(mainGrid);
-      mainGrid.copyGrid(updateGrid);
-    }
+    updateGrid.updateGrid(mainGrid);
+    mainGrid.copyGrid(updateGrid);
+    frameCounter++;
+    checkSimulationForward();
   }
 
 
 
   public void pauseResume() {
+    if(runSimulation){
+      animation.pause();
+    }
+    else{
+      animation.play();
+    }
     runSimulation = !runSimulation;
+  }
+
+  public void stepForward(){
+    forwardFrameCounter = frameCounter + framesToStepForward;
+    pauseResume();
+  }
+
+  public void checkSimulationForward(){
+    if(frameCounter == forwardFrameCounter){
+      pauseResume();
+    }
+  }
+
+  public int getFrameCounter(){
+    return frameCounter;
   }
 
   public boolean getSimulationStatus() {
     return runSimulation;
   }
 
+  public double getSimulationRate(){
+    return simulationRate;
+  }
+
   public void speedUpSimulation() {
-    simulationRate *= 2;
-    animation.setRate(simulationRate);
+    if (simulationRate <= maxSimulationRate) {
+      simulationRate *= 2;
+      animation.setRate(simulationRate);
+    }
   }
 
   public void slowDownSimulation() {
-    simulationRate /= 2;
-    animation.setRate(simulationRate);
+    if (simulationRate >= minSimulationRate) {
+      simulationRate /= 2;
+      animation.setRate(simulationRate);
+    }
   }
-
 }

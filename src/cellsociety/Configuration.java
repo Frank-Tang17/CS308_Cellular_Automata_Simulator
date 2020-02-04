@@ -37,7 +37,6 @@ public class Configuration {
    * @param filename
    */
   public Configuration(String filename){
-    System.out.println("Type is: " + filename);
     type = filename;
     String xmlpath = frontpath+type+fpath;
     docInit(xmlpath);

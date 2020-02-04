@@ -18,16 +18,18 @@ public class Configuration {
     public static String author;
     public static ArrayList<Integer> init_state = new ArrayList<Integer>();
     public static double prob;
-    public int shark;
-    public int seg;
-    public int fish;
+    public int starting_energy_shark;
+    public int energy_in_fish;
+    public int num_frames_for_shark;
+    public int num_frames_for_fish;
+    public int seg_thresh;
     String celltype;
 
     public Configuration(String filename){
         celltype = filename;
     }
 
-    public void parseOther(String filename){
+    public void parsePercolation(String filename){
         try{
             File fxml = new File(filename);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -48,13 +50,9 @@ public class Configuration {
                     for(int i = 0; i<width*height; i++){
                         init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
                     }
-                    shark = Integer.parseInt(eElement.getElementsByTagName("shark").item(0).getTextContent());
-                    fish = Integer.parseInt(eElement.getElementsByTagName("fish").item(0).getTextContent());
                     type = nNode.getNodeName();
                 }
             }
-
-
 
         } catch(Exception e){
             e.printStackTrace();
@@ -84,13 +82,13 @@ public class Configuration {
                         System.out.println(i);
                         init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
                     }
-                    shark = Integer.parseInt(eElement.getElementsByTagName("shark").item(0).getTextContent());
-                    fish = Integer.parseInt(eElement.getElementsByTagName("fish").item(0).getTextContent());
+                    num_frames_for_fish = Integer.parseInt(eElement.getElementsByTagName("num_frames_for_fish").item(0).getTextContent());
+                    num_frames_for_shark = Integer.parseInt(eElement.getElementsByTagName("num_frames_for_shark").item(0).getTextContent());
+                    starting_energy_shark = Integer.parseInt(eElement.getElementsByTagName("starting_energy_shark").item(0).getTextContent());
+                    energy_in_fish = Integer.parseInt(eElement.getElementsByTagName("energy_in_fish").item(0).getTextContent());
                     type = nNode.getNodeName();
                 }
             }
-
-
 
         } catch(Exception e){
             e.printStackTrace();
@@ -121,7 +119,7 @@ public class Configuration {
                     for(int i = 0; i<width*height; i++){
                         init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
                     }
-                    seg = Integer.parseInt(eElement.getElementsByTagName("seg").item(0).getTextContent());
+                    seg_thresh = Integer.parseInt(eElement.getElementsByTagName("threshold").item(0).getTextContent());
                     type = nNode.getNodeName();
                 }
             }
@@ -151,7 +149,6 @@ public class Configuration {
                     for(int i = 0; i<width*height; i++){
                         init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
                     }
-                    seg = Integer.parseInt(eElement.getElementsByTagName("seg").item(0).getTextContent());
                     type = nNode.getNodeName();
                 }
             }

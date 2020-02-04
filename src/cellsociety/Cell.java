@@ -81,7 +81,7 @@ public abstract class Cell {
 
 
   public void setCellState(int newState) {
-    myState = newState;
+    this.myState = newState;
   }
 
     public Rectangle getCellNode(){

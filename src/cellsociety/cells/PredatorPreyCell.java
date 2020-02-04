@@ -1,5 +1,7 @@
-package cellsociety;
+package cellsociety.cells;
 
+import cellsociety.Cell;
+import cellsociety.Grid;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
 
@@ -8,7 +10,7 @@ public class PredatorPreyCell extends Cell {
   private final int typeFish = 1;
   private final int typeShark = 2;
   private final int newFishTime = 4;
-  private final int newSharkTime = 10;
+  private final int newSharkTime = 20;
   private final int startingSharkEnergy = 5;
   private final int energyPerFish = 2;
 
@@ -28,7 +30,9 @@ public class PredatorPreyCell extends Cell {
     cellFillColors = new Color[]{Color.BLUE, Color.GREEN, Color.ORANGE};
     cellStrokeColors = new Color[]{Color.BLACK, Color.BLACK, Color.BLACK};
     numFramesAlive = 0;
-
+    if (myState == typeShark) {
+      myEnergy = startingSharkEnergy;
+    }
     updateRectangle();
   }
 
@@ -92,7 +96,7 @@ public class PredatorPreyCell extends Cell {
 
     if (numFramesAlive % newSharkTime != 0 || numFramesAlive == 0) { // If I should NOT REPRODUCE
       myState = emptyState;
-    } else {
+    } else if (numFramesAlive % newSharkTime == 0 && numFramesAlive != 0){
       myEnergy = startingSharkEnergy;
     }
     numFramesAlive = 0;

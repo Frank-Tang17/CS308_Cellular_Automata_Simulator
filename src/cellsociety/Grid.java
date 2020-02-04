@@ -1,5 +1,10 @@
 package cellsociety;
 
+import cellsociety.cells.FireCell;
+import cellsociety.cells.GameOfLifeCell;
+import cellsociety.cells.PercolationCell;
+import cellsociety.cells.PredatorPreyCell;
+import cellsociety.cells.SegregationCell;
 import javafx.scene.Group;
 
 import java.util.ArrayList;

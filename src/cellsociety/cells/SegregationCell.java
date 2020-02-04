@@ -1,5 +1,7 @@
-package cellsociety;
+package cellsociety.cells;
 
+import cellsociety.Cell;
+import cellsociety.Grid;
 import java.util.ArrayList;
 import java.util.Collections;
 import javafx.scene.paint.Color;

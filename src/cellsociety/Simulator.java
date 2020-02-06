@@ -6,6 +6,9 @@ import javafx.scene.Group;
 import javafx.scene.shape.StrokeType;
 import javafx.util.Duration;
 
+/**
+ * Feel free to completely change this code or delete it entirely.
+ */
 public class Simulator {
 
   private static final int FRAMES_PER_SECOND = 1;
@@ -38,7 +41,7 @@ public class Simulator {
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
-    mainGrid.gridVisualization();
+    mainGrid.gridVisualization(grid);
 
   }
   private void step() {
@@ -47,6 +50,8 @@ public class Simulator {
     frameCounter++;
     checkSimulationForward();
   }
+
+
 
   public void pauseResume() {
     if(runSimulation){

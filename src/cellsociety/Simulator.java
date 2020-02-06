@@ -13,13 +13,12 @@ public class Simulator {
 
   private static final int FRAMES_PER_SECOND = 1;
   private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-  private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
   public static final StrokeType cellStrokeType = StrokeType.CENTERED; // INSIDE, OUTSIDE, or CENTERED
   public static final double cellStrokeProportion = 0.1;
   private boolean runSimulation = true;
   private double simulationRate = 1;
-  private double maxSimulationRate = 16;
-  private double minSimulationRate = 0.0625;
+  private final double maxSimulationRate = 16;
+  private final double minSimulationRate = 0.0625;
   private int frameCounter = 0;
   private int forwardFrameCounter;
   private int framesToStepForward = 1;

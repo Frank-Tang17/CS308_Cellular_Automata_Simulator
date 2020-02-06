@@ -5,10 +5,10 @@ import java.util.Collections;
 import javafx.scene.paint.Color;
 
 public class SegregationCell extends Cell {
-  private final double threshold;
-  private final int emptyState = 0;
-  private final int typeAState = 1;
-  private final int typeBState = 2;
+  private static final double threshold = 0.5;
+  private static final int emptyState = 0;
+  private static final int typeAState = 1;
+  private static final int typeBState = 2;
 
 
   /**
@@ -20,7 +20,6 @@ public class SegregationCell extends Cell {
    */
   public SegregationCell(int row, int col, double size, int startingState) {
     super(row, col, size, startingState);
-    threshold = .5;
     neighborColIndex = new int[]{0, 1, 1, 1, 0, -1, -1, -1}; // Define sets of coordinates for neighbors
     neighborRowIndex = new int[]{-1, -1, 0, 1, 1, 1, 0, -1}; // Define sets of coordinates for neighbors
     cellFillColors = new Color[]{Color.WHITE, Color.BLUE, Color.RED};
@@ -33,7 +32,7 @@ public class SegregationCell extends Cell {
 
   @Override
   public void update(Grid theOldGrid, Grid theNewGrid) {
-    ArrayList<Integer> neighborStatesAsList = this.getNeighborStates(theOldGrid);
+    ArrayList<Integer> neighborStatesAsList = new ArrayList<>(this.getNeighborStates(theOldGrid));
 
     int numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, myState);
     double proportionOfSimilarNeighbors = (double)numberOfSimilarNeighbors / ((double)neighborStatesAsList.size() - (double) Collections.frequency(neighborStatesAsList, emptyState));

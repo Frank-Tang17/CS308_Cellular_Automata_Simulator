@@ -33,6 +33,7 @@ public class Configuration {
   private String fpath = ".txt";
   private String celltype;
   private NodeList nList;
+  private Element element;
 
   /**
    * Constructor for a configuration object, takes in the filename and decides which type of the simulation the contents of the file represent.
@@ -44,19 +45,19 @@ public class Configuration {
     String xmlpath = frontpath+type+fpath;
     docInit(xmlpath);
     if(type.equals("Fire")){
-      parseFire(xmlpath);
+      parseFire(element);
     }
     else if(type.equals("GameOfLife")){
-      parseGameLife(xmlpath);
+      //parseGameLife(xmlpath);
     }
     else if(type.equals("Percolation")){
-      parsePercolation(xmlpath);
+      //parsePercolation(xmlpath);
     }
     else if(type.equals("PredatorPrey")){
-      parsePredPray(xmlpath);
+      parsePredPray(element);
     }
     else if(type.equals("Segregation")){
-      parseSeg(xmlpath);
+      parseSeg(element);
     }
 
   }
@@ -77,6 +78,19 @@ public class Configuration {
       doc.getDocumentElement().normalize();
 
       nList = doc.getElementsByTagName("type");
+
+      for(int temp = 0; temp<nList.getLength(); temp++){
+        Node nNode = nList.item(temp);
+
+        if(nNode.getNodeType() == Node.ELEMENT_NODE){
+          element = (Element) nNode;
+          width = Integer.parseInt(element.getElementsByTagName("width").item(0).getTextContent());
+          height = Integer.parseInt(element.getElementsByTagName("height").item(0).getTextContent());
+          for(int i = 0; i<width*height; i++){
+            init_state.add(Integer.parseInt(element.getElementsByTagName("s1").item(i).getTextContent()));
+          }
+        }
+      }
     } catch(Exception e){
       e.printStackTrace();
     }
@@ -85,110 +99,32 @@ public class Configuration {
   }
 
   /**
-   * Method to parse the variables and information from an xml file containing information on how to run a percolation simulation.
-   * @param filename
-   */
-
-  public void parsePercolation(String filename){
-    for(int temp = 0; temp<nList.getLength(); temp++){
-      Node nNode = nList.item(temp);
-
-      if(nNode.getNodeType() == Node.ELEMENT_NODE){
-        Element eElement = (Element) nNode;
-        width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
-        height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
-        for(int i = 0; i<width*height; i++){
-          init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
-        }
-      }
-    }
-  }
-
-  /**
    * Method to parse the variables and information from an xml file containing information on how to run a Predator Prey simulation.
-   * @param filename
+   * @param
    */
-  public void parsePredPray(String filename){
-    for(int temp = 0; temp<nList.getLength(); temp++){
-      Node nNode = nList.item(temp);
 
-      if(nNode.getNodeType() == Node.ELEMENT_NODE){
-        Element eElement = (Element) nNode;
-        width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
-        height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
-        for(int i = 0; i<width*height; i++){
-          System.out.println(i);
-          init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
-        }
-        num_frames_for_fish = Integer.parseInt(eElement.getElementsByTagName("num_frames_for_fish").item(0).getTextContent());
-        num_frames_for_shark = Integer.parseInt(eElement.getElementsByTagName("num_frames_for_shark").item(0).getTextContent());
-        starting_energy_shark = Integer.parseInt(eElement.getElementsByTagName("starting_energy_shark").item(0).getTextContent());
-        energy_in_fish = Integer.parseInt(eElement.getElementsByTagName("energy_in_fish").item(0).getTextContent());
-      }
-    }
+  public void parsePredPray(Element el){
+    this.num_frames_for_fish = Integer.parseInt(el.getElementsByTagName("num_frames_for_fish").item(0).getTextContent());
+    this.num_frames_for_shark = Integer.parseInt(el.getElementsByTagName("num_frames_for_shark").item(0).getTextContent());
+    this.starting_energy_shark = Integer.parseInt(el.getElementsByTagName("starting_energy_shark").item(0).getTextContent());
+    this.energy_in_fish = Integer.parseInt(el.getElementsByTagName("energy_in_fish").item(0).getTextContent());
   }
+
 
   /**
    * Method to parse the variables and information from an xml file containing information on how to run a segmentation simulation.
-   * @param filename
+   * @param
    */
-  public void parseSeg(String filename){
-    for(int temp = 0; temp<nList.getLength(); temp++){
-      Node nNode = nList.item(temp);
-
-      if(nNode.getNodeType() == Node.ELEMENT_NODE){
-        Element eElement = (Element) nNode;
-        width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
-        height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
-        for(int i = 0; i<width*height; i++){
-          init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
-        }
-        seg_thresh = Double.parseDouble(eElement.getElementsByTagName("threshold").item(0).getTextContent());
-      }
-    }
-  }
-
-  /**
-   * Method to parse the variables and information from an xml file containing information on how to run a Game of Life simulation.
-   * @param filename
-   */
-
-  public void parseGameLife(String filename){
-    for(int temp = 0; temp<nList.getLength(); temp++){
-      Node nNode = nList.item(temp);
-
-      if(nNode.getNodeType() == Node.ELEMENT_NODE){
-        Element eElement = (Element) nNode;
-        width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
-        height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
-        for(int i = 0; i<width*height; i++){
-          init_state.add(Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent()));
-        }
-      }
-    }
+  public void parseSeg(Element el){
+    seg_thresh = Double.parseDouble(el.getElementsByTagName("threshold").item(0).getTextContent());
   }
 
   /**
    * Method to parse the variables and information from an xml file containing information on how to run a Fire simulation.
-   * @param filename
+   * @param
    */
-  public void parseFire(String filename){
-    for(int temp = 0; temp<nList.getLength(); temp++){
-      Node nNode = nList.item(temp);
-
-      if(nNode.getNodeType() == Node.ELEMENT_NODE){
-        Element eElement = (Element) nNode;
-        this.width = Integer.parseInt(eElement.getElementsByTagName("width").item(0).getTextContent());
-        this.height = Integer.parseInt(eElement.getElementsByTagName("height").item(0).getTextContent());
-
-        for(int i = 0; i<this.width*this.height; i++){
-          int test = Integer.parseInt(eElement.getElementsByTagName("s1").item(i).getTextContent());
-          init_state.add(test);
-        }
-        this.prob = Double.parseDouble(eElement.getElementsByTagName("prob").item(0).getTextContent());
-        this.author = eElement.getElementsByTagName("author").item(0).getTextContent();
-      }
-    }
+  public void parseFire(Element el){
+    this.prob = Double.parseDouble(el.getElementsByTagName("prob").item(0).getTextContent());
   }
 
   /**

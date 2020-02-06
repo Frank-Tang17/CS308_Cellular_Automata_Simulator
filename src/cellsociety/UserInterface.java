@@ -15,7 +15,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javax.imageio.ImageIO;
 
@@ -27,13 +26,12 @@ import javax.imageio.ImageIO;
 public class UserInterface {
 
   private static final String RESOURCES = "resources";
-  public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
-  public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
-  public static final String STYLESHEET = "userInterface.css";
-  public static final String BLANK = " ";
+  private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
+  private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
+  private static final String STYLESHEET = "userInterface.css";
+  private static final String BLANK = " ";
 
-  public Group root = new Group();
-  public Group grid = new Group();
+  private Group grid = new Group();
 
   private static final int FIRST_ROW = 0;
   private static final int SECOND_ROW = 1;
@@ -42,25 +40,12 @@ public class UserInterface {
   private static final int SECOND_COL = 1;
   private static final int THIRD_COL = 2;
 
-
-
   private Scene userInterfaceScene;
 
   private String controlPanelID = "controlPanel";
   private String gameDisplayID = "gameDisplay";
   private String initialDirectionsID = "initialDirections";
 
-  private Button pauseButton;
-  private Button forwardButton;
-  private Button resetButton;
-  private Button speedUpButton;
-  private Button slowDownButton;
-  private Button loadSimulationButton;
-  private ComboBox selectSimulationBox;
-  private Text frameCounter;
-  private Text simulationTitle;
-  private Text simulationRate;
-  private Text initialDirections;
   private ObservableList<String> configurationArray = FXCollections.observableArrayList("Percolation", "GameOfLife", "Fire", "Segregation", "PredatorPrey");
   private String selectedSimulationName;
 
@@ -79,7 +64,7 @@ public class UserInterface {
     BorderPane root = new BorderPane();
     root.setBottom(makeSimulationControlPanel(controlPanelID));
     root.setTop(makeGameDisplayPanel(gameDisplayID));
-    //root.setCenter(makeText(initialDirectionsID));
+    root.setCenter(makeText(initialDirectionsID));
     root.getChildren().add(grid);
     //enableButtons();
     userInterfaceScene = new Scene(root, width, height);
@@ -142,25 +127,25 @@ public class UserInterface {
   private Node makeSimulationControlPanel (String nodeID) {
     GridPane controlPanel = new GridPane();
 
-    pauseButton = makeButton("pauseButton", e -> currentSimulation.pauseResume());
+    Button pauseButton = makeButton("pauseButton", e -> currentSimulation.pauseResume());
     controlPanel.add(pauseButton, FIRST_COL, FIRST_ROW);
 
-    forwardButton = makeButton("forwardButton", e -> currentSimulation.stepForward());
+    Button forwardButton = makeButton("forwardButton", e -> currentSimulation.stepForward());
     controlPanel.add(forwardButton, SECOND_COL, FIRST_ROW);
 
-    resetButton = makeButton("resetButton", e -> resetSimulation());
+    Button resetButton = makeButton("resetButton", e -> resetSimulation());
     controlPanel.add(resetButton, THIRD_COL, FIRST_ROW);
 
-    speedUpButton = makeButton("speedUpButton", e -> currentSimulation.speedUpSimulation());
+    Button speedUpButton = makeButton("speedUpButton", e -> currentSimulation.speedUpSimulation());
     controlPanel.add(speedUpButton, FIRST_COL, SECOND_ROW);
 
-    slowDownButton = makeButton("slowDownButton", e -> currentSimulation.slowDownSimulation());
+    Button slowDownButton = makeButton("slowDownButton", e -> currentSimulation.slowDownSimulation());
     controlPanel.add(slowDownButton, SECOND_COL, SECOND_ROW);
 
-    loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(selectSimulationBox.getValue()));
+    Button loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(selectSimulationBox.getValue()));
     controlPanel.add(loadSimulationButton, THIRD_COL, SECOND_ROW);
 
-    selectSimulationBox = makeComboBox("selectSimulationBox", configurationArray);
+    ComboBox selectSimulationBox = makeComboBox("selectSimulationBox", configurationArray);
     controlPanel.add(selectSimulationBox, THIRD_COL, SECOND_ROW);
 
     controlPanel.setId(nodeID);
@@ -169,13 +154,13 @@ public class UserInterface {
 
   private Node makeGameDisplayPanel (String nodeID) {
     GridPane gameDisplay = new GridPane();
-    frameCounter = makeText("frameCounterID");
+    Text frameCounter = makeText("frameCounterID");
     gameDisplay.add(frameCounter, FIRST_COL, FIRST_ROW);
 
-    simulationTitle = makeText("simulationTypeID");
+    Text simulationTitle = makeText("simulationTypeID");
     gameDisplay.add(simulationTitle, SECOND_COL, FIRST_ROW);
 
-    simulationRate = makeText("simulationRateID");
+    Text simulationRate = makeText("simulationRateID");
     gameDisplay.add(simulationRate, THIRD_COL, FIRST_ROW);
 
     gameDisplay.setId(nodeID);

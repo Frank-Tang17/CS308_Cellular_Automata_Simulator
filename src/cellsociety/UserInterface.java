@@ -40,12 +40,17 @@ public class UserInterface {
   private static final int SECOND_COL = 1;
   private static final int THIRD_COL = 2;
 
+
+
   private Scene userInterfaceScene;
 
   private String controlPanelID = "controlPanel";
   private String gameDisplayID = "gameDisplay";
   private String initialDirectionsID = "initialDirections";
 
+
+  private Button forwardButton;
+  private ComboBox selectSimulationBox;
   private ObservableList<String> configurationArray = FXCollections.observableArrayList("Percolation", "GameOfLife", "Fire", "Segregation", "PredatorPrey");
   private String selectedSimulationName;
 
@@ -130,7 +135,7 @@ public class UserInterface {
     Button pauseButton = makeButton("pauseButton", e -> currentSimulation.pauseResume());
     controlPanel.add(pauseButton, FIRST_COL, FIRST_ROW);
 
-    Button forwardButton = makeButton("forwardButton", e -> currentSimulation.stepForward());
+    forwardButton = makeButton("forwardButton", e -> currentSimulation.stepForward());
     controlPanel.add(forwardButton, SECOND_COL, FIRST_ROW);
 
     Button resetButton = makeButton("resetButton", e -> resetSimulation());
@@ -145,7 +150,7 @@ public class UserInterface {
     Button loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(selectSimulationBox.getValue()));
     controlPanel.add(loadSimulationButton, THIRD_COL, SECOND_ROW);
 
-    ComboBox selectSimulationBox = makeComboBox("selectSimulationBox", configurationArray);
+    selectSimulationBox = makeComboBox("selectSimulationBox", configurationArray);
     controlPanel.add(selectSimulationBox, THIRD_COL, SECOND_ROW);
 
     controlPanel.setId(nodeID);

@@ -32,7 +32,7 @@ public class SegregationCell extends Cell {
 
   @Override
   public void update(Grid theOldGrid, Grid theNewGrid) {
-    ArrayList<Integer> neighborStatesAsList = this.getNeighborStates(theOldGrid);
+    ArrayList<Integer> neighborStatesAsList = new ArrayList<>(this.getNeighborStates(theOldGrid));
 
     int numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, myState);
     double proportionOfSimilarNeighbors = (double)numberOfSimilarNeighbors / ((double)neighborStatesAsList.size() - (double) Collections.frequency(neighborStatesAsList, emptyState));

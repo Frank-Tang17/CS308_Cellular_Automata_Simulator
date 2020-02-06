@@ -36,7 +36,7 @@ public class GameOfLifeCell extends Cell {
   @Override
 
   public void update(Grid theOldGrid, Grid theNewGrid) {
-    ArrayList<Integer> neighborStatesAsList = this.getNeighborStates(theOldGrid);
+    ArrayList<Integer> neighborStatesAsList = new ArrayList<>(this.getNeighborStates(theOldGrid));
 
     int numNeighborAlive = Collections.frequency(neighborStatesAsList, aliveState);
 

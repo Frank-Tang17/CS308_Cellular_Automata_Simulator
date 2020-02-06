@@ -27,7 +27,7 @@ public class PercolationCell extends Cell {
 
   @Override
   public void update(Grid theOldGrid, Grid theNewGrid) {
-    ArrayList<Integer> neighborStatesAsList = this.getNeighborStates(theOldGrid);
+    ArrayList<Integer> neighborStatesAsList = new ArrayList<>(this.getNeighborStates(theOldGrid));
 
     if (theOldGrid.getCell(myRow, myCol).myState == openState && neighborStatesAsList.contains(waterState)) {
       myState = waterState;

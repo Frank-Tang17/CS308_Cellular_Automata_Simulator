@@ -29,7 +29,7 @@ public class FireCell extends Cell {
 
   @Override
   public void update(Grid theOldGrid, Grid theNewGrid) {
-    ArrayList<Integer> neighborStatesAsList = this.getNeighborStates(theOldGrid);
+    ArrayList<Integer> neighborStatesAsList = new ArrayList<>(this.getNeighborStates(theOldGrid));
 
     double rand = (Math.random() * 100);
     double compProb = 100 * prob;

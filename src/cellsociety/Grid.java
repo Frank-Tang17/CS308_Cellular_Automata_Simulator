@@ -1,7 +1,5 @@
 package cellsociety;
 
-import javafx.scene.Group;
-
 import java.util.ArrayList;
 
 
@@ -18,19 +16,6 @@ public class Grid {
     width = simulationLoaded.getWidth();
     height = simulationLoaded.getHeight();
     grid = new Cell[height][width];
-
-//    double size  = determineCellSize(height, width);
-//    for (int i = 0; i < height; i++) {
-//      for (int j = 0; j < width; j++) {
-//        if (j % 50 == 0){
-//          grid[i][j] = new FireCell(i, j, size, 2);
-//        }
-//        else {
-//          grid[i][j] = new FireCell(i, j, size, 1);
-//        }
-//      }
-//    }
-
     fillInitState(simulationLoaded.getInitState());
   }
 
@@ -66,10 +51,10 @@ public class Grid {
   }
 
 
-  public void gridVisualization(Group node){
+  public void gridVisualization(){
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        node.getChildren().add(grid[i][j].getCellNode());
+        grid[i][j].getCellNode();
       }
     }
   }

@@ -67,7 +67,7 @@ public class Configuration {
    * @param filename
    */
 
-  public void docInit(String filename) throws IOException, SAXException, ParserConfigurationException {
+  public void docInit(String filename){
     try{
       File fxml = new File(filename);
       DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -78,8 +78,7 @@ public class Configuration {
 
       nList = doc.getElementsByTagName("type");
     } catch(Exception e){
-      System.out.println("Exception");
-      throw e;
+      e.printStackTrace();
     }
 
 

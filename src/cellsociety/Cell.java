@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
  */
 public abstract class Cell {
 
-  protected int myRow, myCol;
+  public int myRow, myCol;
   public int myState;
   private Rectangle myRect;
   private ImageView myImage; // This may be on a subclass by subclass basis

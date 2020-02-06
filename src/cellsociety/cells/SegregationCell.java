@@ -39,47 +39,21 @@ public class SegregationCell extends Cell {
 
     int numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, myState);
     double proportionOfSimilarNeighbors = (double)numberOfSimilarNeighbors / ((double)neighborStatesAsList.size() - (double) Collections.frequency(neighborStatesAsList, emptyState));
-    //int i = 0;
+
     boolean notSwitchedYet = true;
     if (proportionOfSimilarNeighbors < threshold && myState != emptyState) {
-      //System.out.println("Row: " + myRow + ", Col: " + myCol);
       for (Cell[] row : theOldGrid.getGrid()) {
         for (Cell currentCell : row) {
           if (currentCell.myState == emptyState && !currentCell.justSwitched && notSwitchedYet) {
-            //System.out.println("Row: " + myRow + ", Col: " + myCol);
             theNewGrid.getGrid()[currentCell.myRow][currentCell.myCol].myState = myState;
             myState = emptyState;
             currentCell.justSwitched = true;
             justSwitched = true;
             notSwitchedYet = false;
-
-            /*
-            if (myState == typeAState) {
-              currentCell.justOccupiedToBeOne = true;
-              currentCell
-            } else if (myState == typeBState) {
-              currentCell.justOccupiedToBeTwo = true;
-            }
-            currentCell.justSwitched = true;
-            myState = emptyState;
-            */
-
-
           }
-
         }
       }
-    } /*else if (myState == emptyState) {
-      if (theOldGrid.getGrid()[myRow][myCol].justOccupiedToBeOne) {
-        myState = typeAState;
-        justOccupiedToBeOne = false;
-        this.updateRectangle();
-      } else if (theOldGrid.getGrid()[myRow][myCol].justOccupiedToBeTwo) {
-        myState = typeBState;
-        justOccupiedToBeTwo = false;
-        this.updateRectangle();
-      }
-    }*/
-
+    }
   }
+
 }

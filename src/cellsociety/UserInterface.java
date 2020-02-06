@@ -68,7 +68,7 @@ public class UserInterface {
   private Simulator currentSimulation;
 
   public UserInterface(String language){
-    userInterfaceResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+    userInterfaceResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "/" +language);
   }
   /**
    * Initialize what will be displayed and how it will be updated.

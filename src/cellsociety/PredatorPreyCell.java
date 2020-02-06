@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import javafx.scene.paint.Color;
 
 public class PredatorPreyCell extends Cell {
-  private final int emptyState = 0;
-  private final int typeFish = 1;
-  private final int typeShark = 2;
-  private final int newFishTime = 4;
-  private final int newSharkTime = 10;
-  private final int startingSharkEnergy = 5;
-  private final int energyPerFish = 2;
+  private static final int emptyState = 0;
+  private static final int typeFish = 1;
+  private static final int typeShark = 2;
+  private static final int newFishTime = 4;
+  private static final int newSharkTime = 10;
+  private static final int startingSharkEnergy = 5;
+  private static final int energyPerFish = 2;
 
 
   /**

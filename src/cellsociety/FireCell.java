@@ -5,9 +5,9 @@ import javafx.scene.paint.Color;
 
 public class FireCell extends Cell {
   private double prob = .55;
-  private final int emptyState = 0;
-  private final int treeState = 1;
-  private final int burningState = 2;
+  private static final int emptyState = 0;
+  private static final int treeState = 1;
+  private static final int burningState = 2;
 
 
   /**

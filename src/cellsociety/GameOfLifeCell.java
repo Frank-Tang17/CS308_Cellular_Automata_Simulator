@@ -4,11 +4,11 @@ import java.util.*;
 import javafx.scene.paint.Color;
 
 public class GameOfLifeCell extends Cell {
-  private final int deadState = 0;
-  private final int aliveState = 1;
-  private final int cellsNeededForLife = 3;
-  private final int upperAliveCellBound = 3;
-  private final int lowerAliveCellBound = 2;
+  private static final int deadState = 0;
+  private static final int aliveState = 1;
+  private static final int cellsNeededForLife = 3;
+  private static final int upperAliveCellBound = 3;
+  private static final int lowerAliveCellBound = 2;
 
   /**
    * Constructor for master class Cell object

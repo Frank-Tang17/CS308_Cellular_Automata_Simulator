@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import javafx.scene.paint.Color;
 
 public class PercolationCell extends Cell {
-  private final int blockedState = 0;
-  private final int openState = 1;
-  private final int waterState = 2;
+  private static final int blockedState = 0;
+  private static final int openState = 1;
+  private static final int waterState = 2;
 
   /**
    * Constructor for master class Cell object

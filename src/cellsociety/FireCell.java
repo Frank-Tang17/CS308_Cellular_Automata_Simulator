@@ -34,9 +34,9 @@ public class FireCell extends Cell {
     double rand = (Math.random() * 100);
     double compProb = 100 * prob;
 
-    if (theOldGrid.getGrid()[myRow][myCol].myState == burningState) {
+    if (theOldGrid.getCell(myRow, myCol).myState == burningState) {
       myState = emptyState;
-    } else if (neighborStatesAsList.contains(burningState) && theOldGrid.getGrid()[myRow][myCol].myState == treeState && (rand <= compProb)) {
+    } else if (neighborStatesAsList.contains(burningState) && theOldGrid.getCell(myRow, myCol).myState == treeState && (rand <= compProb)) {
       myState = burningState;
     }
   }

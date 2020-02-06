@@ -42,8 +42,8 @@ public class PredatorPreyCell extends Cell {
       if (neighborStatesAsList.contains(emptyState)) {
         for (int i = 0; i < neighborColIndex.length; i++) {
           if (theNewGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
-            if (theOldGrid.getGrid()[myRow + neighborRowIndex[i]][myCol
-                + neighborColIndex[i]].myState == emptyState && theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).getCurrentState() == emptyState) {
+            if (theOldGrid.getCell(myRow + neighborRowIndex[i],myCol
+                + neighborColIndex[i]).myState == emptyState && theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).getCurrentState() == emptyState) {
 
               theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).myState = typeFish;
 
@@ -72,8 +72,8 @@ public class PredatorPreyCell extends Cell {
       if (neighborStatesAsList.contains(typeFish)) {
         for (int i = 0; i < neighborColIndex.length; i++) {
           if (theNewGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
-            if (theOldGrid.getGrid()[myRow + neighborRowIndex[i]][myCol
-                + neighborColIndex[i]].myState == typeFish && theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).getCurrentState() == typeFish) {
+            if (theOldGrid.getCell(myRow + neighborRowIndex[i],myCol
+                + neighborColIndex[i]).myState == typeFish && theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).getCurrentState() == typeFish) {
               myEnergy += energyPerFish;
               moveSharkAndCheckReproduce(theNewGrid, neighborRowIndex[i], neighborColIndex[i]);
             }
@@ -82,8 +82,8 @@ public class PredatorPreyCell extends Cell {
       } else if (neighborStatesAsList.contains(emptyState)) {
         for (int i = 0; i < neighborColIndex.length; i++) {
           if (theNewGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
-            if (theOldGrid.getGrid()[myRow + neighborRowIndex[i]][myCol
-                + neighborColIndex[i]].myState == emptyState && theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).getCurrentState() == emptyState) {
+            if (theOldGrid.getCell(myRow + neighborRowIndex[i],myCol
+                + neighborColIndex[i]).myState == emptyState && theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).getCurrentState() == emptyState) {
               moveSharkAndCheckReproduce(theNewGrid, neighborRowIndex[i], neighborColIndex[i]);
             }
           }

@@ -39,29 +39,15 @@ public class SegregationCell extends Cell {
     //int i = 0;
     boolean notSwitchedYet = true;
     if (proportionOfSimilarNeighbors < threshold && myState != emptyState) {
-      //System.out.println("Row: " + myRow + ", Col: " + myCol);
-      for (Cell[] row : theOldGrid.getGrid()) {
-        for (Cell currentCell : row) {
+      for (int i = 0; i < theOldGrid.getHeight(); i++) {
+        for (int j = 0; j < theOldGrid.getWidth(); j++) {
+          Cell currentCell = theOldGrid.getCell(i, j);
           if (currentCell.myState == emptyState && !currentCell.justSwitched && notSwitchedYet) {
-            //System.out.println("Row: " + myRow + ", Col: " + myCol);
-            theNewGrid.getGrid()[currentCell.myRow][currentCell.myCol].myState = myState;
+            theNewGrid.getCell(currentCell.myRow, currentCell.myCol).myState = myState;
             myState = emptyState;
             currentCell.justSwitched = true;
             justSwitched = true;
             notSwitchedYet = false;
-
-            /*
-            if (myState == typeAState) {
-              currentCell.justOccupiedToBeOne = true;
-              currentCell
-            } else if (myState == typeBState) {
-              currentCell.justOccupiedToBeTwo = true;
-            }
-            currentCell.justSwitched = true;
-            myState = emptyState;
-            */
-
-
           }
 
         }

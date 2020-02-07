@@ -1,83 +1,33 @@
-package cellsociety;
+# Refactoring Discussion 
+### Frank Tang (ft39), Michael Dodd (mmd61), and Amjad Syedibrahim (as878)
+### 2/6/2020
 
-import java.lang.Math;
+##Discussion:
+During this lab, we focused on discussing some design issues and refactoring our code for the future
+of the project. The main focus of our design issues is further separating the model and view from each other.
+For example, we were told that our cells should not have a Rectangle associated to them; the view should be the one to handle
+drawing the Rectangles and their colors. The cell and Grid object should be returning just an array of data and then the
+view should handle the drawing of the cells. In addition, we decided that we need to rearrange how we pass our information
+from the array. Specifically, we should stop passing around the 2D array from a Grid object class, and get the specific points
+necessary to run the different simulations.
 
-/**
- * Cell class for the fire simulation
- */
-public class CellFire extends Cell {
+In addition to these design issues, we refactored our code in accordance with the errors that were pointed out 
+via the design.cs.duke.edu website. These are the following refactors for the following sections of this project:
 
+1. View -
+    * UserInterface.java - This class had the most errors in the view part of the project. The main issues found in this
+    class was variables that were not private or they were not being used. As a result, I chose to refactor all of the issues
+    because it was left over code borrowed from other sources given to us from class, such as the Lab Browser lab
+    * Simulator.java - This class had minimal errors, so I chose to refactor all of these too. These issues were just
+    making some variables final because they represent constants and the other issue was removing a piece of unused code.
 
-  /**
-   * Current state of the cell. 0 for empty cell with no tree or burnt tree 1 for a cell with an
-   * unburnt tree 2 for a cell with a burning tree
-   */
-  int state;
-  int prob;
-  int type;
-  int row;
-  int col;
-
-  public CellFire(int cellType, int cellState, int cellProb, int cellRow, int cellCol) {
-    this.state = cellState;
-    this.prob = cellProb;
-    this.type = cellType;
-    this.row = cellRow;
-    this.col = cellCol;
-  }
-
-  public void updateCell() {
-    int rand = (int) (Math.random() * 100);
-    int compProb = 100 * prob;
-
-    if (this.state == 2) {
-      this.state == 0;
-      if (isValidIndex(row + 1, col) && (rand <= compProb)) {
-        grid[row + 1][col].setState(2);
-      }
-      if (isValidIndex(row - 1, col) && (rand <= compProb)) {
-        grid[row - 1][col].setState(2);
-      }
-      if (isValidIndex(row, col + 1) && (rand <= compProb)) {
-        grid[row][col + 1].setState(2);
-      }
-      if (isValidIndex(row, col - 1) && (rand <= compProb)) {
-        grid[row][col - 1].setState(2);
-      }
-
-    }
-  }
-
-  public void setState(int new_state) {
-    this.state = new_state;
-  }
-
-  public int getCellRow() {
-    return this.row;
-  }
-
-  public int getCellCol() {
-    return this.col;
-  }
-
-    /*public int[] getNeighbors(int row, int col){
-        ArrayList<Cell> neighbors = new ArrayList<Cell>();
-        int[] check = new int[]{row+1, col, row-1, col, row, col+1, row, col-1};
-
-        for(int i = 0, i<check.length; i+=2){
-            if(isValidIndex(check[i], check[i+1])){
-                neighbors.add(grid[i][i+1].getState());
-            }
-
-        }
-    }*/
-
-  public boolean isValidIndex(int row, int col) {
-    return (row >= 0 && row < grid.getHeight() && col >= 0 && col < grid.getWidth());
-  }
-
-  @Override
-  public void update(Grid theGrid) {
-
-  }
-}
+2. Model - 
+    * Had a lot of private final variables that needed to be made static, so this was an easy change.
+    * Had a lot of public variables that needed to be made private. This change was easy as well because it needs
+    to be private for the final submission.
+    * Got rid of the Grid class's getGrid() method to make sure that we are not passing the grid around, and that
+    we should be passing specific locations of the grid.
+3. Configuration - 
+    * Got rid of a lot of duplicated code by making a couple of new methods, so each separate simulation now has very little
+    in their methods for parsing through specific simulations
+    * Made the code easier to read overall

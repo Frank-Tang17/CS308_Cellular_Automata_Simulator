@@ -58,7 +58,7 @@ public class UserInterface {
   private Simulator currentSimulation;
 
   public UserInterface(String language){
-    userInterfaceResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "/" +language);
+    userInterfaceResources = ResourceBundle.getBundle(language);
   }
   /**
    * Initialize what will be displayed and how it will be updated.
@@ -74,7 +74,7 @@ public class UserInterface {
     //enableButtons();
     userInterfaceScene = new Scene(root, width, height);
     // activate CSS styling
-    userInterfaceScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
+    userInterfaceScene.getStylesheets().add(getClass().getClassLoader().getResource(STYLESHEET).toExternalForm());
 
     return userInterfaceScene;
   }

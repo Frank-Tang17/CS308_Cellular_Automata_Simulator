@@ -204,6 +204,9 @@
 		<s1>0</s1>
 		<s1>2</s1>
 		<s1>1</s1>
+		<neighborColIndex>"1125341"</neighborColIndex>
+		<neighborRowIndex>"1125341"</neighborRowIndex>
+		<>
 		<prob>0.7</prob>
 		<author>Michael, Frank, Amjad</author>
 	</type>

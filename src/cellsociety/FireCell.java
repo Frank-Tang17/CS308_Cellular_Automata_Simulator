@@ -5,9 +5,9 @@ import javafx.scene.paint.Color;
 
 public class FireCell extends Cell {
   private double prob = .55;
-  private final int emptyState = 0;
-  private final int treeState = 1;
-  private final int burningState = 2;
+  private static final int emptyState = 0;
+  private static final int treeState = 1;
+  private static final int burningState = 2;
 
 
   /**
@@ -29,7 +29,7 @@ public class FireCell extends Cell {
 
   @Override
   public void update(Grid theOldGrid, Grid theNewGrid) {
-    ArrayList<Integer> neighborStatesAsList = this.getNeighborStates(theOldGrid);
+    ArrayList<Integer> neighborStatesAsList = new ArrayList<>(this.getNeighborStates(theOldGrid));
 
     double rand = (Math.random() * 100);
     double compProb = 100 * prob;

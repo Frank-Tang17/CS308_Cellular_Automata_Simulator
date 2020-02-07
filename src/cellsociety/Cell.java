@@ -1,6 +1,8 @@
 package cellsociety;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import javax.swing.text.html.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -20,11 +22,10 @@ public abstract class Cell {
   protected Color[] cellStrokeColors;
 
   public boolean justSwitched;
-  public int numFramesAlive;
-  public int myEnergy;
 
-  private final int upperLeftX = 75;
-  private final int upperLeftY = 30;
+
+  private static final int upperLeftX = 75;
+  private static final int upperLeftY = 30;
 
   /**
    * Constructor for master class Cell object
@@ -68,7 +69,7 @@ public abstract class Cell {
      * @param theGrid current Grid to update state based on
      * @return array of neighboring states
      */
-    public ArrayList<Integer> getNeighborStates(Grid theGrid) {
+    public List<Integer> getNeighborStates(Grid theGrid) {
         ArrayList<Integer> neighborStates = new ArrayList();
         for (int i = 0; i < neighborColIndex.length; i++) {
             if (theGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {

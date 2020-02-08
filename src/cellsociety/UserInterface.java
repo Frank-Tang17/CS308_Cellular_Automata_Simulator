@@ -69,8 +69,8 @@ public class UserInterface {
     BorderPane root = new BorderPane();
     root.setBottom(makeSimulationControlPanel(controlPanelID));
     root.setTop(makeGameDisplayPanel(gameDisplayID));
-    root.setCenter(makeText(initialDirectionsID));
-    root.getChildren().add(grid);
+    //root.setCenter(makeText(initialDirectionsID));
+    root.setCenter(grid);
     //enableButtons();
     userInterfaceScene = new Scene(root, width, height);
     // activate CSS styling

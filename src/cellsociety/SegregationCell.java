@@ -22,12 +22,12 @@ public class SegregationCell extends Cell {
     super(row, col, size, startingState);
     neighborColIndex = new int[]{0, 1, 1, 1, 0, -1, -1, -1}; // Define sets of coordinates for neighbors
     neighborRowIndex = new int[]{-1, -1, 0, 1, 1, 1, 0, -1}; // Define sets of coordinates for neighbors
-    cellFillColors = new Color[]{Color.WHITE, Color.BLUE, Color.RED};
-    cellStrokeColors = new Color[]{Color.BLACK, Color.BLACK, Color.BLACK};
+//    cellFillColors = new Color[]{Color.WHITE, Color.BLUE, Color.RED};
+//    cellStrokeColors = new Color[]{Color.BLACK, Color.BLACK, Color.BLACK};
     justSwitched = false;
     //justOccupiedToBeTwo = false;
     //justOccupiedToBeOne = false;
-    updateRectangle();
+//    updateRectangle();
   }
 
   @Override

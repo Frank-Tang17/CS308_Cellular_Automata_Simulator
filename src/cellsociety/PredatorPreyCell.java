@@ -27,11 +27,11 @@ public class PredatorPreyCell extends Cell {
     super(row, col, size, startingState);
     neighborColIndex = new int[]{0, 1, 0, -1}; // Define sets of coordinates for neighbors
     neighborRowIndex = new int[]{-1, 0, 1, 0}; // Define sets of coordinates for neighbors
-    cellFillColors = new Color[]{Color.BLUE, Color.GREEN, Color.ORANGE};
-    cellStrokeColors = new Color[]{Color.BLACK, Color.BLACK, Color.BLACK};
+//    cellFillColors = new Color[]{Color.BLUE, Color.GREEN, Color.ORANGE};
+//    cellStrokeColors = new Color[]{Color.BLACK, Color.BLACK, Color.BLACK};
     numFramesAlive = 0;
 
-    updateRectangle();
+//    updateRectangle();
   }
 
   @Override

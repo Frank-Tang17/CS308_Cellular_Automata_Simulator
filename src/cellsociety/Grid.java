@@ -11,15 +11,16 @@ public class Grid {
   private int width;
   private final int simulationScreenWidth = 450;
   private final int simulationScreenHeight = 450;
-  private Configuration simulationLoaded;
+  private Configuration test;
 
-  public Grid(String selectedSimulation) {
-    simulationLoaded = new Configuration(selectedSimulation);
-    width = simulationLoaded.getWidth();
-    height = simulationLoaded.getHeight();
+
+  public Grid(Configuration simulationLoaded) {
+    test = simulationLoaded;
+    width = test.getWidth();
+    height = test.getHeight();
     grid = new Cell[height][width];
 
-    fillInitState(simulationLoaded.getInitState());
+    fillInitState(test.getInitState());
   }
 
 
@@ -29,7 +30,7 @@ public class Grid {
     //Need to figure out how the state data is incoming, whether we can store it in an ArrayList.
     double cellSize = determineCellSize(height, width);
     int k = 0;
-    String sim_type = simulationLoaded.getType();
+    String sim_type = test.getType();
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
@@ -54,13 +55,13 @@ public class Grid {
   }
 
 
-  public void gridVisualization(Group node){
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        node.getChildren().add(grid[i][j].getCellNode());
-      }
-    }
-  }
+//  public void gridVisualization(Group node){
+//    for (int i = 0; i < height; i++) {
+//      for (int j = 0; j < width; j++) {
+//        node.getChildren().add(grid[i][j].getCellNode());
+//      }
+//    }
+//  }
 
   public int getHeight() {
     return height;
@@ -88,7 +89,7 @@ public class Grid {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         grid[i][j].setCellState(gridnew.getCell(i, j).getCurrentState());
-        grid[i][j].updateRectangle();
+//        grid[i][j].updateRectangle();
         grid[i][j].justSwitched = false;
       }
     }
@@ -101,7 +102,7 @@ public class Grid {
     return (row >= 0 && row < grid.length && col >= 0 && col < grid[0].length);
   }
 
-  private double determineCellSize(int numRows, int numCols) {
+  public double determineCellSize(int numRows, int numCols) {
     double maxWidth = simulationScreenWidth / numCols;
     double maxHeight = simulationScreenHeight / numRows;
 

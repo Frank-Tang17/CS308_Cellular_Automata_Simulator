@@ -22,9 +22,9 @@ public class FireCell extends Cell {
     super(row, col, size, startingState);
     neighborColIndex = new int[]{0, 1, 0, -1}; // Define sets of coordinates for neighbors
     neighborRowIndex = new int[]{-1, 0, 1, 0}; // Define sets of coordinates for neighbors
-    cellFillColors = new Color[]{Color.YELLOW, Color.GREEN, Color.FIREBRICK};
-    cellStrokeColors = new Color[]{Color.BLACK, Color.BLACK, Color.BLACK};
-    updateRectangle();
+//    cellFillColors = new Color[]{Color.YELLOW, Color.GREEN, Color.FIREBRICK};
+//    cellStrokeColors = new Color[]{Color.BLACK, Color.BLACK, Color.BLACK};
+//    updateRectangle();
   }
 
   @Override

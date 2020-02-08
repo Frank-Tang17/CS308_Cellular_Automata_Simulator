@@ -26,7 +26,7 @@ import javax.imageio.ImageIO;
 public class UserInterface {
 
   private static final String RESOURCES = "resources";
-  private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
+  private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + "/";
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
   private static final String STYLESHEET = "userInterface.css";
   private static final String BLANK = " ";

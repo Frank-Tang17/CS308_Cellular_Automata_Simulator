@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<company>
+	<type id="Fire">
+		<sim_type>Fire</sim_type>
+		<width>20</width>
+		<height>10</height>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<neighborColIndex>"1125341"</neighborColIndex>
+		<neighborRowIndex>"1125341"</neighborRowIndex>
+		<prob>0.7</prob>
+		<author>Michael, Frank, Amjad</author>
+	</type>
+</company>

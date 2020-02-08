@@ -75,9 +75,9 @@ public class Simulator {
     }
   }
 
-  public void updateCellAppearance(int row, int col, Cell currentCell){
-    polygonGrid[col][row].setFill(cellFillColors[currentCell.getCurrentState()]);
-    polygonGrid[col][row].setStroke(cellStrokeColors[currentCell.getCurrentState()]);
+  public void updateCellAppearance(int height, int width, Cell currentCell){
+    polygonGrid[width][height].setFill(cellFillColors[currentCell.getCurrentState()]);
+    polygonGrid[width][height].setStroke(cellStrokeColors[currentCell.getCurrentState()]);
   }
 
   public void displayGrid(Grid displayedGrid, Group rootGrid) {

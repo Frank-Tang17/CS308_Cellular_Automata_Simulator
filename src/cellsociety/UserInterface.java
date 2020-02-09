@@ -17,6 +17,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 
 /**
@@ -58,6 +59,7 @@ public class UserInterface {
   private Button speedUpButton;
   private Button slowDownButton;
   private Button loadSimulationButton;
+  private Button makeSimulationWindow;
 
 
 
@@ -168,6 +170,7 @@ public class UserInterface {
     selectSimulationBox = makeComboBox("selectSimulationBox", configurationArray);
     controlPanel.add(selectSimulationBox, THIRD_COL, SECOND_ROW);
 
+
     controlPanel.setId(nodeID);
     return controlPanel;
   }
@@ -182,6 +185,9 @@ public class UserInterface {
 
     Text simulationRate = makeText("simulationRateID");
     gameDisplay.add(simulationRate, THIRD_COL, FIRST_ROW);
+
+    makeSimulationWindow = makeButton("makeNewSimulationID", e -> new Initalize(new Stage()));
+    gameDisplay.add(makeSimulationWindow, FIRST_COL, FIRST_ROW);
 
     gameDisplay.setId(nodeID);
     return gameDisplay;

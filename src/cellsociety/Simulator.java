@@ -36,7 +36,7 @@ public class Simulator {
   private Scene scene;
 
 
-  public Simulator(String selectedSimulation, Scene userInterfaceScene) {
+  public Simulator(String selectedSimulation, Scene userInterfaceScene, String languageSelected) {
     scene = userInterfaceScene;
     scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
     scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
@@ -44,7 +44,7 @@ public class Simulator {
     mainGrid = new Grid(simulationLoaded);
     updateGrid = new Grid(simulationLoaded);
     shapeGrid = new PolygonGrid(mainGrid);
-    simulationGraph = new SimulationGraph();
+    simulationGraph = new SimulationGraph(selectedSimulation, languageSelected);
   }
 
 
@@ -59,6 +59,7 @@ public class Simulator {
   }
   private void step() {
     if(runSimulation) {
+      System.out.println(frameCounter);
       updateGrid.updateGrid(mainGrid);
       mainGrid.copyGrid(updateGrid);
 
@@ -109,6 +110,10 @@ public class Simulator {
 
   public boolean getSimulationStatus() {
     return runSimulation;
+  }
+
+  public void setSimulationRate(double simulationSliderRate){
+    animation.setRate(simulationSliderRate);
   }
 
   public double getSimulationRate(){

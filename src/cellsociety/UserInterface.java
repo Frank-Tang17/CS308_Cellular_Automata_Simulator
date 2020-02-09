@@ -11,9 +11,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -42,7 +42,7 @@ public class UserInterface {
   private static final int SECOND_COL = 1;
   private static final int THIRD_COL = 2;
 
-  private boolean buttonsDisabled = true;
+  private boolean controlDisabled = true;
 
   private Scene userInterfaceScene;
 
@@ -57,6 +57,7 @@ public class UserInterface {
   private Button slowDownButton;
   private Button loadSimulationButton;
   private Button makeSimulationWindow;
+  private Slider simulationSpeedSlider;
 
 
 
@@ -66,9 +67,11 @@ public class UserInterface {
 
   private ResourceBundle userInterfaceResources;
   private Simulator currentSimulation;
+  private String languageSelected;
 
   public UserInterface(String language){
-    userInterfaceResources = ResourceBundle.getBundle(language);
+    languageSelected = language;
+    userInterfaceResources = ResourceBundle.getBundle(languageSelected);
   }
   /**
    * Initialize what will be displayed and how it will be updated.
@@ -80,7 +83,7 @@ public class UserInterface {
     root.setBottom(makeSimulationControlPanel(controlPanelID));
     root.setTop(makeGameDisplayPanel(gameDisplayID));
     root.getChildren().add(grid);
-    enableandDisableButtons();
+    enableAndDisableButtons();
     userInterfaceScene = new Scene(root, width, height);
     // activate CSS styling
     userInterfaceScene.getStylesheets().add(getClass().getClassLoader().getResource(STYLESHEET).toExternalForm());
@@ -105,6 +108,24 @@ public class UserInterface {
     return resultButton;
   }
 
+  private Slider makeSlider (String property) {
+    // represent all supported image suffixes
+    Slider slider = new Slider();
+    String label = userInterfaceResources.getString(property);
+    slider.setId(property);
+
+    slider.setMin(1);
+    slider.setMax(10);
+    slider.setValue(1);
+    slider.setShowTickLabels(true);
+    slider.setShowTickMarks(true);
+    slider.valueProperty().addListener(
+        (ov, old_val, new_val) -> currentSimulation.setSimulationRate((Double) new_val));
+    slider.setMajorTickUnit(1);
+    slider.setBlockIncrement(0.25);
+    return slider;
+  }
+
   private ComboBox makeComboBox (String property, ObservableList options) {
     ComboBox resultBox = new ComboBox(options);
     resultBox.setId(property);
@@ -120,12 +141,13 @@ public class UserInterface {
     alert.showAndWait();
   }
 
-  private void enableandDisableButtons(){
-    pauseButton.setDisable(buttonsDisabled);
-    forwardButton.setDisable(buttonsDisabled);
-    resetButton.setDisable(buttonsDisabled);
-    speedUpButton.setDisable(buttonsDisabled);
-    slowDownButton.setDisable(buttonsDisabled);
+  private void enableAndDisableButtons(){
+    pauseButton.setDisable(controlDisabled);
+    forwardButton.setDisable(controlDisabled);
+    resetButton.setDisable(controlDisabled);
+    simulationSpeedSlider.setDisable(controlDisabled);
+//    speedUpButton.setDisable(controlDisabled);
+//    slowDownButton.setDisable(controlDisabled);
   }
 
   private Node makeSimulationControlPanel (String nodeID) {
@@ -140,11 +162,14 @@ public class UserInterface {
     resetButton = makeButton("resetButton", e -> resetSimulation());
     controlPanel.add(resetButton, THIRD_COL, FIRST_ROW);
 
-    speedUpButton = makeButton("speedUpButton", e -> currentSimulation.speedUpSimulation());
-    controlPanel.add(speedUpButton, FIRST_COL, SECOND_ROW);
+    simulationSpeedSlider = makeSlider("simulationSpeedSlider");
+    controlPanel.add(simulationSpeedSlider, FIRST_COL, SECOND_ROW);
 
-    slowDownButton = makeButton("slowDownButton", e -> currentSimulation.slowDownSimulation());
-    controlPanel.add(slowDownButton, SECOND_COL, SECOND_ROW);
+//    speedUpButton = makeButton("speedUpButton", e -> currentSimulation.speedUpSimulation());
+//    controlPanel.add(speedUpButton, FIRST_COL, SECOND_ROW);
+//
+//    slowDownButton = makeButton("slowDownButton", e -> currentSimulation.slowDownSimulation());
+//    controlPanel.add(slowDownButton, SECOND_COL, SECOND_ROW);
 
     loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(selectSimulationBox.getValue()));
     controlPanel.add(loadSimulationButton, THIRD_COL, SECOND_ROW);
@@ -156,6 +181,7 @@ public class UserInterface {
     controlPanel.setId(nodeID);
     return controlPanel;
   }
+
 
   private Node makeGameDisplayPanel (String nodeID) {
     GridPane gameDisplay = new GridPane();
@@ -190,8 +216,8 @@ public class UserInterface {
     else{
       selectedSimulationName = selectBoxObject.toString();
       makeSimulation(selectedSimulationName);
-      buttonsDisabled = false;
-      enableandDisableButtons();
+      controlDisabled = false;
+      enableAndDisableButtons();
     }
   }
 
@@ -202,7 +228,7 @@ public class UserInterface {
   }
 
   public void makeSimulation(String selectedSimulationName){
-    currentSimulation = new Simulator(selectedSimulationName, userInterfaceScene);
+    currentSimulation = new Simulator(selectedSimulationName, userInterfaceScene, languageSelected);
     currentSimulation.runSimulation(grid);
   }
 

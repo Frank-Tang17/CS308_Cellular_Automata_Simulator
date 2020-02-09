@@ -10,7 +10,7 @@
   -fx-padding: 10px;
   -fx-alignment: center;
   -fx-vgap: 10px;
-  -fx-hgap: 10px;
+  -fx-hgap: 100px;
   -fx-border-color: #737373;
   -fx-background-color: #b3b3b3;
 }

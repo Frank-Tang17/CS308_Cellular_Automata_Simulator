@@ -1,18 +1,11 @@
 package cellsociety;
 
+import java.security.Key;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeType;
-import javafx.stage.Stage;
+import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
 
@@ -30,6 +23,8 @@ public class Simulator {
   private int frameCounter = 0;
   private int forwardFrameCounter;
   private int framesToStepForward = 1;
+  private int newState = 1;
+
   private Configuration simulationLoaded;
   private PolygonGrid shapeGrid;
   private SimulationGraph simulationGraph;
@@ -38,15 +33,18 @@ public class Simulator {
 
   private Grid mainGrid;
   private Grid updateGrid;
+  private Scene scene;
 
 
-  public Simulator(String selectedSimulation) {
+  public Simulator(String selectedSimulation, Scene userInterfaceScene) {
+    scene = userInterfaceScene;
+    scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+    scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
     simulationLoaded = new Configuration(selectedSimulation);
     mainGrid = new Grid(simulationLoaded);
     updateGrid = new Grid(simulationLoaded);
     shapeGrid = new PolygonGrid(mainGrid);
     simulationGraph = new SimulationGraph();
-
   }
 
 
@@ -58,19 +56,25 @@ public class Simulator {
     animation.getKeyFrames().add(frame);
     animation.play();
     shapeGrid.displayGrid(mainGrid, grid);
-
   }
   private void step() {
-    updateGrid.updateGrid(mainGrid);
-    mainGrid.copyGrid(updateGrid);
+    if(runSimulation) {
+      updateGrid.updateGrid(mainGrid);
+      mainGrid.copyGrid(updateGrid);
 
-    shapeGrid.updateGridAppearance(mainGrid);
+      shapeGrid.updateGridAppearance(mainGrid);
 
-    mainGrid.updateStateTotal();
-    simulationGraph.updateGraph(frameCounter, mainGrid.getNumberofCellState0(), mainGrid.getNumberofCellState1(), mainGrid.getNumberofCellState2());
+      mainGrid.updateStateTotal();
+      simulationGraph.updateGraph(frameCounter, mainGrid.getNumberofCellState0(),
+          mainGrid.getNumberofCellState1(), mainGrid.getNumberofCellState2());
 
-    frameCounter++;
-    checkSimulationForward();
+      frameCounter++;
+      checkSimulationForward();
+    }
+  }
+
+  public void invertRunSimulationStatus(){
+    runSimulation = !runSimulation;
   }
 
 
@@ -82,7 +86,7 @@ public class Simulator {
     else{
       animation.play();
     }
-    runSimulation = !runSimulation;
+    invertRunSimulationStatus();
   }
 
   public void stepForward(){
@@ -120,5 +124,32 @@ public class Simulator {
       simulationRate /= 2;
       animation.setRate(simulationRate);
     }
+  }
+
+  public void checkMouseClick(Grid displayedGrid, double x, double y){
+    for (int i = 0; i < displayedGrid.getHeight(); i++) {
+      for (int j = 0; j < displayedGrid.getWidth(); j++) {
+        if(shapeGrid.getRectangle(j, i).getBoundsInLocal().contains(x, y)){
+          displayedGrid.getCell(i, j).setCellState(newState);
+          shapeGrid.updateCellAppearance(j, i, displayedGrid.getCell(i, j));
+        }
+      }
+    }
+  }
+
+  private void handleKeyInput (KeyCode code) {
+    if(code == KeyCode.DIGIT0){
+      newState = 0;
+    }
+    else if(code == KeyCode.DIGIT1){
+      newState = 1;
+    }
+    else if(code == KeyCode.DIGIT2){
+      newState = 2;
+    }
+  }
+
+  private void handleMouseInput (double x, double y) {
+    checkMouseClick(mainGrid, x, y);
   }
 }

@@ -44,13 +44,10 @@ public class UserInterface {
 
   private boolean buttonsDisabled = true;
 
-
-
   private Scene userInterfaceScene;
 
   private String controlPanelID = "controlPanel";
   private String gameDisplayID = "gameDisplay";
-  private String initialDirectionsID = "initialDirections";
 
 
   private Button pauseButton;
@@ -82,14 +79,11 @@ public class UserInterface {
     BorderPane root = new BorderPane();
     root.setBottom(makeSimulationControlPanel(controlPanelID));
     root.setTop(makeGameDisplayPanel(gameDisplayID));
-    //root.setCenter(makeText(initialDirectionsID));
-    root.setCenter(grid);
+    root.getChildren().add(grid);
     enableandDisableButtons();
     userInterfaceScene = new Scene(root, width, height);
     // activate CSS styling
     userInterfaceScene.getStylesheets().add(getClass().getClassLoader().getResource(STYLESHEET).toExternalForm());
-    userInterfaceScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-    userInterfaceScene.setOnMouseMoved(e -> handleMouseInput(e.getX(), e.getY()));
 
     return userInterfaceScene;
   }
@@ -125,6 +119,7 @@ public class UserInterface {
     alert.setContentText(message);
     alert.showAndWait();
   }
+
   private void enableandDisableButtons(){
     pauseButton.setDisable(buttonsDisabled);
     forwardButton.setDisable(buttonsDisabled);
@@ -133,19 +128,6 @@ public class UserInterface {
     slowDownButton.setDisable(buttonsDisabled);
   }
 
-//  private Node makeInitialDirections (String directionText){
-//    initialDirections = new Text();
-//    initialDirections.setText(userInterfaceResources.getString(directionText));
-//    initialDirections.setId(directionText);
-//    return initialDirections;
-//  }
-//
-//  private void removeInitialDirections (){
-//    if (initialDirections != null){
-//      root.getChildren().remove(initialDirections);
-//    }
-//  }
-  // make the panel where "would-be" clicked URL is displayed
   private Node makeSimulationControlPanel (String nodeID) {
     GridPane controlPanel = new GridPane();
 
@@ -186,7 +168,7 @@ public class UserInterface {
     Text simulationRate = makeText("simulationRateID");
     gameDisplay.add(simulationRate, THIRD_COL, FIRST_ROW);
 
-    makeSimulationWindow = makeButton("makeNewSimulationID", e -> new Initalize(new Stage()));
+    makeSimulationWindow = makeButton("makeNewSimulationID", e -> new SimulationWindow(new Stage()));
     gameDisplay.add(makeSimulationWindow, FIRST_COL, FIRST_ROW);
 
     gameDisplay.setId(nodeID);
@@ -206,7 +188,6 @@ public class UserInterface {
       showError(userInterfaceResources.getString("NullSelection"));
     }
     else{
-      //removeInitialDirections();
       selectedSimulationName = selectBoxObject.toString();
       makeSimulation(selectedSimulationName);
       buttonsDisabled = false;
@@ -221,18 +202,9 @@ public class UserInterface {
   }
 
   public void makeSimulation(String selectedSimulationName){
-    currentSimulation = new Simulator(selectedSimulationName);
+    currentSimulation = new Simulator(selectedSimulationName, userInterfaceScene);
     currentSimulation.runSimulation(grid);
   }
-
-  private void handleKeyInput (KeyCode code) {
-
-  }
-
-  private void handleMouseInput (double x, double y) {
-  }
-
-
 
 
 }

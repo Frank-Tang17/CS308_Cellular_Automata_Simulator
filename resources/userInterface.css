@@ -5,7 +5,7 @@
 }
 
 #gameDisplay{
-  -fx-pref-height: 30px;
+  -fx-pref-height: 70px;
   -fx-border-width: 2px;
   -fx-padding: 10px;
   -fx-alignment: center;

@@ -14,6 +14,9 @@ public class PredatorPreyCell extends Cell {
   private final int startingSharkEnergy = 5;
   private final int energyPerFish = 2;
 
+  private int numFramesAlive;
+  private  int myEnergy;
+
 
   /**
    * Constructor for master class Cell object
@@ -48,7 +51,15 @@ public class PredatorPreyCell extends Cell {
                 + neighborColIndex[i]).myState == emptyState && theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).getCurrentState() == emptyState) {
 
               theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).myState = typeFish;
-              theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).numFramesAlive = numFramesAlive;
+
+              try {
+                PredatorPreyCell temp = (PredatorPreyCell) theNewGrid
+                    .getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]);
+                temp.numFramesAlive = numFramesAlive;
+              } catch (Exception ignored) {
+
+              }
+
 
               if (numFramesAlive % newFishTime != 0 || numFramesAlive == 0) {
                 myState = emptyState;
@@ -93,10 +104,15 @@ public class PredatorPreyCell extends Cell {
   }
 
   private void moveSharkAndCheckReproduce(Grid theNewGrid, int neighborRowShift, int neighborColShift) {
-
     theNewGrid.getCell(myRow + neighborRowShift, myCol + neighborColShift).myState = typeShark;
-    theNewGrid.getCell(myRow + neighborRowShift, myCol + neighborColShift).numFramesAlive = numFramesAlive;
-    theNewGrid.getCell(myRow + neighborRowShift, myCol + neighborColShift).myEnergy = myEnergy;
+    try {
+      PredatorPreyCell temp = (PredatorPreyCell) theNewGrid.getCell(myRow + neighborRowShift, myCol + neighborColShift);
+      temp.numFramesAlive = numFramesAlive;
+      temp.myEnergy = this.myEnergy;
+    } catch (Exception ignored) {
+
+    }
+
     myEnergy = 0;
 
     if (numFramesAlive % newSharkTime != 0 || numFramesAlive == 0) { // If I should NOT REPRODUCE

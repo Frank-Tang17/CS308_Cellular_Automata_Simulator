@@ -22,8 +22,7 @@ public abstract class Cell {
   private boolean hexagon = false;
 
   public boolean justSwitched;
-  public int numFramesAlive;
-  public int myEnergy;
+
 
   private final int upperLeftX = 75;
   private final int upperLeftY = 30;

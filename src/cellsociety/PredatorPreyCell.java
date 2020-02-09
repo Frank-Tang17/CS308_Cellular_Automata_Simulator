@@ -89,7 +89,7 @@ public class PredatorPreyCell extends Cell {
           }
         }
       }
-      myEnergy -= 1;
+      this.myEnergy -= 1;
     }
   numFramesAlive += 1;
   }
@@ -99,7 +99,7 @@ public class PredatorPreyCell extends Cell {
     try {
       PredatorPreyCell temp = (PredatorPreyCell) theNewGrid.getCell(myRow + neighborRowShift, myCol + neighborColShift);
       temp.numFramesAlive = numFramesAlive;
-      temp.myEnergy = myEnergy;
+      temp.myEnergy = this.myEnergy;
     } catch (Exception ignored) {
 
     }

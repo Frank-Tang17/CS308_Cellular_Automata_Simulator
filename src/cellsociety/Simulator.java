@@ -3,9 +3,16 @@ package cellsociety;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
@@ -25,6 +32,8 @@ public class Simulator {
   private int framesToStepForward = 1;
   private Configuration simulationLoaded;
   private PolygonGrid shapeGrid;
+  private SimulationGraph simulationGraph;
+
 
 
   private Timeline animation = new Timeline();
@@ -38,8 +47,10 @@ public class Simulator {
     mainGrid = new Grid(simulationLoaded);
     updateGrid = new Grid(simulationLoaded);
     shapeGrid = new PolygonGrid(mainGrid);
+    simulationGraph = new SimulationGraph();
 
   }
+
 
   public void runSimulation(Group grid){
     KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
@@ -55,9 +66,12 @@ public class Simulator {
     updateGrid.updateGrid(mainGrid);
     mainGrid.copyGrid(updateGrid);
     shapeGrid.updateGridAppearance(mainGrid);
+    mainGrid.updateStateTotal();
+    simulationGraph.updateGraph(frameCounter, mainGrid.getNumberofCellState0(), mainGrid.getNumberofCellState1(), mainGrid.getNumberofCellState2());
     frameCounter++;
     checkSimulationForward();
   }
+
 
 
   public void pauseResume() {

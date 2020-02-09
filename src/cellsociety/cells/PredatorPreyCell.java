@@ -44,8 +44,8 @@ public class PredatorPreyCell extends Cell {
       if (neighborStatesAsList.contains(emptyState)) {
         for (int i = 0; i < neighborColIndex.length; i++) {
           if (theNewGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
-            if (theOldGrid.getGrid()[myRow + neighborRowIndex[i]][myCol
-                + neighborColIndex[i]].myState == emptyState && theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).getCurrentState() == emptyState) {
+            if (theOldGrid.getCell(myRow + neighborRowIndex[i],myCol
+                + neighborColIndex[i]).myState == emptyState && theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).getCurrentState() == emptyState) {
 
               theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).myState = typeFish;
               theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).numFramesAlive = numFramesAlive;
@@ -67,9 +67,10 @@ public class PredatorPreyCell extends Cell {
       if (neighborStatesAsList.contains(typeFish)) {
         for (int i = 0; i < neighborColIndex.length; i++) {
           if (theNewGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
-            if (theOldGrid.getGrid()[myRow + neighborRowIndex[i]][myCol
-                + neighborColIndex[i]].myState == typeFish && theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).getCurrentState() == typeFish) {
+            if (theOldGrid.getCell(myRow + neighborRowIndex[i],myCol
+                + neighborColIndex[i]).myState == typeFish && theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).getCurrentState() == typeFish) {
               myEnergy += energyPerFish;
+              System.out.println("Hi 1");
               moveSharkAndCheckReproduce(theNewGrid, neighborRowIndex[i], neighborColIndex[i]);
             }
           }
@@ -77,26 +78,30 @@ public class PredatorPreyCell extends Cell {
       } else if (neighborStatesAsList.contains(emptyState)) {
         for (int i = 0; i < neighborColIndex.length; i++) {
           if (theNewGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
-            if (theOldGrid.getGrid()[myRow + neighborRowIndex[i]][myCol
-                + neighborColIndex[i]].myState == emptyState && theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).getCurrentState() == emptyState) {
+            if (theOldGrid.getCell(myRow + neighborRowIndex[i],myCol
+                + neighborColIndex[i]).myState == emptyState && theNewGrid.getCell(myRow + neighborRowIndex[i], myCol + neighborColIndex[i]).getCurrentState() == emptyState) {
               moveSharkAndCheckReproduce(theNewGrid, neighborRowIndex[i], neighborColIndex[i]);
             }
           }
         }
       }
-      myEnergy -= 1;
+      System.out.println(myEnergy);
+      if (myEnergy > 0) myEnergy -= 1;
+      if (myEnergy == 0) myState = emptyState;
     }
   numFramesAlive += 1;
   }
 
   private void moveSharkAndCheckReproduce(Grid theNewGrid, int neighborRowShift, int neighborColShift) {
+
     theNewGrid.getCell(myRow + neighborRowShift, myCol + neighborColShift).myState = typeShark;
     theNewGrid.getCell(myRow + neighborRowShift, myCol + neighborColShift).numFramesAlive = numFramesAlive;
     theNewGrid.getCell(myRow + neighborRowShift, myCol + neighborColShift).myEnergy = myEnergy;
+    myEnergy = 0;
 
     if (numFramesAlive % newSharkTime != 0 || numFramesAlive == 0) { // If I should NOT REPRODUCE
       myState = emptyState;
-    } else if (numFramesAlive % newSharkTime == 0 && numFramesAlive != 0){
+    } else if (numFramesAlive % newSharkTime == 0){
       myEnergy = startingSharkEnergy;
     }
     numFramesAlive = 0;

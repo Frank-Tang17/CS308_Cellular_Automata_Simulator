@@ -98,10 +98,6 @@ public class Grid {
     }
   }
 
-  public Cell[][] getGrid() {
-    return grid;
-  }
-
   public void copyGrid(Grid gridnew) {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {

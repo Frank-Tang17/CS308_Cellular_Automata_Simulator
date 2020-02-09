@@ -42,15 +42,17 @@ public class SegregationCell extends Cell {
 
     boolean notSwitchedYet = true;
     if (proportionOfSimilarNeighbors < threshold && myState != emptyState) {
-      for (Cell[] row : theOldGrid.getGrid()) {
-        for (Cell currentCell : row) {
+      for (int i = 0; i < theOldGrid.getHeight(); i++) {
+        for (int j = 0; j < theOldGrid.getWidth(); j++) {
+          Cell currentCell = theOldGrid.getCell(i, j);
           if (currentCell.myState == emptyState && !currentCell.justSwitched && notSwitchedYet) {
-            theNewGrid.getGrid()[currentCell.myRow][currentCell.myCol].myState = myState;
+            theNewGrid.getCell(currentCell.myRow, currentCell.myCol).myState = myState;
             myState = emptyState;
             currentCell.justSwitched = true;
             justSwitched = true;
             notSwitchedYet = false;
           }
+
         }
       }
     }

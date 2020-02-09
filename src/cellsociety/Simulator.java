@@ -91,13 +91,16 @@ public class Simulator {
 
   public void stepForward(){
     forwardFrameCounter = frameCounter + framesToStepForward;
+    animation.setRate(maxSimulationRate);
     pauseResume();
   }
 
   public void checkSimulationForward(){
     if(frameCounter == forwardFrameCounter){
       pauseResume();
+      animation.setRate(simulationRate);
     }
+
   }
 
   public int getFrameCounter(){
@@ -150,8 +153,6 @@ public class Simulator {
   }
 
   private void handleMouseInput (double x, double y) {
-//    runSimulation = false;
     checkMouseClick(updateGrid, x, y);
-//    runSimulation = true;
   }
 }

@@ -18,6 +18,8 @@ public abstract class Cell {
   protected int[] neighborRowIndex;
   protected Color[] cellFillColors;
   protected Color[] cellStrokeColors;
+  private boolean torodial = false;
+  private boolean hexagon = false;
 
   public boolean justSwitched;
   public int numFramesAlive;
@@ -42,52 +44,66 @@ public abstract class Cell {
     myRect.setStrokeType(Simulator.cellStrokeType);
     myRect.setStrokeWidth(Simulator.cellStrokeProportion * size);
   }
-    /*
-    public Cell(int row, int col, int xCoor, int yCoor, int width, int height, int startingState) {
-        myState = startingState;
-        myRow = row;
-        myCol = col;
-        myRect = new Rectangle(xCoor, yCoor, width, height);
-        myRect.setStrokeType(Main.cellStrokeType);
-        myRect.setStrokeWidth(Main.cellStrokeProportion * 1);
-    }
-    */
 
-    /**
-     * Getter method for row and column
-     *
-     * @return array of Cell row and col in that order
-     */
-    public int[] getRowAndCol() {
-        return new int[] {myRow, myCol};
-    }
+  /**
+   * Getter method for row and column
+   *
+   * @return array of Cell row and col in that order
+   */
+  public int[] getRowAndCol() {
+    return new int[]{myRow, myCol};
+  }
 
-    /**
-     * Returns the states of each neighboring cell
-     *
-     * @param theGrid current Grid to update state based on
-     * @return array of neighboring states
-     */
-    public ArrayList<Integer> getNeighborStates(Grid theGrid) {
-        ArrayList<Integer> neighborStates = new ArrayList();
-        for (int i = 0; i < neighborColIndex.length; i++) {
-            if (theGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
-                neighborStates.add(theGrid.getCell((myRow + neighborRowIndex[i]),(myCol + neighborColIndex[i])).getCurrentState());
-            }
+  /**
+   * Returns the states of each neighboring cell
+   *
+   * @param theGrid current Grid to update state based on
+   * @return array of neighboring states
+   */
+  public ArrayList<Integer> getNeighborStates(Grid theGrid) {
+    ArrayList<Integer> neighborStates = new ArrayList();
+    for (int i = 0; i < neighborColIndex.length; i++) {
+      if (theGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
+        neighborStates.add(
+            theGrid.getCell((myRow + neighborRowIndex[i]), (myCol + neighborColIndex[i]))
+                .getCurrentState());
+      } else if (torodial) {
+        int[] newIndexes = getTorodialIndex(theGrid, i);
+        if (theGrid.isValidIndex(newIndexes[0], newIndexes[1])) {
+          neighborStates.add(
+              theGrid.getCell(newIndexes[0], newIndexes[1]).getCurrentState());
         }
+      }
 
-        return neighborStates;
     }
+    return neighborStates;
+  }
+
+  private int[] getTorodialIndex(Grid theGrid, int i) {
+    int newNeighborRowIndex = myRow + neighborRowIndex[i];
+    int newNeighborColIndex = myCol + neighborColIndex[i];
+    if (myRow + neighborRowIndex[i] > theGrid.getHeight()) {
+      newNeighborRowIndex = neighborRowIndex[i] - 1;
+    } else if (myRow + neighborRowIndex[i] < theGrid.getHeight()) {
+      newNeighborRowIndex = theGrid.getHeight() + neighborRowIndex[i];
+    }
+
+    if (myCol + neighborColIndex[i] > theGrid.getWidth()) {
+      newNeighborColIndex = neighborColIndex[i] - 1;
+    } else if (myCol + neighborColIndex[i] < theGrid.getWidth()) {
+      newNeighborColIndex = theGrid.getWidth() + neighborColIndex[i];
+    }
+    return new int[] {newNeighborRowIndex, newNeighborColIndex};
+  }
 
 
   public void setCellState(int newState) {
     this.myState = newState;
   }
 
-    public Rectangle getCellNode(){
-      return this.myRect;
-    }
-
+  public Rectangle getCellNode() {
+    return this.myRect;
+  }
 
   /**
    * Cell type dependent method that changes the current state of the cell
@@ -107,13 +123,6 @@ public abstract class Cell {
   }
 
   /**
-   *
-   */
-  private void setCellImage() {
-
-  }
-
-  /**
    * Update the fill and the stroke color of the rectangle based on current state
    */
   public void updateRectangle() {
@@ -122,30 +131,3 @@ public abstract class Cell {
   }
 }
 
-/*
-public enum CellTypeEnum {
-
-  GAMEOFLIFE {
-    @Override
-    Cell create(String name) {
-      return null;
-    }
-
-    public Cell create(int i, int j, double size, int type) {
-      return new GameOfLifeCell(i, j, size, type);
-    }
-  },
-  FIRE {
-    public Cell create(int i, int j, double size, int type) {
-      return new FireCell(i, j, size, type);
-    }
-  },
-  PREDATORPREY {
-    public Cell create(int i, int j, double size, int type) {
-      return new PredatorPreyCell(i, j, size, type);
-    }
-  };
-
-  abstract Cell create(String name);
-}
-*/

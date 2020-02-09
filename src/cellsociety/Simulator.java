@@ -23,7 +23,7 @@ public class Simulator {
   private int frameCounter = 0;
   private int forwardFrameCounter;
   private int framesToStepForward = 1;
-  private int newState = 1;
+  private int newState = 0;
 
   private Configuration simulationLoaded;
   private PolygonGrid shapeGrid;
@@ -150,6 +150,8 @@ public class Simulator {
   }
 
   private void handleMouseInput (double x, double y) {
-    checkMouseClick(mainGrid, x, y);
+//    runSimulation = false;
+    checkMouseClick(updateGrid, x, y);
+//    runSimulation = true;
   }
 }

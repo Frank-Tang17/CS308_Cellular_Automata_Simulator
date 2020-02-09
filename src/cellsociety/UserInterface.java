@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -40,6 +41,8 @@ public class UserInterface {
   private static final int SECOND_COL = 1;
   private static final int THIRD_COL = 2;
 
+  private boolean buttonsDisabled = true;
+
 
 
   private Scene userInterfaceScene;
@@ -49,7 +52,15 @@ public class UserInterface {
   private String initialDirectionsID = "initialDirections";
 
 
+  private Button pauseButton;
   private Button forwardButton;
+  private Button resetButton;
+  private Button speedUpButton;
+  private Button slowDownButton;
+  private Button loadSimulationButton;
+
+
+
   private ComboBox selectSimulationBox;
   private ObservableList<String> configurationArray = FXCollections.observableArrayList("Percolation", "GameOfLife", "Fire", "Segregation", "PredatorPrey");
   private String selectedSimulationName;
@@ -71,10 +82,12 @@ public class UserInterface {
     root.setTop(makeGameDisplayPanel(gameDisplayID));
     //root.setCenter(makeText(initialDirectionsID));
     root.setCenter(grid);
-    //enableButtons();
+    enableandDisableButtons();
     userInterfaceScene = new Scene(root, width, height);
     // activate CSS styling
     userInterfaceScene.getStylesheets().add(getClass().getClassLoader().getResource(STYLESHEET).toExternalForm());
+    userInterfaceScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+    userInterfaceScene.setOnMouseMoved(e -> handleMouseInput(e.getX(), e.getY()));
 
     return userInterfaceScene;
   }
@@ -110,10 +123,12 @@ public class UserInterface {
     alert.setContentText(message);
     alert.showAndWait();
   }
-
-  // only enable buttons when useful to user
-  private void enableButtons () {
-    forwardButton.setDisable(!currentSimulation.getSimulationStatus());
+  private void enableandDisableButtons(){
+    pauseButton.setDisable(buttonsDisabled);
+    forwardButton.setDisable(buttonsDisabled);
+    resetButton.setDisable(buttonsDisabled);
+    speedUpButton.setDisable(buttonsDisabled);
+    slowDownButton.setDisable(buttonsDisabled);
   }
 
 //  private Node makeInitialDirections (String directionText){
@@ -132,22 +147,22 @@ public class UserInterface {
   private Node makeSimulationControlPanel (String nodeID) {
     GridPane controlPanel = new GridPane();
 
-    Button pauseButton = makeButton("pauseButton", e -> currentSimulation.pauseResume());
+    pauseButton = makeButton("pauseButton", e -> currentSimulation.pauseResume());
     controlPanel.add(pauseButton, FIRST_COL, FIRST_ROW);
 
     forwardButton = makeButton("forwardButton", e -> currentSimulation.stepForward());
     controlPanel.add(forwardButton, SECOND_COL, FIRST_ROW);
 
-    Button resetButton = makeButton("resetButton", e -> resetSimulation());
+    resetButton = makeButton("resetButton", e -> resetSimulation());
     controlPanel.add(resetButton, THIRD_COL, FIRST_ROW);
 
-    Button speedUpButton = makeButton("speedUpButton", e -> currentSimulation.speedUpSimulation());
+    speedUpButton = makeButton("speedUpButton", e -> currentSimulation.speedUpSimulation());
     controlPanel.add(speedUpButton, FIRST_COL, SECOND_ROW);
 
-    Button slowDownButton = makeButton("slowDownButton", e -> currentSimulation.slowDownSimulation());
+    slowDownButton = makeButton("slowDownButton", e -> currentSimulation.slowDownSimulation());
     controlPanel.add(slowDownButton, SECOND_COL, SECOND_ROW);
 
-    Button loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(selectSimulationBox.getValue()));
+    loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(selectSimulationBox.getValue()));
     controlPanel.add(loadSimulationButton, THIRD_COL, SECOND_ROW);
 
     selectSimulationBox = makeComboBox("selectSimulationBox", configurationArray);
@@ -188,6 +203,8 @@ public class UserInterface {
       //removeInitialDirections();
       selectedSimulationName = selectBoxObject.toString();
       makeSimulation(selectedSimulationName);
+      buttonsDisabled = false;
+      enableandDisableButtons();
     }
   }
 
@@ -201,5 +218,16 @@ public class UserInterface {
     currentSimulation = new Simulator(selectedSimulationName);
     currentSimulation.runSimulation(grid);
   }
+
+  private void handleKeyInput (KeyCode code) {
+
+  }
+
+  private void handleMouseInput (double x, double y) {
+  }
+
+
+
+
 }
 

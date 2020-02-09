@@ -34,8 +34,6 @@ public class Simulator {
   private PolygonGrid shapeGrid;
   private SimulationGraph simulationGraph;
 
-
-
   private Timeline animation = new Timeline();
 
   private Grid mainGrid;
@@ -65,9 +63,12 @@ public class Simulator {
   private void step() {
     updateGrid.updateGrid(mainGrid);
     mainGrid.copyGrid(updateGrid);
+
     shapeGrid.updateGridAppearance(mainGrid);
+
     mainGrid.updateStateTotal();
     simulationGraph.updateGraph(frameCounter, mainGrid.getNumberofCellState0(), mainGrid.getNumberofCellState1(), mainGrid.getNumberofCellState2());
+
     frameCounter++;
     checkSimulationForward();
   }

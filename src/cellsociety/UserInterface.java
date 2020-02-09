@@ -7,8 +7,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
@@ -136,14 +134,6 @@ public class UserInterface {
   }
 
 
-  // Display given message as an error in the GUI
-  private void showError (String message) {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.setTitle(userInterfaceResources.getString("ErrorTitle"));
-    alert.setContentText(message);
-    alert.showAndWait();
-  }
-
   private void enableAndDisableButtons(){
     pauseButton.setDisable(controlDisabled);
     forwardButton.setDisable(controlDisabled);
@@ -199,11 +189,9 @@ public class UserInterface {
     return gameDisplay;
   }
 
-
-
   private void loadSimulation(Object selectBoxObject){
     if(selectBoxObject == null){
-      showError(userInterfaceResources.getString("NullSelection"));
+      new DisplayError(languageSelected, "NullSelection");
     }
     else{
       selectedSimulationName = selectBoxObject.toString();
@@ -224,7 +212,6 @@ public class UserInterface {
     currentSimulation = new Simulator(selectedSimulationName, userInterfaceScene, languageSelected);
     currentSimulation.runSimulation(grid);
   }
-
 
 }
 

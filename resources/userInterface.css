@@ -8,9 +8,8 @@
   -fx-pref-height: 70px;
   -fx-border-width: 2px;
   -fx-padding: 10px;
-  -fx-alignment: center;
-  -fx-vgap: 10px;
-  -fx-hgap: 100px;
+  -fx-alignment: center-left;
+  -fx-spacing: 50px;
   -fx-border-color: #737373;
   -fx-background-color: #b3b3b3;
 }
@@ -43,6 +42,10 @@
 #loadSimulationButton{
   -fx-pref-width: 65px;
   -fx-translate-x: 120px;
+}
+
+#makeNewSimulationButton{
+  -fx-pref-width: 200px;
 }
 
 

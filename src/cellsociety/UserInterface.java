@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
@@ -42,6 +43,9 @@ public class UserInterface {
   private static final int SECOND_COL = 1;
   private static final int THIRD_COL = 2;
 
+  private final double maxSimulationRate = 10;
+  private final double minSimulationRate = 1;
+
   private boolean controlDisabled = true;
 
   private Scene userInterfaceScene;
@@ -58,6 +62,7 @@ public class UserInterface {
   private Button loadSimulationButton;
   private Button makeSimulationWindow;
   private Slider simulationSpeedSlider;
+  private Text simulationTitle;
 
 
 
@@ -111,18 +116,16 @@ public class UserInterface {
   private Slider makeSlider (String property) {
     // represent all supported image suffixes
     Slider slider = new Slider();
-    String label = userInterfaceResources.getString(property);
     slider.setId(property);
 
-    slider.setMin(1);
-    slider.setMax(10);
-    slider.setValue(1);
+    slider.setMin(minSimulationRate);
+    slider.setMax(maxSimulationRate);
+    slider.setValue(minSimulationRate);
+    slider.setMajorTickUnit(minSimulationRate);
     slider.setShowTickLabels(true);
     slider.setShowTickMarks(true);
     slider.valueProperty().addListener(
         (ov, old_val, new_val) -> currentSimulation.setSimulationRate((Double) new_val));
-    slider.setMajorTickUnit(1);
-    slider.setBlockIncrement(0.25);
     return slider;
   }
 
@@ -184,29 +187,18 @@ public class UserInterface {
 
 
   private Node makeGameDisplayPanel (String nodeID) {
-    GridPane gameDisplay = new GridPane();
-    Text frameCounter = makeText("frameCounterID");
-    gameDisplay.add(frameCounter, FIRST_COL, FIRST_ROW);
+    HBox gameDisplay = new HBox();
+    makeSimulationWindow = makeButton("makeNewSimulationButton", e -> new SimulationWindow(new Stage()));
 
-    Text simulationTitle = makeText("simulationTypeID");
-    gameDisplay.add(simulationTitle, SECOND_COL, FIRST_ROW);
+    gameDisplay.getChildren().add(makeSimulationWindow);
 
-    Text simulationRate = makeText("simulationRateID");
-    gameDisplay.add(simulationRate, THIRD_COL, FIRST_ROW);
-
-    makeSimulationWindow = makeButton("makeNewSimulationID", e -> new SimulationWindow(new Stage()));
-    gameDisplay.add(makeSimulationWindow, FIRST_COL, FIRST_ROW);
+    simulationTitle = new Text();
+    gameDisplay.getChildren().add(simulationTitle);
 
     gameDisplay.setId(nodeID);
     return gameDisplay;
   }
 
-  private Text makeText(String inputTextID){
-    Text newText = new Text();
-    newText.setText(userInterfaceResources.getString(inputTextID));
-    newText.setId(inputTextID);
-    return newText;
-  }
 
 
   private void loadSimulation(Object selectBoxObject){
@@ -218,6 +210,7 @@ public class UserInterface {
       makeSimulation(selectedSimulationName);
       controlDisabled = false;
       enableAndDisableButtons();
+      simulationTitle.setText(selectedSimulationName);
     }
   }
 

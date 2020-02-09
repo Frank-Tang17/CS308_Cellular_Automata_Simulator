@@ -17,9 +17,9 @@ public class Simulator {
   private static final int FRAMES_PER_SECOND = 1;
   private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
   private boolean runSimulation = true;
-  private double simulationRate = 1;
-  private final double maxSimulationRate = 16;
-  private final double minSimulationRate = 0.0625;
+  private double simulationRate;
+  private final double stepForwardRate = 10;
+//  private final double minSimulationRate = 1;
   private int frameCounter = 0;
   private int forwardFrameCounter;
   private int framesToStepForward = 1;
@@ -59,7 +59,6 @@ public class Simulator {
   }
   private void step() {
     if(runSimulation) {
-      System.out.println(frameCounter);
       updateGrid.updateGrid(mainGrid);
       mainGrid.copyGrid(updateGrid);
 
@@ -78,8 +77,6 @@ public class Simulator {
     runSimulation = !runSimulation;
   }
 
-
-
   public void pauseResume() {
     if(runSimulation){
       animation.pause();
@@ -92,7 +89,7 @@ public class Simulator {
 
   public void stepForward(){
     forwardFrameCounter = frameCounter + framesToStepForward;
-    animation.setRate(maxSimulationRate);
+    animation.setRate(stepForwardRate);
     pauseResume();
   }
 
@@ -104,35 +101,24 @@ public class Simulator {
 
   }
 
-  public int getFrameCounter(){
-    return frameCounter;
-  }
-
-  public boolean getSimulationStatus() {
-    return runSimulation;
-  }
-
   public void setSimulationRate(double simulationSliderRate){
-    animation.setRate(simulationSliderRate);
+    simulationRate = simulationSliderRate;
+    animation.setRate(simulationRate);
   }
 
-  public double getSimulationRate(){
-    return simulationRate;
-  }
-
-  public void speedUpSimulation() {
-    if (simulationRate <= maxSimulationRate) {
-      simulationRate *= 2;
-      animation.setRate(simulationRate);
-    }
-  }
-
-  public void slowDownSimulation() {
-    if (simulationRate >= minSimulationRate) {
-      simulationRate /= 2;
-      animation.setRate(simulationRate);
-    }
-  }
+//  public void speedUpSimulation() {
+//    if (simulationRate <= maxSimulationRate) {
+//      simulationRate *= 2;
+//      animation.setRate(simulationRate);
+//    }
+//  }
+//
+//  public void slowDownSimulation() {
+//    if (simulationRate >= minSimulationRate) {
+//      simulationRate /= 2;
+//      animation.setRate(simulationRate);
+//    }
+//  }
 
   public void checkMouseClick(Grid displayedGrid, double x, double y){
     for (int i = 0; i < displayedGrid.getHeight(); i++) {

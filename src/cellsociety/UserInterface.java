@@ -1,10 +1,7 @@
 package cellsociety;
-import java.awt.Window;
+
 import java.io.File;
-import java.io.ObjectInputFilter.Config;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -13,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -195,12 +191,17 @@ public class UserInterface {
       new DisplayError(languageSelected, "NullSelection");
     }
     else{
-      currentSimulationConfig = new Configuration(this.currentSimulationFile);
-      selectedSimulationName = currentSimulationConfig.getType();
-      makeSimulation(selectedSimulationName);
-      simulationTitle.setText(selectedSimulationName);
-      controlDisabled = false;
-      enableAndDisableButtons();
+      try {
+        currentSimulationConfig = new Configuration(this.currentSimulationFile);
+        selectedSimulationName = currentSimulationConfig.getType();
+        makeSimulation(selectedSimulationName);
+        simulationTitle.setText(selectedSimulationName);
+        controlDisabled = false;
+        enableAndDisableButtons();
+      }
+      catch(Exception e){
+        new DisplayError(languageSelected, "BadFile");
+      }
     }
   }
 

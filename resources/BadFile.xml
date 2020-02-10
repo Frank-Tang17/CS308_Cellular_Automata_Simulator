@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<company>
+	<type id="PredatorPrey">
+		<sim_type>PredatorPrey</sim_type>
+		<width>20</width>
+		<height>10</height>
+		<tor>1</tor>
+		<s7>02102001202001200201</s7>
+		<s8>02102001202001200201</s8>
+		<s9>02102001202001200201</s9>
+		<s10>02102001202001200201</s10>
+		<color>white blue orange</color>
+    <scolor>gray gray gray</scolor>
+		<neighborColIndex>0 1 0 -1</neighborColIndex>
+		<neighborRowIndex>-1 0 1 0</neighborRowIndex>
+		<num_frames_for_fish>4</num_frames_for_fish>
+		<num_frames_for_shark>10</num_frames_for_shark>
+		<starting_energy_shark>5</starting_energy_shark>
+		<energy_in_fish>2</energy_in_fish>
+		<author>Michael, Frank, Amjad</author>
+	</type>
+</company>

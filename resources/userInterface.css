@@ -19,7 +19,7 @@
 }
 
 #controlPanel{
-  -fx-pref-height: 170px;
+  -fx-pref-height: 120px;
   -fx-padding: 10px;
   -fx-border-width: 2px;
   -fx-border-color: #737373;
@@ -39,31 +39,13 @@
   -fx-background-radius: 5px;
 }
 
-/*#loadSimulationButton{*/
-/*  -fx-pref-width: 65px;*/
-/*  -fx-translate-x: 120px;*/
-/*}*/
-
 #makeNewSimulationButton{
   -fx-pref-width: 200px;
 }
-
 
 .button:hover {
   -fx-background-color: #3a3a3a;
 }
 
-/*.combo-box-base {*/
-/*  -fx-text-base-color: #000000;*/
-/*  -fx-border-width: 2px;*/
-/*  -fx-border-color: #000000;*/
-/*  -fx-background-color: #a6a6a6;*/
-/*  -fx-border-radius: 5;*/
-/*  -fx-background-radius: 5;*/
-/*  -fx-pref-width: 120px;*/
-/*}*/
-/*.combo-box-base:hover {*/
-/*  -fx-background-color: #3a3a3a;*/
-/*}*/
 
 

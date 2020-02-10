@@ -42,7 +42,7 @@ public class Simulator {
     simulationConfiguration = passedConfiguration;
     mainGrid = new Grid(simulationConfiguration);
     updateGrid = new Grid(simulationConfiguration);
-    shapeGrid = new PolygonGrid(mainGrid);
+    shapeGrid = new PolygonGrid(mainGrid, simulationConfiguration);
     simulationGraph = new SimulationGraph(selectedSimulation, languageSelected);
   }
 

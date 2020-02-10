@@ -5,6 +5,9 @@ import cellsociety.Grid;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Segregation Cell class
+ */
 public class SegregationCell extends Cell {
   private double threshold = 0.5;
   private static final int emptyState = 0;
@@ -13,13 +16,14 @@ public class SegregationCell extends Cell {
 
 
   /**
-   * Constructor for master class Cell object
-   *  @param row           the cells row in the grid
-   * @param col           the cells col in the grid
-   * @param size          the width and height of cell
-   * @param startingState the starting state of the cell
+   * Constructor for SegregationCell class Cell object
+   *
+   * @param row                the cells row in the grid
+   * @param col                the cells col in the grid
+   * @param startingState      the starting state of the cell
+   * @param neighborRowIndexes the int array that holds the row locations for the neighborhood
+   * @param neighborColIndexes the int array that holds the col locations for the neighborhood
    */
-
   public SegregationCell(int row, int col, int startingState, int[] neighborRowIndexes,
       int[] neighborColIndexes) {
     super(row, col, startingState, neighborRowIndexes, neighborColIndexes);
@@ -27,6 +31,12 @@ public class SegregationCell extends Cell {
 
   }
 
+  /**
+   * Updates the SegregationCell depending on its own set of rules
+   *
+   * @param theOldGrid current Grid to update state based on
+   * @param theNewGrid the grid that is being updated
+   */
   @Override
   public void update(Grid theOldGrid, Grid theNewGrid) {
     ArrayList<Integer> neighborStatesAsList = new ArrayList<>(this.getNeighborStates(theOldGrid));
@@ -46,12 +56,15 @@ public class SegregationCell extends Cell {
             justSwitched = true;
             notSwitchedYet = false;
           }
-
         }
       }
     }
   }
 
+  /**
+   * Setter method for the threshold of neighbors
+   * @param newThreshold
+   */
   public void setThreshold(double newThreshold) {
     threshold = newThreshold;
   }

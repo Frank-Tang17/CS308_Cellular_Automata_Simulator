@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeType;
 
+
 public abstract class ShapeGrid {
 
   private static final int upperLeftX = 75;

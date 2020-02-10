@@ -1,20 +1,29 @@
-package cellsociety.view;
+package cellsociety.view.gridshapes;
 
 import cellsociety.configuration.Configuration;
 import cellsociety.model.Grid;
+import cellsociety.view.ShapeGrid;
 import javafx.scene.shape.Polygon;
 
+/**
+ * Subclass to create a Hexagon Polygon
+ *
+ * @author Frank Tang
+ */
 public class HexagonGrid extends ShapeGrid {
 
   private Double[] pointArray;
   private Polygon hexagon;
-  private double hexagonalUpperLeftX;
-  private double hexagonalUpperLeftY;
 
   public HexagonGrid(Grid gridToDisplay, Configuration simulationConfiguration) {
     super(gridToDisplay, simulationConfiguration);
   }
 
+  /**
+   * Makes a hexagon shape in the correct position, using a cartesian coordinate system
+   *
+   * @return Polygon in the shape of a Hexagon
+   */
   @Override
   public Polygon makeInitialShape(double row, double col, double sideLength) {
     if (row % 2 == 1) {

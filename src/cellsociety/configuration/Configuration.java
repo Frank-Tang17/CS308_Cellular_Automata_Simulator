@@ -26,7 +26,6 @@ public class Configuration {
   private int width;
   private int height;
   private String type;
-  private String author;
   private ArrayList<Integer> init_state = new ArrayList<>();
   private double prob;
   private int starting_energy_shark;
@@ -34,9 +33,6 @@ public class Configuration {
   private int num_frames_for_shark;
   private int num_frames_for_fish;
   private double seg_thresh;
-  private String frontpath = "src/cellsociety/";
-  private String fpath = ".xml";
-  private String celltype;
   private NodeList nList;
   private Element element;
   private int[] nColIndex;
@@ -59,8 +55,6 @@ public class Configuration {
     if (generateRandomSimulation) {
       randomize();
     }
-    //genConfigFile(init_state, this.type, 20, 10, 0.7);
-    //errorCheck(element);
     if (type.equals("Fire")) {
       parseFire(element);
     } else if (type.equals("PredatorPrey")) {
@@ -146,10 +140,6 @@ public class Configuration {
   /**
    * Method to set the initial states to various difference values, by random, by preference and
    * other options.
-   * <p>
-   * i=1 Allows the user to generate a random init state based
-   *
-   * @param i
    */
 
   public void randomize() {
@@ -243,7 +233,7 @@ public class Configuration {
   /**
    * Error checking method that checks for invalid or no simulation type given.
    *
-   * @param el
+   * @param type is the type of simulation being inputted
    */
 
   public boolean errorCheck(String type) {
@@ -398,6 +388,9 @@ public class Configuration {
     return generateRandomSimulation;
   }
 
+  /**
+   * Method to toggle random simulation generation
+   */
   public void toggleRandomSimulationGeneration() {
     generateRandomSimulation = !generateRandomSimulation;
   }

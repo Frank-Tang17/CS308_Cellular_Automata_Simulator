@@ -2,6 +2,8 @@ package cellsociety.view;
 
 import cellsociety.configuration.Configuration;
 import cellsociety.model.Grid;
+import cellsociety.view.gridshapes.HexagonGrid;
+import cellsociety.view.gridshapes.RectangleGrid;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -11,7 +13,9 @@ import javafx.util.Duration;
 
 
 /**
- * Feel free to completely change this code or delete it entirely.
+ * Class that acts as a simulation object -- in charge of running the simulation in the window
+ *
+ * @author Frank Tang
  */
 public class Simulator {
 
@@ -20,7 +24,6 @@ public class Simulator {
   private boolean runSimulation = true;
   private double simulationRate;
   private final double stepForwardRate = 10;
-  //  private final double minSimulationRate = 1;
   private int frameCounter = 0;
   private int forwardFrameCounter;
   private int framesToStepForward = 1;
@@ -36,7 +39,11 @@ public class Simulator {
   private Grid updateGrid;
   private Scene scene;
 
-
+  /**
+   * Makes a new Simulator object that will run a simulation based on a configuration file Sets up
+   * the Grid objects and makes a ShapeGrid object based on certain values in the Configuration and
+   * values from the Grid objects.
+   */
   public Simulator(Configuration passedConfiguration, String selectedSimulation,
       Scene userInterfaceScene, String languageSelected) {
     scene = userInterfaceScene;
@@ -53,7 +60,9 @@ public class Simulator {
     simulationGraph = new SimulationGraph(selectedSimulation, languageSelected);
   }
 
-
+  /**
+   * Method to start the simulation by setting up a Timeline and displaying the grid
+   */
   public void runSimulation(Group grid) {
     KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
       step();
@@ -64,6 +73,9 @@ public class Simulator {
     shapeGrid.displayGrid(mainGrid, grid);
   }
 
+  /**
+   * Method that will process the simulation rules as each frame of the simulation occurs
+   */
   private void step() {
     if (runSimulation) {
       updateGrid.updateGrid(mainGrid);
@@ -80,10 +92,16 @@ public class Simulator {
     }
   }
 
+  /**
+   * Method to toggle whether the simulation is running or not
+   */
   public void invertRunSimulationStatus() {
     runSimulation = !runSimulation;
   }
 
+  /**
+   * Method to pause and resume the simulation
+   */
   public void pauseResume() {
     if (runSimulation) {
       animation.pause();
@@ -93,12 +111,20 @@ public class Simulator {
     invertRunSimulationStatus();
   }
 
+  /**
+   * Method that pauses the simulation and allows the user to step through a simulation frame by
+   * frame
+   */
   public void stepForward() {
     forwardFrameCounter = frameCounter + framesToStepForward;
     animation.setRate(stepForwardRate);
     pauseResume();
   }
 
+  /**
+   * Method that is used to check if the simulation needs to go frame by frame, and will pause the
+   * simulation on the correct frame.
+   */
   public void checkSimulationForward() {
     if (frameCounter == forwardFrameCounter) {
       pauseResume();
@@ -107,12 +133,19 @@ public class Simulator {
 
   }
 
+  /**
+   * Method that sets the rate of the simulation
+   */
   public void setSimulationRate(double simulationSliderRate) {
     simulationRate = simulationSliderRate;
     animation.setRate(simulationRate);
   }
 
-  public void checkMouseClick(Grid displayedGrid, double x, double y) {
+  /**
+   * Method that checks if a cell in the grid has been clicked. Used to dynamically change the state
+   * of the cell.
+   */
+  public void dynamicCellStateChange(Grid displayedGrid, double x, double y) {
     for (int i = 0; i < displayedGrid.getHeight(); i++) {
       for (int j = 0; j < displayedGrid.getWidth(); j++) {
         if (shapeGrid.getPolygon(j, i).getBoundsInLocal().contains(x, y)) {
@@ -123,17 +156,23 @@ public class Simulator {
     }
   }
 
+  /**
+   * Method to allow the user to choose what state to set a cell to be when clicked
+   */
   private void handleKeyInput(KeyCode code) {
-    if (code == KeyCode.DIGIT0) {
+    if (code == KeyCode.DIGIT1) {
       newState = 0;
-    } else if (code == KeyCode.DIGIT1) {
-      newState = 1;
     } else if (code == KeyCode.DIGIT2) {
+      newState = 1;
+    } else if (code == KeyCode.DIGIT3) {
       newState = 2;
     }
   }
 
+  /**
+   * Method to check where the mouse has clicked and will run the cell state change method
+   */
   private void handleMouseInput(double x, double y) {
-    checkMouseClick(updateGrid, x, y);
+    dynamicCellStateChange(updateGrid, x, y);
   }
 }

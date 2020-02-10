@@ -12,7 +12,6 @@ public abstract class Cell {
   private int myRow, myCol;
   private int myState;
 
-  private int[] neighborColIndex;
   private int[] neighborRowIndex;
   private int[] neighborEvenColIndex;
   private int[] neighborOddColIndex;

@@ -48,8 +48,10 @@ Visualization:
 * We display a graph of stats about the populations of all of the "kinds" of cells over the time of the simulation
 * We allow users to interact with the simulation dynamically to change the values of its parameters. This is done by using the sliders to speed up the simulation and slow down. You can also step forward.
 * We allow users to interact with the simulation dynamically to change the values of its parameters. This is done by pressing the number key associated with the state you want to change cells to and then clicking on the cells you want to change.
-    * Specifically, the "0" key will set the dynamic state changer to change a cell's state to 0 when it is clicked;
-    "1" key for setting state 1, and "2" key for setting state 2.
+    * Specifically, the following keys will act as the following:
+        * "1" key will set the dynamic state changer value to state 0 so that a cell's state will change to 0 when the cell is clicked
+        * "2" key for setting state 1 when clicked
+        * "3" key for setting state 2 when clicked
 * We implemented features to allow a user to run multiple simulations side by side. This can be done by clicking the “New Simulation Window”.
 
 

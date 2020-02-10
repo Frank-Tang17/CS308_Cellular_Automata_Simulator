@@ -12,8 +12,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -21,20 +19,15 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javax.imageio.ImageIO;
 
 /**
- * Class to launch the simulation program
+ * Class to make user interface (buttons, sliders, etc.) of the program
  *
  * @author Frank Tang
  */
 public class UserInterface {
 
-  private static final String RESOURCES = "resources";
-  private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + "/";
-  private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
   private static final String STYLESHEET = "userInterface.css";
-  private static final String BLANK = " ";
 
   private Group grid = new Group();
 
@@ -54,7 +47,6 @@ public class UserInterface {
 
   private String controlPanelID = "controlPanel";
   private String gameDisplayID = "gameDisplay";
-
 
   private Button pauseButton;
   private Button forwardButton;
@@ -80,7 +72,11 @@ public class UserInterface {
     userInterfaceResources = ResourceBundle.getBundle(languageSelected);
   }
 
-  // Create the game's "scene": what shapes will be in the game and their starting properties
+  /**
+   * makes the GUI of a simulation window
+   *
+   * @return the scene that the current simulation window is being displayed on
+   */
   public Scene setupUserInterface(int width, int height) {
     BorderPane root = new BorderPane();
     root.setBottom(makeSimulationControlPanel(controlPanelID));
@@ -95,26 +91,26 @@ public class UserInterface {
     return userInterfaceScene;
   }
 
-  // makes a button using either an image or a label
+  /**
+   * Method to create a button
+   *
+   * @return Button with a label, ID, and action
+   */
   private Button makeButton(String property, EventHandler<ActionEvent> handler) {
-    // represent all supported image suffixes
-    final String IMAGEFILE_SUFFIXES = String
-        .format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
     Button resultButton = new Button();
     String label = userInterfaceResources.getString(property);
-    if (label.matches(IMAGEFILE_SUFFIXES)) {
-      resultButton.setGraphic(new ImageView(
-          new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_FOLDER + label))));
-    } else {
-      resultButton.setText(label);
-    }
+    resultButton.setText(label);
     resultButton.setOnAction(handler);
     resultButton.setId(property);
     return resultButton;
   }
 
+  /**
+   * Method that makes the slider that controls the simulation rate
+   *
+   * @return Slider with an ID and values for representing the simulation rate
+   */
   private Slider makeSlider(String property) {
-    // represent all supported image suffixes
     Slider slider = new Slider();
     slider.setId(property);
 
@@ -129,6 +125,9 @@ public class UserInterface {
     return slider;
   }
 
+  /**
+   * Method to disable and enable buttons that will cause errors if run at the wrong time
+   */
   private void enableAndDisableButtons() {
     pauseButton.setDisable(controlDisabled);
     forwardButton.setDisable(controlDisabled);
@@ -137,6 +136,11 @@ public class UserInterface {
     simulationSpeedSlider.setDisable(controlDisabled);
   }
 
+  /**
+   * Method that makes the bottom part of the GUI that holds all the buttons
+   *
+   * @return GridPane with buttons for controlling the simulation
+   */
   private Node makeSimulationControlPanel(String nodeID) {
     GridPane controlPanel = new GridPane();
 
@@ -164,6 +168,9 @@ public class UserInterface {
     return controlPanel;
   }
 
+  /**
+   * Method to turn on the randomize simulation property and displays a message
+   */
   private void toggleRandomSimulationButton() {
     currentSimulationConfig.toggleRandomSimulationGeneration();
     Alert alert = new Alert(AlertType.INFORMATION);
@@ -175,7 +182,12 @@ public class UserInterface {
     currentSimulationConfig = new Configuration(currentSimulationFile);
   }
 
-
+  /**
+   * Method that makes the top part of the GUI with the new Simulation Window button and the
+   * simulation rate slider
+   *
+   * @return HBox at the top of the GUI that acts as the top display panel
+   */
   private Node makeGameDisplayPanel(String nodeID) {
     HBox gameDisplay = new HBox();
 
@@ -193,6 +205,10 @@ public class UserInterface {
     return gameDisplay;
   }
 
+  /**
+   * Method that acts as the action of the load simulation button Throws errors if a bad file is
+   * given or no file is selected. Will start up a new simulation otherwise.
+   */
   private void loadSimulation(File simulationFile) {
     if (simulationFile == null) {
       new DisplayError(languageSelected, "NullSelection");
@@ -210,6 +226,10 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Method that resets the current simulation by loading a new simulation of the same type as the
+   * previous one.
+   */
   public void resetSimulation() {
     currentSimulation = null;
     grid.getChildren().clear();
@@ -217,12 +237,18 @@ public class UserInterface {
     makeSimulation(selectedSimulationName);
   }
 
+  /**
+   * Method that makes the Simulator object and runs the simulation
+   */
   public void makeSimulation(String selectedSimulationName) {
     currentSimulation = new Simulator(currentSimulationConfig, selectedSimulationName,
         userInterfaceScene, languageSelected);
     currentSimulation.runSimulation(grid);
   }
 
+  /**
+   * Method that opens a file explorer to the XML file directory for the user to choose a new file.
+   */
   public void chooseFile() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(initialDirectory);

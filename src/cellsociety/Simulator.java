@@ -25,7 +25,7 @@ public class Simulator {
   private int newState = 0;
 
   private Configuration simulationConfiguration;
-  private PolygonGrid shapeGrid;
+  private ShapeGrid shapeGrid;
   private SimulationGraph simulationGraph;
 
   private Timeline animation = new Timeline();
@@ -42,7 +42,7 @@ public class Simulator {
     simulationConfiguration = passedConfiguration;
     mainGrid = new Grid(simulationConfiguration);
     updateGrid = new Grid(simulationConfiguration);
-    shapeGrid = new PolygonGrid(mainGrid, simulationConfiguration);
+    shapeGrid = new HexagonGrid(mainGrid, simulationConfiguration);
     simulationGraph = new SimulationGraph(selectedSimulation, languageSelected);
   }
 
@@ -109,7 +109,7 @@ public class Simulator {
   public void checkMouseClick(Grid displayedGrid, double x, double y){
     for (int i = 0; i < displayedGrid.getHeight(); i++) {
       for (int j = 0; j < displayedGrid.getWidth(); j++) {
-        if(shapeGrid.getRectangle(j, i).getBoundsInLocal().contains(x, y)){
+        if(shapeGrid.getPolygon(j, i).getBoundsInLocal().contains(x, y)){
           displayedGrid.getCell(i, j).setCellState(newState);
           shapeGrid.updateCellAppearance(j, i, displayedGrid.getCell(i, j));
         }

@@ -41,6 +41,8 @@ public class UserInterface {
 
   private static final int FIRST_ROW = 0;
   private static final int SECOND_ROW = 1;
+  private static final int THIRD_ROW = 2;
+
 
   private static final int FIRST_COL = 0;
   private static final int SECOND_COL = 1;
@@ -64,15 +66,12 @@ public class UserInterface {
   private Button makeSimulationWindow;
   private Button saveSimulationButton;
   private Button selectSimulationButton;
+  private Button randomizeSimulationButton;
   private Slider simulationSpeedSlider;
   private Text simulationTitle;
   private File initialDirectory = new File("./resources/");
   private File currentSimulationFile;
 
-
-
-  private ComboBox selectSimulationBox;
-  private ObservableList<String> configurationArray = FXCollections.observableArrayList("Percolation", "GameOfLife", "Fire", "Segregation", "PredatorPrey");
   private String selectedSimulationName;
 
   private ResourceBundle userInterfaceResources;
@@ -132,17 +131,12 @@ public class UserInterface {
     return slider;
   }
 
-  private ComboBox makeComboBox (String property, ObservableList options) {
-    ComboBox resultBox = new ComboBox(options);
-    resultBox.setId(property);
-    return resultBox;
-  }
-
-
   private void enableAndDisableButtons(){
     pauseButton.setDisable(controlDisabled);
     forwardButton.setDisable(controlDisabled);
     resetButton.setDisable(controlDisabled);
+    saveSimulationButton.setDisable(controlDisabled);
+    randomizeSimulationButton.setDisable(controlDisabled);
     simulationSpeedSlider.setDisable(controlDisabled);
   }
 
@@ -159,7 +153,7 @@ public class UserInterface {
     controlPanel.add(resetButton, THIRD_COL, FIRST_ROW);
 
     simulationSpeedSlider = makeSlider("simulationSpeedSlider");
-    controlPanel.add(simulationSpeedSlider, FIRST_COL, SECOND_ROW);
+    controlPanel.add(simulationSpeedSlider, SECOND_COL, THIRD_ROW);
 
     selectSimulationButton = makeButton("selectSimulationButton", e -> chooseFile());
     controlPanel.add(selectSimulationButton, SECOND_COL, SECOND_ROW);
@@ -167,8 +161,8 @@ public class UserInterface {
     loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(currentSimulationFile));
     controlPanel.add(loadSimulationButton, THIRD_COL, SECOND_ROW);
 
-//    selectSimulationBox = makeComboBox("selectSimulationBox", configurationArray);
-//    controlPanel.add(selectSimulationBox, THIRD_COL, SECOND_ROW);
+    randomizeSimulationButton = makeButton("randomizeSimulationButton", e -> loadSimulation(currentSimulationFile));
+    controlPanel.add(randomizeSimulationButton, FIRST_COL, SECOND_ROW);
 
     controlPanel.setId(nodeID);
     return controlPanel;
@@ -192,15 +186,16 @@ public class UserInterface {
   }
 
   private void loadSimulation(File simulationFile){
-    try{
-//      selectedSimulationName = selectBoxObject.toString();
+    if (simulationFile == null) {
+      new DisplayError(languageSelected, "NullSelection");
+    }
+    else{
+      currentSimulationConfig = new Configuration(this.currentSimulationFile);
+      selectedSimulationName = currentSimulationConfig.getType();
       makeSimulation(selectedSimulationName);
       simulationTitle.setText(selectedSimulationName);
       controlDisabled = false;
       enableAndDisableButtons();
-    }
-    catch(Exception NullPointerException){
-      new DisplayError(languageSelected, "NullSelection");
     }
   }
 
@@ -211,7 +206,6 @@ public class UserInterface {
   }
 
   public void makeSimulation(String selectedSimulationName){
-    currentSimulationConfig = new Configuration(this.currentSimulationFile);
     currentSimulation = new Simulator(currentSimulationConfig, selectedSimulationName, userInterfaceScene, languageSelected);
     currentSimulation.runSimulation(grid);
   }

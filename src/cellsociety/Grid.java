@@ -180,4 +180,18 @@ public class Grid {
     return numberofCellState2;
   }
 
+  public double determineCellSize(int numRows, int numCols) {
+    double maxWidth = simulationScreenWidth / numCols;
+    double maxHeight = simulationScreenHeight / numRows;
+
+    return Math.min(maxWidth, maxHeight);
+  }
+   public double getSimulationScreenWidth(){
+    return simulationScreenWidth;
+   }
+  public double getSimulationScreenHeight(){
+    return simulationScreenHeight;
+  }
+
+
 }

@@ -41,6 +41,7 @@ public abstract class Cell {
     myRow = row;
     myCol = col;
     neighborColIndex = neighborColIndexes;
+    neighborRowIndex = neighborRowIndexes;
     if (!hexagon) {
       neighborEvenRowIndex = neighborRowIndexes;
       neighborOddRowIndex = neighborRowIndexes;

@@ -2,10 +2,10 @@ package cellsociety;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeType;
 
-public class PolygonGrid {
+public abstract class ShapeGrid {
 
   private static final int upperLeftX = 75;
   private static final int upperLeftY = 70;
@@ -15,13 +15,14 @@ public class PolygonGrid {
   private static final StrokeType cellStrokeType = StrokeType.CENTERED; // INSIDE, OUTSIDE, or CENTERED
   private static final double cellStrokeProportion = 0.1;
 
-  private Rectangle[][] polygonGrid;
+  private Polygon[][] polygonGrid;
+  private double shapeSideLength;
 
-  public PolygonGrid(Grid gridToDisplay, Configuration simulationConfiguration) {
-    polygonGrid = new Rectangle[gridToDisplay.getWidth()][gridToDisplay.getHeight()];
+  public ShapeGrid(Grid gridToDisplay, Configuration simulationConfiguration) {
+    polygonGrid = new Polygon[gridToDisplay.getWidth()][gridToDisplay.getHeight()];
     makeFillColorArray(simulationConfiguration.getColors());
-
-  }
+    shapeSideLength = determineCellSize(gridToDisplay.getHeight(), gridToDisplay.getWidth(), gridToDisplay);
+    }
 
   private void makeFillColorArray(String[] fillColorsFromConfig){
     cellFillColors = new Color[fillColorsFromConfig.length];
@@ -49,25 +50,41 @@ public class PolygonGrid {
   public void displayGrid(Grid displayedGrid, Group rootGrid) {
     for (int i = 0; i < displayedGrid.getHeight(); i++) {
       for (int j = 0; j < displayedGrid.getWidth(); j++) {
-        Rectangle newCell = makeInitialCellShape(i, j, displayedGrid.getCell(i, j));
+        Polygon newCell = makeInitialShape(i, j, shapeSideLength);
+        fillShapeWithColor(displayedGrid.getCell(i, j), newCell);
         polygonGrid[j][i] = newCell;
         rootGrid.getChildren().add(newCell);
       }
     }
   }
 
-  public Rectangle makeInitialCellShape(int row, int col, Cell currentCell) {
-    Rectangle myShape = new Rectangle(col * 20 + upperLeftX, row * 20 + upperLeftY, 20, 20);
-    myShape.setStrokeType(cellStrokeType);
-    myShape.setStrokeWidth(cellStrokeProportion * 20);
-    myShape.setFill(cellFillColors[currentCell.getCurrentState()]);
-    myShape.setStroke(cellStrokeColors[currentCell.getCurrentState()]);
-    return myShape;
+  public abstract Polygon makeInitialShape(double row, double col, double sideLength);
+
+  public void fillShapeWithColor(Cell currentCell, Polygon currentShape) {
+//    Polygon myShape = new Polygon(col * 20 + upperLeftX, row * 20 + upperLeftY, 20, 20);
+    currentShape.setStrokeType(cellStrokeType);
+    currentShape.setStrokeWidth(cellStrokeProportion * 20);
+    currentShape.setFill(cellFillColors[currentCell.getCurrentState()]);
+    currentShape.setStroke(cellStrokeColors[currentCell.getCurrentState()]);
   }
 
-  public Rectangle getRectangle(int row, int col){
+  public Polygon getPolygon(int row, int col){
     return polygonGrid[row][col];
   }
 
+  private double determineCellSize(int numRows, int numCols, Grid gridToDisplay) {
+    double maxWidth = gridToDisplay.getSimulationScreenWidth() / numCols;
+    double maxHeight = gridToDisplay.getSimulationScreenHeight() / numRows;
+
+    return Math.min(maxWidth, maxHeight);
+  }
+
+  public double getUpperLeftX(){
+    return upperLeftX;
+  }
+
+  public double getUpperLeftY(){
+    return upperLeftY;
+  }
 
 }

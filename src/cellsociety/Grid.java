@@ -14,6 +14,8 @@ public class Grid {
   private int width;
   private int[] nColIndex;
   private int[] nRowIndex;
+  private static final int simulationScreenWidth = 450;
+  private static final int simulationScreenHeight = 450;
   private Configuration myConfig;
   private int numberofCellState0 = 0;
   private int numberofCellState1 = 0;
@@ -179,5 +181,13 @@ public class Grid {
   public int getNumberofCellState2() {
     return numberofCellState2;
   }
+
+   public double getSimulationScreenWidth(){
+    return simulationScreenWidth;
+   }
+  public double getSimulationScreenHeight(){
+    return simulationScreenHeight;
+  }
+
 
 }

@@ -18,7 +18,7 @@ public abstract class Cell {
   private int[] neighborOddColIndex;
 
   private boolean toroidal = true;
-  private boolean hexagon = false;
+  private boolean hexagon = true;
 
   public boolean justSwitched;
 

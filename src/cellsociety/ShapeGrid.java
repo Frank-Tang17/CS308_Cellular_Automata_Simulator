@@ -11,7 +11,7 @@ public abstract class ShapeGrid {
   private static final int upperLeftY = 70;
 
   private Color[] cellFillColors;
-  private Color[] cellStrokeColors = {Color.GREY, Color.GREY, Color.GREY};
+  private Color[] cellStrokeColors;
   private static final StrokeType cellStrokeType = StrokeType.CENTERED; // INSIDE, OUTSIDE, or CENTERED
   private static final double cellStrokeProportion = 0.1;
 
@@ -20,14 +20,16 @@ public abstract class ShapeGrid {
 
   public ShapeGrid(Grid gridToDisplay, Configuration simulationConfiguration) {
     polygonGrid = new Polygon[gridToDisplay.getWidth()][gridToDisplay.getHeight()];
-    makeFillColorArray(simulationConfiguration.getColors());
+    makeFillColorArray(simulationConfiguration.getColors(), simulationConfiguration.getSColors());
     shapeSideLength = determineCellSize(gridToDisplay.getHeight(), gridToDisplay.getWidth(), gridToDisplay);
     }
 
-  private void makeFillColorArray(String[] fillColorsFromConfig){
+  private void makeFillColorArray(String[] fillColorsFromConfig, String[] strokeColorsFromConfig){
     cellFillColors = new Color[fillColorsFromConfig.length];
+    cellStrokeColors = new Color[fillColorsFromConfig.length];
     for (int i = 0; i < cellFillColors.length; i++){
       cellFillColors[i] = Color.web(fillColorsFromConfig[i]);
+      cellStrokeColors[i] = Color.web(strokeColorsFromConfig[i]);
     }
   }
 

@@ -44,8 +44,10 @@ public class Configuration {
   private int[] nColIndex;
   private int[] nRowIndex;
   private String[] colors;
+  private String[] scolors;
   private boolean toroidal;
   private boolean hexagonal;
+  private static boolean generateRandomSimulation = false;
 
   /**
    * Constructor for a configuration object, takes in the filename and decides which type of the
@@ -56,7 +58,9 @@ public class Configuration {
    */
   public Configuration(File filename) {
     docInit(filename);
-    randomize();
+    if(generateRandomSimulation) {
+      randomize();
+    }
     //genConfigFile(init_state, this.type, 20, 10, 0.7);
     //errorCheck(element);
     if (type.equals("Fire")) {
@@ -101,6 +105,8 @@ public class Configuration {
 
           String tempp = element.getElementsByTagName("color").item(0).getTextContent();
           colors = tempp.trim().split(" ");
+          String stempp = element.getElementsByTagName("scolor").item(0).getTextContent();
+          scolors = stempp.trim().split(" ");
           String[] temp11 = (element.getElementsByTagName("neighborColIndex").item(0).getTextContent()).trim().split(" ");
           String[] temp22 = (element.getElementsByTagName("neighborRowIndex").item(0).getTextContent()).trim().split(" ");
           toroidal = (Integer.parseInt(element.getElementsByTagName("toroidal").item(0).getTextContent())) == 1;
@@ -181,7 +187,7 @@ public class Configuration {
       int marker = 0;
       for (int i = 1; i <= height; i++) {
         Element temp = doc.createElement("s" + i);
-        List<Integer> list = init_state.subList(marker, marker + width);
+        List<Integer> list = currentState.subList(marker, marker + width);
         String stemp = Arrays.toString(list.toArray()).replaceAll(",", "").replaceAll(" ", "");
         stemp = stemp.substring(1, stemp.length() - 1);
         temp.appendChild(doc.createTextNode("" + stemp + ""));
@@ -324,6 +330,15 @@ public class Configuration {
   }
 
   /**
+   * Getter method that returns the stroke colors of the cells, which will vary based on the simulation type
+   * and be housed in the xml file for each simulation.
+   * @return
+   */
+  public String[] getSColors(){
+    return this.scolors;
+  }
+
+  /**
    * Getter method to retrieve the type of the simulation grid
    *
    * @return
@@ -363,6 +378,14 @@ public class Configuration {
 
   public double getThreshold() {
     return seg_thresh;
+  }
+
+  public boolean getRandomSimulationGeneration(){
+    return generateRandomSimulation;
+  }
+
+  public void toggleRandomSimulationGeneration(){
+    generateRandomSimulation = !generateRandomSimulation;
   }
 }
 

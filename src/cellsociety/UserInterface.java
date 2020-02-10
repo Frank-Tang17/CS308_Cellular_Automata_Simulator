@@ -10,6 +10,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
@@ -41,8 +43,6 @@ public class UserInterface {
 
   private static final int FIRST_ROW = 0;
   private static final int SECOND_ROW = 1;
-  private static final int THIRD_ROW = 2;
-
 
   private static final int FIRST_COL = 0;
   private static final int SECOND_COL = 1;
@@ -64,7 +64,6 @@ public class UserInterface {
   private Button resetButton;
   private Button loadSimulationButton;
   private Button makeSimulationWindow;
-  private Button saveSimulationButton;
   private Button selectSimulationButton;
   private Button randomizeSimulationButton;
   private Slider simulationSpeedSlider;
@@ -135,7 +134,6 @@ public class UserInterface {
     pauseButton.setDisable(controlDisabled);
     forwardButton.setDisable(controlDisabled);
     resetButton.setDisable(controlDisabled);
-    saveSimulationButton.setDisable(controlDisabled);
     randomizeSimulationButton.setDisable(controlDisabled);
     simulationSpeedSlider.setDisable(controlDisabled);
   }
@@ -152,20 +150,26 @@ public class UserInterface {
     resetButton = makeButton("resetButton", e -> resetSimulation());
     controlPanel.add(resetButton, THIRD_COL, FIRST_ROW);
 
-    simulationSpeedSlider = makeSlider("simulationSpeedSlider");
-    controlPanel.add(simulationSpeedSlider, SECOND_COL, THIRD_ROW);
-
     selectSimulationButton = makeButton("selectSimulationButton", e -> chooseFile());
     controlPanel.add(selectSimulationButton, SECOND_COL, SECOND_ROW);
 
     loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(currentSimulationFile));
     controlPanel.add(loadSimulationButton, THIRD_COL, SECOND_ROW);
 
-    randomizeSimulationButton = makeButton("randomizeSimulationButton", e -> loadSimulation(currentSimulationFile));
+    randomizeSimulationButton = makeButton("randomizeSimulationButton", e -> toggleRandomSimulationButton());
     controlPanel.add(randomizeSimulationButton, FIRST_COL, SECOND_ROW);
 
     controlPanel.setId(nodeID);
     return controlPanel;
+  }
+
+  private void toggleRandomSimulationButton(){
+    currentSimulationConfig.toggleRandomSimulationGeneration();
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle(userInterfaceResources.getString("Random"));
+    alert.setContentText(userInterfaceResources.getString("randomSimulationStatus") + currentSimulationConfig.getRandomSimulationGeneration());
+    alert.showAndWait();
+    currentSimulationConfig = new Configuration(currentSimulationFile);
   }
 
 
@@ -178,8 +182,9 @@ public class UserInterface {
     simulationTitle = new Text();
     gameDisplay.getChildren().add(simulationTitle);
 
-    saveSimulationButton = makeButton("saveSimulationButton", e -> chooseFile());
-    gameDisplay.getChildren().add(saveSimulationButton);
+    simulationSpeedSlider = makeSlider("simulationSpeedSlider");
+    gameDisplay.getChildren().add(simulationSpeedSlider);
+
 
     gameDisplay.setId(nodeID);
     return gameDisplay;
@@ -202,6 +207,7 @@ public class UserInterface {
   public void resetSimulation() {
     currentSimulation = null;
     grid.getChildren().clear();
+    currentSimulationConfig = new Configuration(currentSimulationFile);
     makeSimulation(selectedSimulationName);
   }
 

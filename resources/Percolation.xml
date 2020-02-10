@@ -17,6 +17,7 @@
 		<s9>02102001202001200201</s9>
 		<s10>02102001202001200201</s10>
 		<color>black white blue</color>
+    <scolor>gray gray gray</scolor>
 		<neighborColIndex>0 1 1 1 0 -1 -1 -1</neighborColIndex>
 		<neighborRowIndex>-1 -1 0 1 1 1 0 -1</neighborRowIndex>
 		<author>Michael, Frank, Amjad</author>

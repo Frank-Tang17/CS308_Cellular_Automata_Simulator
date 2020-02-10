@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class RPSCell extends Cell {
-  private static final int threshold = 3;
+  private int threshold = 3;
   private static final int rockState = 0;
   private static final int paperState = 1;
   private static final int scissorState = 2;
@@ -15,14 +15,13 @@ public class RPSCell extends Cell {
    *
    * @param row                the cells row in the grid
    * @param col                the cells col in the grid
-   * @param size               the width and height of cell
    * @param startingState      the starting state of the cell
    * @param neighborRowIndexes
    * @param neighborColIndexes
    */
-  public RPSCell(int row, int col, double size, int startingState, int[] neighborRowIndexes,
+  public RPSCell(int row, int col, int startingState, int[] neighborRowIndexes,
       int[] neighborColIndexes) {
-    super(row, col, size, startingState, neighborRowIndexes, neighborColIndexes);
+    super(row, col, startingState, neighborRowIndexes, neighborColIndexes);
   }
 
   @Override
@@ -46,5 +45,9 @@ public class RPSCell extends Cell {
       setCellState(newState);
     }
 
+  }
+
+  public void setThreshold(double newThreshold) {
+    threshold = (int) newThreshold;
   }
 }

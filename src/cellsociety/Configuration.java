@@ -302,6 +302,30 @@ public class Configuration {
   public ArrayList<Integer> getInitState(){
     return this.init_state;
   }
+
+  public double getProb() {
+    return prob;
+  }
+
+  public int getStartingEnergy() {
+    return starting_energy_shark;
+  }
+
+  public int getEnergyInFish() {
+    return energy_in_fish;
+  }
+
+  public int getFramesForFish() {
+    return num_frames_for_fish;
+  }
+
+  public int getFramesForShark() {
+    return num_frames_for_shark;
+  }
+
+  public double getThreshold() {
+    return seg_thresh;
+  }
 }
 
 

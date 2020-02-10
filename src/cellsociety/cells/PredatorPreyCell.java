@@ -9,10 +9,10 @@ public class PredatorPreyCell extends Cell {
   private final int emptyState = 0;
   private final int typeFish = 1;
   private final int typeShark = 2;
-  private final int newFishTime = 4;
-  private final int newSharkTime = 20;
-  private final int startingSharkEnergy = 5;
-  private final int energyPerFish = 2;
+  private int newFishTime = 4;
+  private int newSharkTime = 20;
+  private int startingSharkEnergy = 5;
+  private int energyPerFish = 2;
 
   private int numFramesAlive;
   private int myEnergy;
@@ -27,10 +27,10 @@ public class PredatorPreyCell extends Cell {
    * @param startingState the starting state of the cell
    *
    */
-  public PredatorPreyCell(int row, int col, double size, int startingState,
+  public PredatorPreyCell(int row, int col, int startingState,
       int[] neighborRowIndexes,
       int[] neighborColIndexes) {
-    super(row, col, size, startingState, neighborRowIndexes, neighborColIndexes);
+    super(row, col, startingState, neighborRowIndexes, neighborColIndexes);
     numFramesAlive = 0;
     if (getCurrentState() == typeShark) {
       myEnergy = startingSharkEnergy;
@@ -160,5 +160,21 @@ public class PredatorPreyCell extends Cell {
       myEnergy = startingSharkEnergy;
     }
     numFramesAlive = 0;
+  }
+
+  public void setNewFishTime(int fishTime) {
+    newFishTime = fishTime;
+  }
+
+  public void setNewSharkTime(int sharkTime) {
+    newSharkTime = sharkTime;
+  }
+
+  public void setStartingSharkEnergy(int newStartingSharkEnergy) {
+    startingSharkEnergy = newStartingSharkEnergy;
+  }
+
+  public void  setEnergyPerFish(int newEnergyPerFish) {
+    energyPerFish = newEnergyPerFish;
   }
 }

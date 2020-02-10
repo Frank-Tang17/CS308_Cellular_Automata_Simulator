@@ -17,9 +17,9 @@ public class PercolationCell extends Cell {
    * @param size          the width and height of cell
    * @param startingState the starting state of the cell
    */
-  public PercolationCell(int row, int col, double size, int startingState, int[] neighborRowIndexes,
+  public PercolationCell(int row, int col, int startingState, int[] neighborRowIndexes,
       int[] neighborColIndexes) {
-    super(row, col, size, startingState, neighborRowIndexes, neighborColIndexes);
+    super(row, col, startingState, neighborRowIndexes, neighborColIndexes);
 //    cellFillColors = new Color[]{Color.BLACK, Color.WHITE, Color.LIGHTBLUE};
 //    cellStrokeColors = new Color[]{Color.GREY, Color.GREY, Color.GREY};
 //    updateRectangle();

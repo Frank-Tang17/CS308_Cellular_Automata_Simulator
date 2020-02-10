@@ -1,9 +1,7 @@
 package cellsociety;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import javax.swing.text.html.ImageView;
 
 
 /**
@@ -30,12 +28,11 @@ public abstract class Cell {
    * Constructor for master class Cell object
    * @param row           the cells row in the grid
    * @param col           the cells col in the grid
-   * @param size          the width and height of cell
    * @param startingState the starting state of the cell
    * @param neighborRowIndexes
    * @param neighborColIndexes
    */
-  public Cell(int row, int col, double size, int startingState, int[] neighborRowIndexes,
+  public Cell(int row, int col, int startingState, int[] neighborRowIndexes,
       int[] neighborColIndexes) {
     myState = startingState;
     myRow = row;

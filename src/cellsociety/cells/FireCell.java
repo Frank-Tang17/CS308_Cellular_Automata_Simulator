@@ -16,12 +16,11 @@ public class FireCell extends Cell {
    *
    * @param row           the cells row in the grid
    * @param col           the cells col in the grid
-   * @param size          the width and height of the cell
    * @param startingState the starting state of the cell
    */
-  public FireCell(int row, int col, double size, int startingState, int[] neighborRowIndexes,
+  public FireCell(int row, int col, int startingState, int[] neighborRowIndexes,
       int[] neighborColIndexes) {
-    super(row, col, size, startingState, neighborRowIndexes, neighborColIndexes);
+    super(row, col, startingState, neighborRowIndexes, neighborColIndexes);
   }
 
   @Override
@@ -36,5 +35,9 @@ public class FireCell extends Cell {
     } else if (neighborStatesAsList.contains(burningState) && theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == treeState && (rand <= compProb)) {
       setCellState(burningState);
     }
+  }
+
+  public void setProb(double newProb) {
+    prob = newProb;
   }
 }

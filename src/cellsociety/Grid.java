@@ -1,7 +1,6 @@
 package cellsociety;
 
 import cellsociety.cells.*;
-import javafx.scene.Group;
 
 import java.util.ArrayList;
 
@@ -15,20 +14,20 @@ public class Grid {
   private int[] nRowIndex;
   private final int simulationScreenWidth = 450;
   private final int simulationScreenHeight = 450;
-  private Configuration test;
+  private Configuration myConfig;
   private int numberofCellState0 = 0;
   private int numberofCellState1 = 0;
   private int numberofCellState2 = 0;
 
   public Grid(Configuration simulationLoaded) {
-    test = simulationLoaded;
-    width = test.getWidth();
-    height = test.getHeight();
-    nColIndex = test.getnColIndex();
-    nRowIndex = test.getnRowIndex();
+    myConfig = simulationLoaded;
+    width = myConfig.getWidth();
+    height = myConfig.getHeight();
+    nColIndex = myConfig.getnColIndex();
+    nRowIndex = myConfig.getnRowIndex();
     grid = new Cell[height][width];
 
-    fillInitState(test.getInitState());
+    fillInitState(myConfig.getInitState());
   }
 
   //Populate the grid values with the initial state//
@@ -37,22 +36,34 @@ public class Grid {
     //Need to figure out how the state data is incoming, whether we can store it in an ArrayList.
     double cellSize = determineCellSize(height, width);
     int k = 0;
-    String sim_type = test.getType();
+    String sim_type = myConfig.getType();
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         if (sim_type.equals("Fire")) {
-          grid[i][j] = new FireCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
+          grid[i][j] = new FireCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
+          FireCell temp = (FireCell) grid[i][j];
+          temp.setProb(myConfig.getProb());
         } else if (sim_type.equals("GameOfLife")) {
-          grid[i][j] = new GameOfLifeCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
+          grid[i][j] = new GameOfLifeCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
         } else if (sim_type.equals("Percolation")) {
-          grid[i][j] = new PercolationCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
+          grid[i][j] = new PercolationCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
         } else if (sim_type.equals("Segregation")) {
-          grid[i][j] = new SegregationCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
+          grid[i][j] = new SegregationCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
+          SegregationCell temp = (SegregationCell) grid[i][j];
+          temp.setThreshold(myConfig.getThreshold());
         } else if (sim_type.equals("PredatorPrey")) {
-          grid[i][j] = new PredatorPreyCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
+          grid[i][j] = new PredatorPreyCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
+          PredatorPreyCell temp = (PredatorPreyCell) grid[i][j];
+          temp.setEnergyPerFish(myConfig.getEnergyInFish());
+          temp.setStartingSharkEnergy(myConfig.getStartingEnergy());
+          temp.setNewFishTime(myConfig.getFramesForFish());
+          temp.setNewSharkTime(myConfig.getFramesForShark());
+
         } else if(sim_type.equals("Rps")) {
-          grid[i][j] = new RPSCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
+          grid[i][j] = new RPSCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
+          RPSCell temp = (RPSCell) grid[i][j];
+          temp.setThreshold(myConfig.getThreshold());
         }
         k++;
       }

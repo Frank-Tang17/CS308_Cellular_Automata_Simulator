@@ -19,9 +19,9 @@ public class GameOfLifeCell extends Cell {
    * @param size          the width and height of the cell
    * @param startingState the starting state of the cell
    */
-  public GameOfLifeCell(int row, int col, double size, int startingState, int[] neighborRowIndexes,
+  public GameOfLifeCell(int row, int col, int startingState, int[] neighborRowIndexes,
       int[] neighborColIndexes) {
-    super(row, col, size, startingState, neighborRowIndexes, neighborColIndexes);
+    super(row, col, startingState, neighborRowIndexes, neighborColIndexes);
   }
 
   /**

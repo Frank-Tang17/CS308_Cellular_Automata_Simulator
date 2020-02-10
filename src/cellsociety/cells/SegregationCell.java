@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class SegregationCell extends Cell {
-  private static final double threshold = 0.5;
+  private double threshold = 0.5;
   private static final int emptyState = 0;
   private static final int typeAState = 1;
   private static final int typeBState = 2;
@@ -20,9 +20,9 @@ public class SegregationCell extends Cell {
    * @param startingState the starting state of the cell
    */
 
-  public SegregationCell(int row, int col, double size, int startingState, int[] neighborRowIndexes,
+  public SegregationCell(int row, int col, int startingState, int[] neighborRowIndexes,
       int[] neighborColIndexes) {
-    super(row, col, size, startingState, neighborRowIndexes, neighborColIndexes);
+    super(row, col, startingState, neighborRowIndexes, neighborColIndexes);
     justSwitched = false;
 
   }
@@ -50,6 +50,10 @@ public class SegregationCell extends Cell {
         }
       }
     }
+  }
+
+  public void setThreshold(double newThreshold) {
+    threshold = newThreshold;
   }
 
 }

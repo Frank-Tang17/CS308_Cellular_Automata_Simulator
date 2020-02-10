@@ -211,7 +211,7 @@ public class UserInterface {
   }
 
   public void makeSimulation(String selectedSimulationName){
-    currentSimulationConfig = new Configuration(selectedSimulationName);
+    currentSimulationConfig = new Configuration(this.currentSimulationFile);
     currentSimulation = new Simulator(currentSimulationConfig, selectedSimulationName, userInterfaceScene, languageSelected);
     currentSimulation.runSimulation(grid);
   }
@@ -221,7 +221,7 @@ public class UserInterface {
     fileChooser.setInitialDirectory(initialDirectory);
     fileChooser.setTitle("Choose Simulation XML Configuration File");
     fileChooser.getExtensionFilters().addAll(
-        new ExtensionFilter("Text Files", "*.txt"));
+        new ExtensionFilter("XML Files", "*.xml"));
     File selectedFile = fileChooser.showOpenDialog(new Stage());
     currentSimulationFile = selectedFile;
   }

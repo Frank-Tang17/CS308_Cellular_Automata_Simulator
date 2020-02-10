@@ -18,7 +18,6 @@ Hours Spent: 80
 * Visualization: Frank Tang
 * Configuration: Amjad Syedibrahim
 
-
 ### Resources Used
 * In-class readings
 * Stack overflow
@@ -41,7 +40,7 @@ Assumptions or Simplifications:
 * 
 
 Interesting data files:
-* 
+* We used XML for our cell configurations, we used CSS styling sheets for our visualization, and we used an English resources file as our language 
 
 Known Bugs:
 * If the grid is smaller than 3x3 things will get weird

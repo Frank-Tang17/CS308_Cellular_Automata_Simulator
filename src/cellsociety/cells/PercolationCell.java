@@ -3,7 +3,6 @@ package cellsociety.cells;
 import cellsociety.Cell;
 import cellsociety.Grid;
 import java.util.ArrayList;
-import javafx.scene.paint.Color;
 
 public class PercolationCell extends Cell {
   private static final int blockedState = 0;
@@ -21,8 +20,6 @@ public class PercolationCell extends Cell {
   public PercolationCell(int row, int col, double size, int startingState, int[] neighborRowIndexes,
       int[] neighborColIndexes) {
     super(row, col, size, startingState, neighborRowIndexes, neighborColIndexes);
-    neighborColIndex = new int[]{0, 1, 1, 1, 0, -1, -1, -1}; // Define sets of coordinates for neighbors
-    neighborRowIndex = new int[]{-1, -1, 0, 1, 1, 1, 0, -1}; // Define sets of coordinates for neighbors
 //    cellFillColors = new Color[]{Color.BLACK, Color.WHITE, Color.LIGHTBLUE};
 //    cellStrokeColors = new Color[]{Color.GREY, Color.GREY, Color.GREY};
 //    updateRectangle();
@@ -32,8 +29,8 @@ public class PercolationCell extends Cell {
   public void update(Grid theOldGrid, Grid theNewGrid) {
     ArrayList<Integer> neighborStatesAsList = new ArrayList<>(this.getNeighborStates(theOldGrid));
 
-    if (theOldGrid.getCell(myRow, myCol).getCurrentState() == openState && neighborStatesAsList.contains(waterState)) {
-      myState = waterState;
+    if (theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == openState && neighborStatesAsList.contains(waterState)) {
+      setCellState(waterState);
     }
   }
 }

@@ -15,6 +15,8 @@ public class Grid {
   private Cell[][] grid;
   private int height;
   private int width;
+  private int[] nColIndex;
+  private int[] nRowIndex;
   private final int simulationScreenWidth = 450;
   private final int simulationScreenHeight = 450;
   private Configuration test;
@@ -26,6 +28,8 @@ public class Grid {
     test = simulationLoaded;
     width = test.getWidth();
     height = test.getHeight();
+    nColIndex = test.getnColIndex();
+    nRowIndex = test.getnRowIndex();
     grid = new Cell[height][width];
 
     fillInitState(test.getInitState());
@@ -41,29 +45,22 @@ public class Grid {
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-//        if (sim_type.equals("Fire")) {
-//          grid[i][j] = new FireCell(i, j, cellSize, init_state.get(k));
-//        } else if (sim_type.equals("GameOfLife")) {
-//          grid[i][j] = new GameOfLifeCell(i, j, cellSize, init_state.get(k));
-//        } else if (sim_type.equals("Percolation")) {
-//          grid[i][j] = new PercolationCell(i, j, cellSize, init_state.get(k));
-//        } else if (sim_type.equals("Segregation")) {
-//          grid[i][j] = new SegregationCell(i, j, cellSize, init_state.get(k));
-//        } else if (sim_type.equals("PredatorPrey")) {
-//          grid[i][j] = new PredatorPreyCell(i, j, cellSize, init_state.get(k));
-//        }
+        if (sim_type.equals("Fire")) {
+          grid[i][j] = new FireCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
+        } else if (sim_type.equals("GameOfLife")) {
+          grid[i][j] = new GameOfLifeCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
+        } else if (sim_type.equals("Percolation")) {
+          grid[i][j] = new PercolationCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
+        } else if (sim_type.equals("Segregation")) {
+          grid[i][j] = new SegregationCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
+        } else if (sim_type.equals("PredatorPrey")) {
+          grid[i][j] = new PredatorPreyCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
+        }
         k++;
       }
     }
   }
 
-//  public void gridVisualization(Group node){
-//    for (int i = 0; i < height; i++) {
-//      for (int j = 0; j < width; j++) {
-//        node.getChildren().add(grid[i][j].getCellNode());
-//      }
-//    }
-//  }
 
   public int getHeight() {
     return height;

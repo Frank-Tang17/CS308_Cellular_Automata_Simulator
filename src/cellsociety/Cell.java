@@ -11,13 +11,13 @@ import javax.swing.text.html.ImageView;
  */
 public abstract class Cell {
 
-  protected int myRow, myCol;
-  protected int myState;
+  private int myRow, myCol;
+  private int myState;
 
-  protected int[] neighborColIndex;
-  protected int[] neighborRowIndex;
-  protected int[] neighborEvenRowIndex;
-  protected int[] neighborOddRowIndex;
+  private int[] neighborColIndex;
+  private int[] neighborRowIndex;
+  private int[] neighborEvenRowIndex;
+  private int[] neighborOddRowIndex;
 
   private boolean torodial = false;
   private boolean hexagon = false;
@@ -41,6 +41,7 @@ public abstract class Cell {
     myRow = row;
     myCol = col;
     neighborColIndex = neighborColIndexes;
+    neighborRowIndex = neighborRowIndexes;
     if (!hexagon) {
       neighborEvenRowIndex = neighborRowIndexes;
       neighborOddRowIndex = neighborRowIndexes;
@@ -121,6 +122,14 @@ public abstract class Cell {
    */
   public int getCurrentState() {
     return myState;
+  }
+
+  public int[] getNeighborColIndex() {
+    return neighborColIndex;
+  }
+
+  public int[] getNeighborRowIndex() {
+    return neighborRowIndex;
   }
 
 }

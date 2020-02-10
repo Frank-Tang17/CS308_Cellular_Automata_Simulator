@@ -3,7 +3,6 @@ package cellsociety.cells;
 import cellsociety.Cell;
 import cellsociety.Grid;
 import java.util.*;
-import javafx.scene.paint.Color;
 
 public class GameOfLifeCell extends Cell {
   private static final int deadState = 0;
@@ -23,11 +22,6 @@ public class GameOfLifeCell extends Cell {
   public GameOfLifeCell(int row, int col, double size, int startingState, int[] neighborRowIndexes,
       int[] neighborColIndexes) {
     super(row, col, size, startingState, neighborRowIndexes, neighborColIndexes);
-    neighborColIndex = new int[]{0, 1, 0, -1}; // Define sets of coordinates for neighbors
-    neighborRowIndex = new int[]{-1, 0, 1, 0}; // Define sets of coordinates for neighbors
-//    cellFillColors = new Color[]{Color.WHITE, Color.BLACK};
-//    cellStrokeColors = new Color[]{Color.GREY, Color.GREY};
-//    updateRectangle();
   }
 
   /**
@@ -43,10 +37,10 @@ public class GameOfLifeCell extends Cell {
 
     int numNeighborAlive = Collections.frequency(neighborStatesAsList, aliveState);
 
-    if (theOldGrid.getCell(myRow, myCol).getCurrentState() == deadState && numNeighborAlive == cellsNeededForLife) {
-      this.myState = aliveState;
-    } else if (theOldGrid.getCell(myRow, myCol).getCurrentState() == aliveState && (numNeighborAlive < lowerAliveCellBound || numNeighborAlive > upperAliveCellBound)) {
-      this.myState = deadState;
+    if (theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == deadState && numNeighborAlive == cellsNeededForLife) {
+      setCellState(aliveState);
+    } else if (theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == aliveState && (numNeighborAlive < lowerAliveCellBound || numNeighborAlive > upperAliveCellBound)) {
+      setCellState(deadState);
     }
   }
 }

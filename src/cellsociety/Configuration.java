@@ -9,12 +9,15 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Collections;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Class to handle the configuration file parsing and feeding the data back to the main classes for each simulation to use.
@@ -36,6 +39,8 @@ public class Configuration {
   private String celltype;
   private NodeList nList;
   private Element element;
+  private int[] nColIndex;
+  private int[] nRowIndex;
 
   /**
    * Constructor for a configuration object, takes in the filename and decides which type of the simulation the contents of the file represent.
@@ -46,6 +51,7 @@ public class Configuration {
     //type = filename;
     String xmlpath = frontpath+filename+fpath;
     docInit(xmlpath);
+    genConfigFile(init_state, filename, 20, 10, 0.7);
     //errorCheck(element);
     if(type.equals("Fire")){
       parseFire(element);
@@ -95,8 +101,24 @@ public class Configuration {
           element = (Element) nNode;
           width = Integer.parseInt(element.getElementsByTagName("width").item(0).getTextContent());
           height = Integer.parseInt(element.getElementsByTagName("height").item(0).getTextContent());
-          for(int i = 0; i<height; i++){
-            String s = element.getElementsByTagName("s1").item(i).getTextContent();
+          String temp1 = element.getElementsByTagName("neighborColIndex").item(0).getTextContent();
+          String[] temp11 = temp1.trim().split(" ");
+          String temp2 = element.getElementsByTagName("neighborRowIndex").item(0).getTextContent();
+          String[] temp22 = temp2.trim().split(" ");
+
+          nColIndex = new int[temp11.length];
+          nRowIndex = new int[temp22.length];
+
+          for(int i = 0; i<temp11.length; i++){
+            nColIndex[i] = Integer.parseInt(temp11[i]);
+          }
+          for(int j = 0; j<temp22.length; j++){
+            nRowIndex[j] = Integer.parseInt(temp22[j]);
+          }
+
+          for(int i = 1; i<=height; i++){
+            String num = "s"+i;
+            String s = element.getElementsByTagName(num).item(0).getTextContent();
             int[] arr = Arrays.stream(s.substring(0, s.length()).split("")).map(String::trim).mapToInt(Integer::parseInt).toArray();
             for(int k = 0; k<arr.length; k++){
               init_state.add(arr[k]);
@@ -136,6 +158,54 @@ public class Configuration {
     }
 
     //init_state
+  }
+
+  public void genConfigFile(ArrayList<Integer> currentState, String sim_type, int width, int height, double prob){
+
+    try{
+      DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+      Document doc = docBuilder.newDocument();
+      Element rootElement = doc.createElement("type");
+      doc.appendChild(rootElement);
+      Element simtype = doc.createElement("sim_type");
+      simtype.appendChild(doc.createTextNode(sim_type));
+      rootElement.appendChild(simtype);
+      Element wid = doc.createElement("width");
+      wid.appendChild(doc.createTextNode(""+width+""));
+      rootElement.appendChild(wid);
+      Element hei = doc.createElement("height");
+      hei.appendChild(doc.createTextNode(""+height+""));
+      rootElement.appendChild(hei);
+      int marker = 0;
+      for(int i = 1; i<=height; i++){
+        Element temp = doc.createElement("s"+i);
+        List<Integer> list = init_state.subList(marker, marker+width);
+        String stemp = Arrays.toString(list.toArray()).replaceAll(",","").replaceAll(" ", "");
+        stemp = stemp.substring(1, stemp.length()-1);
+        temp.appendChild(doc.createTextNode(""+stemp+""));
+        rootElement.appendChild(temp);
+        marker+=width;
+      }
+      Element probab = doc.createElement("prob");
+      probab.appendChild(doc.createTextNode(""+prob+""));
+      rootElement.appendChild(probab);
+      Element author = doc.createElement("author");
+      author.appendChild(doc.createTextNode("Amjad, Michael, Frank"));
+      rootElement.appendChild(author);
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      Transformer transformer = transformerFactory.newTransformer();
+      DOMSource source = new DOMSource(doc);
+      StreamResult result = new StreamResult(new File("test.xml"));
+      transformer.transform(source, result);
+      System.out.println("File saved!");
+
+    } catch(ParserConfigurationException pce){
+
+    } catch(TransformerException tfe){
+
+    }
+
   }
 
   /**
@@ -186,6 +256,14 @@ public class Configuration {
     this.prob = Double.parseDouble(el.getElementsByTagName("prob").item(0).getTextContent());
   }
 
+  public int[] getnColIndex(){
+    return this.nColIndex;
+  }
+
+  public int[] getnRowIndex(){
+    return this.nRowIndex;
+  }
+
   /**
    * Getter method to retrieve the width of the simulation grid
    * @return
@@ -218,3 +296,5 @@ public class Configuration {
     return this.init_state;
   }
 }
+
+

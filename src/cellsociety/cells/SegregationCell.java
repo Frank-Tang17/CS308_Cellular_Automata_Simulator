@@ -20,8 +20,9 @@ public class SegregationCell extends Cell {
    * @param size          the width and height of cell
    * @param startingState the starting state of the cell
    */
-  public SegregationCell(int row, int col, double size, int startingState) {
-    super(row, col, size, startingState);
+  public SegregationCell(int row, int col, double size, int startingState, int[] neighborRowIndexes,
+      int[] neighborColIndexes) {
+    super(row, col, size, startingState, neighborRowIndexes, neighborColIndexes);
     threshold = .5;
     neighborColIndex = new int[]{0, 1, 1, 1, 0, -1, -1, -1}; // Define sets of coordinates for neighbors
     neighborRowIndex = new int[]{-1, -1, 0, 1, 1, 1, 0, -1}; // Define sets of coordinates for neighbors
@@ -45,8 +46,8 @@ public class SegregationCell extends Cell {
       for (int i = 0; i < theOldGrid.getHeight(); i++) {
         for (int j = 0; j < theOldGrid.getWidth(); j++) {
           Cell currentCell = theOldGrid.getCell(i, j);
-          if (currentCell.myState == emptyState && !currentCell.justSwitched && notSwitchedYet) {
-            theNewGrid.getCell(currentCell.myRow, currentCell.myCol).myState = myState;
+          if (currentCell.getCurrentState() == emptyState && !currentCell.justSwitched && notSwitchedYet) {
+            theNewGrid.getCell(currentCell.getRowAndCol()[0], currentCell.getRowAndCol()[1]).setCellState(myState);
             myState = emptyState;
             currentCell.justSwitched = true;
             justSwitched = true;

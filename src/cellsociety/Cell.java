@@ -1,7 +1,6 @@
 package cellsociety;
 
 import java.util.ArrayList;
-import javax.swing.text.html.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -10,12 +9,13 @@ import javafx.scene.shape.Rectangle;
  */
 public abstract class Cell {
 
-  public int myRow, myCol;
-  public int myState;
+  protected int myRow, myCol;
+  protected int myState;
   private Rectangle myRect;
-  private ImageView myImage; // This may be on a subclass by subclass basis
   protected int[] neighborColIndex;
   protected int[] neighborRowIndex;
+  protected int[] neighborEvenRowIndex;
+  protected int[] neighborOddRowIndex;
   protected Color[] cellFillColors;
   protected Color[] cellStrokeColors;
   private boolean torodial = false;
@@ -29,19 +29,29 @@ public abstract class Cell {
 
   /**
    * Constructor for master class Cell object
-   *
    * @param row           the cells row in the grid
    * @param col           the cells col in the grid
    * @param size          the width and height of cell
    * @param startingState the starting state of the cell
+   * @param neighborRowIndexes
+   * @param neighborColIndexes
    */
-  public Cell(int row, int col, double size, int startingState) {
+  public Cell(int row, int col, double size, int startingState, int[] neighborRowIndexes,
+      int[] neighborColIndexes) {
     myState = startingState;
     myRow = row;
     myCol = col;
     myRect = new Rectangle(col * size + upperLeftX, row * size + upperLeftY, size, size);
     myRect.setStrokeType(Simulator.cellStrokeType);
     myRect.setStrokeWidth(Simulator.cellStrokeProportion * size);
+    neighborColIndex = neighborColIndexes;
+    if (!hexagon) {
+      neighborEvenRowIndex = neighborRowIndexes;
+      neighborOddRowIndex = neighborRowIndexes;
+    } else {
+      neighborEvenRowIndex = neighborRowIndexes;
+      neighborOddRowIndex = neighborRowIndexes;
+    }
   }
 
   /**
@@ -121,6 +131,7 @@ public abstract class Cell {
     return myState;
   }
 
+
   /**
    * Update the fill and the stroke color of the rectangle based on current state
    */
@@ -128,5 +139,6 @@ public abstract class Cell {
     myRect.setFill(cellFillColors[myState]);
     myRect.setStroke(cellStrokeColors[myState]);
   }
+
 }
 

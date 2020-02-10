@@ -1,5 +1,6 @@
-package cellsociety;
+package cellsociety.view;
 
+import cellsociety.configuration.Configuration;
 import java.io.File;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -74,7 +75,7 @@ public class UserInterface {
   private Configuration currentSimulationConfig;
   private String languageSelected;
 
-  public UserInterface(String language){
+  public UserInterface(String language) {
     languageSelected = language;
     userInterfaceResources = ResourceBundle.getBundle(languageSelected);
   }
@@ -88,21 +89,23 @@ public class UserInterface {
     enableAndDisableButtons();
     userInterfaceScene = new Scene(root, width, height);
     // activate CSS styling
-    userInterfaceScene.getStylesheets().add(getClass().getClassLoader().getResource(STYLESHEET).toExternalForm());
+    userInterfaceScene.getStylesheets()
+        .add(getClass().getClassLoader().getResource(STYLESHEET).toExternalForm());
 
     return userInterfaceScene;
   }
 
   // makes a button using either an image or a label
-  private Button makeButton (String property, EventHandler<ActionEvent> handler) {
+  private Button makeButton(String property, EventHandler<ActionEvent> handler) {
     // represent all supported image suffixes
-    final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
+    final String IMAGEFILE_SUFFIXES = String
+        .format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
     Button resultButton = new Button();
     String label = userInterfaceResources.getString(property);
     if (label.matches(IMAGEFILE_SUFFIXES)) {
-      resultButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_FOLDER + label))));
-    }
-    else {
+      resultButton.setGraphic(new ImageView(
+          new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_FOLDER + label))));
+    } else {
       resultButton.setText(label);
     }
     resultButton.setOnAction(handler);
@@ -110,7 +113,7 @@ public class UserInterface {
     return resultButton;
   }
 
-  private Slider makeSlider (String property) {
+  private Slider makeSlider(String property) {
     // represent all supported image suffixes
     Slider slider = new Slider();
     slider.setId(property);
@@ -126,7 +129,7 @@ public class UserInterface {
     return slider;
   }
 
-  private void enableAndDisableButtons(){
+  private void enableAndDisableButtons() {
     pauseButton.setDisable(controlDisabled);
     forwardButton.setDisable(controlDisabled);
     resetButton.setDisable(controlDisabled);
@@ -134,7 +137,7 @@ public class UserInterface {
     simulationSpeedSlider.setDisable(controlDisabled);
   }
 
-  private Node makeSimulationControlPanel (String nodeID) {
+  private Node makeSimulationControlPanel(String nodeID) {
     GridPane controlPanel = new GridPane();
 
     pauseButton = makeButton("pauseButton", e -> currentSimulation.pauseResume());
@@ -149,30 +152,35 @@ public class UserInterface {
     selectSimulationButton = makeButton("selectSimulationButton", e -> chooseFile());
     controlPanel.add(selectSimulationButton, SECOND_COL, SECOND_ROW);
 
-    loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(currentSimulationFile));
+    loadSimulationButton = makeButton("loadSimulationButton",
+        e -> loadSimulation(currentSimulationFile));
     controlPanel.add(loadSimulationButton, THIRD_COL, SECOND_ROW);
 
-    randomizeSimulationButton = makeButton("randomizeSimulationButton", e -> toggleRandomSimulationButton());
+    randomizeSimulationButton = makeButton("randomizeSimulationButton",
+        e -> toggleRandomSimulationButton());
     controlPanel.add(randomizeSimulationButton, FIRST_COL, SECOND_ROW);
 
     controlPanel.setId(nodeID);
     return controlPanel;
   }
 
-  private void toggleRandomSimulationButton(){
+  private void toggleRandomSimulationButton() {
     currentSimulationConfig.toggleRandomSimulationGeneration();
     Alert alert = new Alert(AlertType.INFORMATION);
     alert.setTitle(userInterfaceResources.getString("Random"));
-    alert.setContentText(userInterfaceResources.getString("randomSimulationStatus") + currentSimulationConfig.getRandomSimulationGeneration());
+    alert.setContentText(
+        userInterfaceResources.getString("randomSimulationStatus") + currentSimulationConfig
+            .getRandomSimulationGeneration());
     alert.showAndWait();
     currentSimulationConfig = new Configuration(currentSimulationFile);
   }
 
 
-  private Node makeGameDisplayPanel (String nodeID) {
+  private Node makeGameDisplayPanel(String nodeID) {
     HBox gameDisplay = new HBox();
 
-    makeSimulationWindow = makeButton("makeNewSimulationButton", e -> new SimulationWindow(new Stage()));
+    makeSimulationWindow = makeButton("makeNewSimulationButton",
+        e -> new SimulationWindow(new Stage()));
     gameDisplay.getChildren().add(makeSimulationWindow);
 
     simulationTitle = new Text();
@@ -181,16 +189,14 @@ public class UserInterface {
     simulationSpeedSlider = makeSlider("simulationSpeedSlider");
     gameDisplay.getChildren().add(simulationSpeedSlider);
 
-
     gameDisplay.setId(nodeID);
     return gameDisplay;
   }
 
-  private void loadSimulation(File simulationFile){
+  private void loadSimulation(File simulationFile) {
     if (simulationFile == null) {
       new DisplayError(languageSelected, "NullSelection");
-    }
-    else{
+    } else {
       try {
         currentSimulationConfig = new Configuration(this.currentSimulationFile);
         selectedSimulationName = currentSimulationConfig.getType();
@@ -198,8 +204,7 @@ public class UserInterface {
         simulationTitle.setText(selectedSimulationName);
         controlDisabled = false;
         enableAndDisableButtons();
-      }
-      catch(Exception e){
+      } catch (Exception e) {
         new DisplayError(languageSelected, "BadFile");
       }
     }
@@ -212,12 +217,13 @@ public class UserInterface {
     makeSimulation(selectedSimulationName);
   }
 
-  public void makeSimulation(String selectedSimulationName){
-    currentSimulation = new Simulator(currentSimulationConfig, selectedSimulationName, userInterfaceScene, languageSelected);
+  public void makeSimulation(String selectedSimulationName) {
+    currentSimulation = new Simulator(currentSimulationConfig, selectedSimulationName,
+        userInterfaceScene, languageSelected);
     currentSimulation.runSimulation(grid);
   }
 
-  public void chooseFile () {
+  public void chooseFile() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(initialDirectory);
     fileChooser.setTitle("Choose Simulation XML Configuration File");

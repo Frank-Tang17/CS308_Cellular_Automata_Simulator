@@ -1,13 +1,14 @@
-package cellsociety.cells;
+package cellsociety.model.cells;
 
-import cellsociety.Cell;
-import cellsociety.Grid;
+import cellsociety.model.Cell;
+import cellsociety.model.Grid;
 import java.util.ArrayList;
 
 /**
  * Fire Cell class
  */
 public class FireCell extends Cell {
+
   private double prob = .55;
   private static final int EMPTY_STATE = 0;
   private static final int TREE_STATE = 1;
@@ -41,9 +42,11 @@ public class FireCell extends Cell {
     double rand = (Math.random() * 100);
     double compProb = 100 * prob;
 
-    if (theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == BURNING_STATE) {
+    if (theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState()
+        == BURNING_STATE) {
       setCellState(EMPTY_STATE);
-    } else if (neighborStatesAsList.contains(BURNING_STATE) && theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == TREE_STATE
+    } else if (neighborStatesAsList.contains(BURNING_STATE)
+        && theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == TREE_STATE
         && (rand <= compProb)) {
       setCellState(BURNING_STATE);
     }
@@ -51,6 +54,7 @@ public class FireCell extends Cell {
 
   /**
    * Setter method for probability of catching fire
+   *
    * @param newProb
    */
   public void setProb(double newProb) {

@@ -1,13 +1,14 @@
-package cellsociety.cells;
+package cellsociety.model.cells;
 
-import cellsociety.Cell;
-import cellsociety.Grid;
+import cellsociety.model.Cell;
+import cellsociety.model.Grid;
 import java.util.ArrayList;
 
 /**
  * Percolation Cell class
  */
 public class PercolationCell extends Cell {
+
   private static final int BLOCKED_STATE = 0;
   private static final int OPEN_STATE = 1;
   private static final int WATER_STATE = 2;
@@ -36,7 +37,8 @@ public class PercolationCell extends Cell {
   public void update(Grid theOldGrid, Grid theNewGrid) {
     ArrayList<Integer> neighborStatesAsList = new ArrayList<>(this.getNeighborStates(theOldGrid));
 
-    if (theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == OPEN_STATE && neighborStatesAsList.contains(
+    if (theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == OPEN_STATE
+        && neighborStatesAsList.contains(
         WATER_STATE)) {
       setCellState(WATER_STATE);
     }

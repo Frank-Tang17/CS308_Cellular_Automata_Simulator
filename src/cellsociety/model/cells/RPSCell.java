@@ -1,7 +1,7 @@
-package cellsociety.cells;
+package cellsociety.model.cells;
 
-import cellsociety.Cell;
-import cellsociety.Grid;
+import cellsociety.model.Cell;
+import cellsociety.model.Grid;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -9,6 +9,7 @@ import java.util.Collections;
  * RPSCell Cell class
  */
 public class RPSCell extends Cell {
+
   private int threshold = 3;
   private static final int ROCK_STATE = 0;
   private static final int PAPER_STATE = 1;
@@ -59,6 +60,7 @@ public class RPSCell extends Cell {
 
   /**
    * Setter method for threshold value
+   *
    * @param newThreshold
    */
   public void setThreshold(double newThreshold) {

@@ -1,13 +1,14 @@
-package cellsociety.cells;
+package cellsociety.model.cells;
 
-import cellsociety.Cell;
-import cellsociety.Grid;
+import cellsociety.model.Cell;
+import cellsociety.model.Grid;
 import java.util.*;
 
 /**
  * GameOfLife Cell class
  */
 public class GameOfLifeCell extends Cell {
+
   private static final int DEAD_STATE = 0;
   private static final int ALIVE_STATE = 1;
   private static final int CELLS_NEEDED_FOR_LIFE = 3;
@@ -43,8 +44,10 @@ public class GameOfLifeCell extends Cell {
     if (theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == DEAD_STATE
         && numNeighborAlive == CELLS_NEEDED_FOR_LIFE) {
       setCellState(ALIVE_STATE);
-    } else if (theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == ALIVE_STATE
-        && (numNeighborAlive < LOWER_ALIVE_CELL_BOUND || numNeighborAlive > UPPER_ALIVE_CELL_BOUND)) {
+    } else if (
+        theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == ALIVE_STATE
+            && (numNeighborAlive < LOWER_ALIVE_CELL_BOUND
+            || numNeighborAlive > UPPER_ALIVE_CELL_BOUND)) {
       setCellState(DEAD_STATE);
     }
   }

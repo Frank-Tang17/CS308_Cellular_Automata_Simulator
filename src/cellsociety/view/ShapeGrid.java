@@ -1,5 +1,8 @@
-package cellsociety;
+package cellsociety.view;
 
+import cellsociety.configuration.Configuration;
+import cellsociety.model.Cell;
+import cellsociety.model.Grid;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -21,13 +24,14 @@ public abstract class ShapeGrid {
   public ShapeGrid(Grid gridToDisplay, Configuration simulationConfiguration) {
     polygonGrid = new Polygon[gridToDisplay.getWidth()][gridToDisplay.getHeight()];
     makeFillColorArray(simulationConfiguration.getColors(), simulationConfiguration.getSColors());
-    shapeSideLength = determineCellSize(gridToDisplay.getHeight(), gridToDisplay.getWidth(), gridToDisplay);
-    }
+    shapeSideLength = determineCellSize(gridToDisplay.getHeight(), gridToDisplay.getWidth(),
+        gridToDisplay);
+  }
 
-  private void makeFillColorArray(String[] fillColorsFromConfig, String[] strokeColorsFromConfig){
+  private void makeFillColorArray(String[] fillColorsFromConfig, String[] strokeColorsFromConfig) {
     cellFillColors = new Color[fillColorsFromConfig.length];
     cellStrokeColors = new Color[fillColorsFromConfig.length];
-    for (int i = 0; i < cellFillColors.length; i++){
+    for (int i = 0; i < cellFillColors.length; i++) {
       cellFillColors[i] = Color.web(fillColorsFromConfig[i]);
       cellStrokeColors[i] = Color.web(strokeColorsFromConfig[i]);
     }
@@ -70,7 +74,7 @@ public abstract class ShapeGrid {
     currentShape.setStroke(cellStrokeColors[currentCell.getCurrentState()]);
   }
 
-  public Polygon getPolygon(int row, int col){
+  public Polygon getPolygon(int row, int col) {
     return polygonGrid[row][col];
   }
 
@@ -81,11 +85,11 @@ public abstract class ShapeGrid {
     return Math.min(maxWidth, maxHeight);
   }
 
-  public double getUpperLeftX(){
+  public double getUpperLeftX() {
     return upperLeftX;
   }
 
-  public double getUpperLeftY(){
+  public double getUpperLeftY() {
     return upperLeftY;
   }
 

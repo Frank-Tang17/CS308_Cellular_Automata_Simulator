@@ -1,4 +1,4 @@
-package cellsociety;
+package cellsociety.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +104,7 @@ public abstract class Cell {
 
   /**
    * Setter method for cell state
+   *
    * @param newState
    */
   public void setCellState(int newState) {
@@ -129,6 +130,7 @@ public abstract class Cell {
 
   /**
    * Getter method for the column indexes for the neighborhood
+   *
    * @return
    */
   public int[] getNeighborColIndex() {
@@ -141,6 +143,7 @@ public abstract class Cell {
 
   /**
    * Getter method for the row indexes for the neighborhood
+   *
    * @return
    */
   public int[] getNeighborRowIndex() {
@@ -149,6 +152,7 @@ public abstract class Cell {
 
   /**
    * Setter method for toroidal
+   *
    * @param newStatus
    */
   public void setToroidal(boolean newStatus) {
@@ -157,6 +161,7 @@ public abstract class Cell {
 
   /**
    * Setter method for hexagon
+   *
    * @param newStatus
    */
   public void setHexagon(boolean newStatus) {

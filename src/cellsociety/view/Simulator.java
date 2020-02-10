@@ -1,5 +1,7 @@
-package cellsociety;
+package cellsociety.view;
 
+import cellsociety.configuration.Configuration;
+import cellsociety.model.Grid;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -18,7 +20,7 @@ public class Simulator {
   private boolean runSimulation = true;
   private double simulationRate;
   private final double stepForwardRate = 10;
-//  private final double minSimulationRate = 1;
+  //  private final double minSimulationRate = 1;
   private int frameCounter = 0;
   private int forwardFrameCounter;
   private int framesToStepForward = 1;
@@ -35,24 +37,24 @@ public class Simulator {
   private Scene scene;
 
 
-  public Simulator(Configuration passedConfiguration, String selectedSimulation, Scene userInterfaceScene, String languageSelected) {
+  public Simulator(Configuration passedConfiguration, String selectedSimulation,
+      Scene userInterfaceScene, String languageSelected) {
     scene = userInterfaceScene;
     scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
     scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
     simulationConfiguration = passedConfiguration;
     mainGrid = new Grid(simulationConfiguration);
     updateGrid = new Grid(simulationConfiguration);
-    if(simulationConfiguration.isHexagonal()) {
+    if (simulationConfiguration.isHexagonal()) {
       shapeGrid = new HexagonGrid(mainGrid, simulationConfiguration);
-    }
-    else{
+    } else {
       shapeGrid = new RectangleGrid(mainGrid, simulationConfiguration);
     }
     simulationGraph = new SimulationGraph(selectedSimulation, languageSelected);
   }
 
 
-  public void runSimulation(Group grid){
+  public void runSimulation(Group grid) {
     KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
       step();
     });
@@ -63,7 +65,7 @@ public class Simulator {
   }
 
   private void step() {
-    if(runSimulation) {
+    if (runSimulation) {
       updateGrid.updateGrid(mainGrid);
       mainGrid.copyGrid(updateGrid);
 
@@ -78,43 +80,42 @@ public class Simulator {
     }
   }
 
-  public void invertRunSimulationStatus(){
+  public void invertRunSimulationStatus() {
     runSimulation = !runSimulation;
   }
 
   public void pauseResume() {
-    if(runSimulation){
+    if (runSimulation) {
       animation.pause();
-    }
-    else{
+    } else {
       animation.play();
     }
     invertRunSimulationStatus();
   }
 
-  public void stepForward(){
+  public void stepForward() {
     forwardFrameCounter = frameCounter + framesToStepForward;
     animation.setRate(stepForwardRate);
     pauseResume();
   }
 
-  public void checkSimulationForward(){
-    if(frameCounter == forwardFrameCounter){
+  public void checkSimulationForward() {
+    if (frameCounter == forwardFrameCounter) {
       pauseResume();
       animation.setRate(simulationRate);
     }
 
   }
 
-  public void setSimulationRate(double simulationSliderRate){
+  public void setSimulationRate(double simulationSliderRate) {
     simulationRate = simulationSliderRate;
     animation.setRate(simulationRate);
   }
 
-  public void checkMouseClick(Grid displayedGrid, double x, double y){
+  public void checkMouseClick(Grid displayedGrid, double x, double y) {
     for (int i = 0; i < displayedGrid.getHeight(); i++) {
       for (int j = 0; j < displayedGrid.getWidth(); j++) {
-        if(shapeGrid.getPolygon(j, i).getBoundsInLocal().contains(x, y)){
+        if (shapeGrid.getPolygon(j, i).getBoundsInLocal().contains(x, y)) {
           displayedGrid.getCell(i, j).setCellState(newState);
           shapeGrid.updateCellAppearance(j, i, displayedGrid.getCell(i, j));
         }
@@ -122,19 +123,17 @@ public class Simulator {
     }
   }
 
-  private void handleKeyInput (KeyCode code) {
-    if(code == KeyCode.DIGIT0){
+  private void handleKeyInput(KeyCode code) {
+    if (code == KeyCode.DIGIT0) {
       newState = 0;
-    }
-    else if(code == KeyCode.DIGIT1){
+    } else if (code == KeyCode.DIGIT1) {
       newState = 1;
-    }
-    else if(code == KeyCode.DIGIT2){
+    } else if (code == KeyCode.DIGIT2) {
       newState = 2;
     }
   }
 
-  private void handleMouseInput (double x, double y) {
+  private void handleMouseInput(double x, double y) {
     checkMouseClick(updateGrid, x, y);
   }
 }

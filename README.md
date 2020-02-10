@@ -48,6 +48,8 @@ Visualization:
 * We display a graph of stats about the populations of all of the "kinds" of cells over the time of the simulation
 * We allow users to interact with the simulation dynamically to change the values of its parameters. This is done by using the sliders to speed up the simulation and slow down. You can also step forward.
 * We allow users to interact with the simulation dynamically to change the values of its parameters. This is done by pressing the number key associated with the state you want to change cells to and then clicking on the cells you want to change.
+    * Specifically, the "0" key will set the dynamic state changer to change a cell's state to 0 when it is clicked;
+    "1" key for setting state 1, and "2" key for setting state 2.
 * We implemented features to allow a user to run multiple simulations side by side. This can be done by clicking the “New Simulation Window”.
 
 
@@ -67,6 +69,9 @@ Interesting data files:
 
 Known Bugs:
 * If the grid is smaller than 3x3 things will get weird
+* The graph for each simulation do not close by themselves when a new simulation is loaded
+* We can add a state 2 in a simulation that only has 2 states. For example, you can add a cell state that
+does not exist in the GameofLife Simulation, which may break the code.
 
 Extra credit:
 * We implemented all of the above features from the Complete portion of the assignment. We addressed every major bullet point and implemented at least one sub bullet point.

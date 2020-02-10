@@ -1,7 +1,7 @@
-package cellsociety.cells;
+package cellsociety.model.cells;
 
-import cellsociety.Cell;
-import cellsociety.Grid;
+import cellsociety.model.Cell;
+import cellsociety.model.Grid;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -9,6 +9,7 @@ import java.util.Collections;
  * Segregation Cell class
  */
 public class SegregationCell extends Cell {
+
   private double threshold = 0.5;
   private static final int emptyState = 0;
   private static final int typeAState = 1;
@@ -42,15 +43,19 @@ public class SegregationCell extends Cell {
     ArrayList<Integer> neighborStatesAsList = new ArrayList<>(this.getNeighborStates(theOldGrid));
 
     int numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, getCurrentState());
-    double proportionOfSimilarNeighbors = (double)numberOfSimilarNeighbors / ((double)neighborStatesAsList.size() - (double) Collections.frequency(neighborStatesAsList, emptyState));
+    double proportionOfSimilarNeighbors =
+        (double) numberOfSimilarNeighbors / ((double) neighborStatesAsList.size()
+            - (double) Collections.frequency(neighborStatesAsList, emptyState));
 
     boolean notSwitchedYet = true;
     if (proportionOfSimilarNeighbors < threshold && getCurrentState() != emptyState) {
       for (int i = 0; i < theOldGrid.getHeight(); i++) {
         for (int j = 0; j < theOldGrid.getWidth(); j++) {
           Cell currentCell = theOldGrid.getCell(i, j);
-          if (currentCell.getCurrentState() == emptyState && !currentCell.justSwitched && notSwitchedYet) {
-            theNewGrid.getCell(currentCell.getRowAndCol()[0], currentCell.getRowAndCol()[1]).setCellState(getCurrentState());
+          if (currentCell.getCurrentState() == emptyState && !currentCell.justSwitched
+              && notSwitchedYet) {
+            theNewGrid.getCell(currentCell.getRowAndCol()[0], currentCell.getRowAndCol()[1])
+                .setCellState(getCurrentState());
             setCellState(emptyState);
             currentCell.justSwitched = true;
             justSwitched = true;
@@ -63,6 +68,7 @@ public class SegregationCell extends Cell {
 
   /**
    * Setter method for the threshold of neighbors
+   *
    * @param newThreshold
    */
   public void setThreshold(double newThreshold) {

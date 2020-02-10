@@ -1,4 +1,4 @@
-package cellsociety;
+package cellsociety.view;
 
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 
 public class SimulationGraph {
+
   private final int graphWindowHeight = 400;
   private final int graphWindowWidth = 400;
 
@@ -17,18 +18,18 @@ public class SimulationGraph {
   private NumberAxis xAxis = new NumberAxis();
   private NumberAxis yAxis = new NumberAxis();
   //creating the chart
-  private LineChart<Number,Number> simulationGraphChart;
+  private LineChart<Number, Number> simulationGraphChart;
 
   private XYChart.Series series1 = new XYChart.Series();
   private XYChart.Series series2 = new XYChart.Series();
   private XYChart.Series series3 = new XYChart.Series();
   private ResourceBundle graphResources;
 
-  public SimulationGraph(String selectedSimulation, String languageSelected){
+  public SimulationGraph(String selectedSimulation, String languageSelected) {
     graphResources = ResourceBundle.getBundle(languageSelected);
 
     BorderPane graphRoot = new BorderPane();
-    Scene scene = new Scene(graphRoot, graphWindowWidth,graphWindowHeight);
+    Scene scene = new Scene(graphRoot, graphWindowWidth, graphWindowHeight);
     Stage stage = new Stage();
     stage.setTitle(graphResources.getString("simulationGraphWindowTitle"));
 
@@ -39,8 +40,8 @@ public class SimulationGraph {
     stage.show();
   }
 
-  private LineChart makeLineChart(String selectedSimulation){
-    LineChart<Number,Number> newChart =
+  private LineChart makeLineChart(String selectedSimulation) {
+    LineChart<Number, Number> newChart =
         new LineChart<>(xAxis, yAxis);
     newChart.setCreateSymbols(false);
     yAxis.setLabel(graphResources.getString("yAxis"));
@@ -55,7 +56,7 @@ public class SimulationGraph {
     return newChart;
   }
 
-  public void updateGraph(int frameNumber, int state1Total, int state2Total, int state3Total){
+  public void updateGraph(int frameNumber, int state1Total, int state2Total, int state3Total) {
     series1.getData().add(new XYChart.Data(frameNumber, state1Total));
     series2.getData().add(new XYChart.Data(frameNumber, state2Total));
     series3.getData().add(new XYChart.Data(frameNumber, state3Total));

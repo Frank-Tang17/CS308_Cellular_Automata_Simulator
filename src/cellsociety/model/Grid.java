@@ -1,6 +1,7 @@
-package cellsociety;
+package cellsociety.model;
 
-import cellsociety.cells.*;
+import cellsociety.configuration.Configuration;
+import cellsociety.model.cells.*;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ public class Grid {
 
   /**
    * Constructor for a new Grid
+   *
    * @param simulationLoaded the simulation loaded object the grid is being created in
    */
   public Grid(Configuration simulationLoaded) {
@@ -55,10 +57,11 @@ public class Grid {
           SegregationCell temp = (SegregationCell) grid[i][j];
           temp.setThreshold(myConfig.getThreshold());
         } else if (sim_type.equals("PredatorPrey")) {
-          grid[i][j] = new PredatorPreyCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
+          grid[i][j] = new PredatorPreyCell(i, j, init_state.get(k), this.nRowIndex,
+              this.nColIndex);
           PredatorPreyCell temp = (PredatorPreyCell) grid[i][j];
           createPredatorPreyCell(temp);
-        } else if(sim_type.equals("Rps")) {
+        } else if (sim_type.equals("Rps")) {
           grid[i][j] = new RPSCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
           RPSCell temp = (RPSCell) grid[i][j];
           temp.setThreshold(myConfig.getThreshold());
@@ -79,6 +82,7 @@ public class Grid {
 
   /**
    * Getter method for height (number of rows)
+   *
    * @return the height (number of rows)
    */
   public int getHeight() {
@@ -87,6 +91,7 @@ public class Grid {
 
   /**
    * Getter method for width (number of cols)
+   *
    * @return the width (number of cols)
    */
   public int getWidth() {
@@ -95,6 +100,7 @@ public class Grid {
 
   /**
    * Update the newGrid based on the oldGrid
+   *
    * @param oldGrid the grid to update based on
    */
   public void updateGrid(Grid oldGrid) {
@@ -107,6 +113,7 @@ public class Grid {
 
   /**
    * Mkae a copy of the grid passed in
+   *
    * @param gridnew the grid to cope based on
    */
   public void copyGrid(Grid gridnew) {
@@ -120,6 +127,7 @@ public class Grid {
 
   /**
    * Getter method for a cell
+   *
    * @param row the row for the cell
    * @param col the col for the cell
    * @return the cell
@@ -130,6 +138,7 @@ public class Grid {
 
   /**
    * Checks to see if the row and col exist in the grid
+   *
    * @param row
    * @param col
    * @return
@@ -160,6 +169,7 @@ public class Grid {
 
   /**
    * Getter method for the number of cells with state 0
+   *
    * @return number of cells with state 0
    */
   public int getNumberofCellState0() {
@@ -168,6 +178,7 @@ public class Grid {
 
   /**
    * Getter method for the number of cells with state 1
+   *
    * @return number of cells with state 1
    */
   public int getNumberofCellState1() {
@@ -176,16 +187,18 @@ public class Grid {
 
   /**
    * Getter method for the number of cells with state 2
+   *
    * @return number of cells with state 2
    */
   public int getNumberofCellState2() {
     return numberofCellState2;
   }
 
-   public double getSimulationScreenWidth(){
+  public double getSimulationScreenWidth() {
     return simulationScreenWidth;
-   }
-  public double getSimulationScreenHeight(){
+  }
+
+  public double getSimulationScreenHeight() {
     return simulationScreenHeight;
   }
 

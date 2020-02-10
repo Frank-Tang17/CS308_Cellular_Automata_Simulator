@@ -1,5 +1,7 @@
-package cellsociety;
+package cellsociety.view;
 
+import cellsociety.configuration.Configuration;
+import cellsociety.model.Grid;
 import javafx.scene.shape.Polygon;
 
 public class HexagonGrid extends ShapeGrid {
@@ -15,12 +17,11 @@ public class HexagonGrid extends ShapeGrid {
 
   @Override
   public Polygon makeInitialShape(double row, double col, double sideLength) {
-    if (row % 2 == 1){
+    if (row % 2 == 1) {
       col = col + 0.5;
-      row = row + row/2;
-    }
-    else if (row != 0 && row % 2 == 0){
-      row = row + row/2;
+      row = row + row / 2;
+    } else if (row != 0 && row % 2 == 0) {
+      row = row + row / 2;
     }
     row = row + 0.5;
     pointArray = new Double[]{

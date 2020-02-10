@@ -1,7 +1,7 @@
-package cellsociety.cells;
+package cellsociety.model.cells;
 
-import cellsociety.Cell;
-import cellsociety.Grid;
+import cellsociety.model.Cell;
+import cellsociety.model.Grid;
 import java.util.ArrayList;
 
 /**
@@ -164,6 +164,7 @@ public class PredatorPreyCell extends Cell {
 
   /**
    * Setter method for the number of frames needed to make a new fish
+   *
    * @param fishTime
    */
   public void setNewFishTime(int fishTime) {
@@ -172,6 +173,7 @@ public class PredatorPreyCell extends Cell {
 
   /**
    * Setter method for the number of frames needed to make a new shark
+   *
    * @param sharkTime
    */
   public void setNewSharkTime(int sharkTime) {
@@ -180,6 +182,7 @@ public class PredatorPreyCell extends Cell {
 
   /**
    * Setter method for the starting energy of a shark
+   *
    * @param newStartingSharkEnergy
    */
   public void setStartingSharkEnergy(int newStartingSharkEnergy) {
@@ -188,9 +191,10 @@ public class PredatorPreyCell extends Cell {
 
   /**
    * Setter method for the energy in a fish
+   *
    * @param newEnergyPerFish
    */
-  public void  setEnergyPerFish(int newEnergyPerFish) {
+  public void setEnergyPerFish(int newEnergyPerFish) {
     energyPerFish = newEnergyPerFish;
   }
 }

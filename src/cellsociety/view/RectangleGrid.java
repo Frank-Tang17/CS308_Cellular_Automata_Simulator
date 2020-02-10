@@ -1,5 +1,7 @@
-package cellsociety;
+package cellsociety.view;
 
+import cellsociety.configuration.Configuration;
+import cellsociety.model.Grid;
 import javafx.scene.shape.Polygon;
 
 public class RectangleGrid extends ShapeGrid {
@@ -9,7 +11,7 @@ public class RectangleGrid extends ShapeGrid {
 
   public RectangleGrid(Grid gridToDisplay, Configuration simulationConfiguration) {
     super(gridToDisplay, simulationConfiguration);
-    }
+  }
 
   @Override
   public Polygon makeInitialShape(double row, double col, double sideLength) {

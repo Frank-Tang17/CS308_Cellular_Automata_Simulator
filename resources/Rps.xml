@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <company>
-	<type id="Fire">
-		<sim_type>Fire</sim_type>
+	<type id="Rps">
+		<sim_type>Rps</sim_type>
 		<width>20</width>
 		<height>10</height>
 		<s1>02102001202001200201</s1>
@@ -14,10 +14,10 @@
 		<s8>02102001202001200201</s8>
 		<s9>02102001202001200201</s9>
 		<s10>02102001202001200201</s10>
-		<color>yellow green red</color>
-		<neighborColIndex>0 1 0 -1</neighborColIndex>
-		<neighborRowIndex>-1 0 1 0</neighborRowIndex>
-		<prob>0.7</prob>
+		<colors>orange blue red</colors>
+		<neighborColIndex>0 1 1 1 0 -1 -1 -1</neighborColIndex>
+		<neighborRowIndex>-1 -1 0 1 1 1 0 -1</neighborRowIndex>
+		<threshold>3</threshold>
 		<author>Michael, Frank, Amjad</author>
 	</type>
 </company>

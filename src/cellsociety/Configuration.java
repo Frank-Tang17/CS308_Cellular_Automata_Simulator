@@ -41,6 +41,7 @@ public class Configuration {
   private Element element;
   private int[] nColIndex;
   private int[] nRowIndex;
+  private String[] colors;
 
   /**
    * Constructor for a configuration object, takes in the filename and decides which type of the simulation the contents of the file represent.
@@ -101,6 +102,8 @@ public class Configuration {
           element = (Element) nNode;
           width = Integer.parseInt(element.getElementsByTagName("width").item(0).getTextContent());
           height = Integer.parseInt(element.getElementsByTagName("height").item(0).getTextContent());
+          String tempp = element.getElementsByTagName("color").item(0).getTextContent();
+          colors = tempp.trim().split(" ");
           String temp1 = element.getElementsByTagName("neighborColIndex").item(0).getTextContent();
           String[] temp11 = temp1.trim().split(" ");
           String temp2 = element.getElementsByTagName("neighborRowIndex").item(0).getTextContent();
@@ -278,6 +281,10 @@ public class Configuration {
    */
   public int getHeight(){
     return this.height;
+  }
+
+  public String[] getColors(){
+    return this.colors;
   }
 
   /**

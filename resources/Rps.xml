@@ -4,6 +4,8 @@
 		<sim_type>Rps</sim_type>
 		<width>20</width>
 		<height>10</height>
+		<toroidal>0</toroidal>
+		<hexagonal>0</hexagonal>
 		<s1>02102001202001200201</s1>
 		<s2>02102001202001200201</s2>
 		<s3>02102001202001200201</s3>

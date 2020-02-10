@@ -61,13 +61,6 @@ public class Grid {
     }
   }
 
-//  public void gridVisualization(Group node){
-//    for (int i = 0; i < height; i++) {
-//      for (int j = 0; j < width; j++) {
-//        node.getChildren().add(grid[i][j].getCellNode());
-//      }
-//    }
-//  }
 
   public int getHeight() {
     return height;

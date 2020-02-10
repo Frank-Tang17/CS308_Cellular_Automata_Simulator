@@ -18,6 +18,7 @@ public class Grid {
   private final int simulationScreenWidth = 450;
   private final int simulationScreenHeight = 450;
   private Configuration test;
+  private Simulator mine;
   private int numberofCellState0 = 0;
   private int numberofCellState1 = 0;
   private int numberofCellState2 = 0;

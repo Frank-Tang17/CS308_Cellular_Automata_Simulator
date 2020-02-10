@@ -3,6 +3,7 @@ package cellsociety.cells;
 import cellsociety.Cell;
 import cellsociety.Configuration;
 import cellsociety.Grid;
+import cellsociety.Simulator;
 import java.util.ArrayList;
 import java.util.Collections;
 

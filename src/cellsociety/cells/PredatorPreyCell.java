@@ -119,6 +119,8 @@ public class PredatorPreyCell extends Cell {
     numFramesAlive += 1;
   }
 
+
+
   private Cell loop(ArrayList<Integer> neighborStatesAsList, int stateLookingFor, Grid theOldGrid,
       Grid theNewGrid) {
 

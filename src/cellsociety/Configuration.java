@@ -49,10 +49,10 @@ public class Configuration {
    * @param filename
    */
   public Configuration(File filename){
-    //type = filename;
-    //String xmlpath = frontpath+filename+fpath;
     docInit(filename);
-    genConfigFile(init_state, this.type, 20, 10, 0.7);
+    initStateOp(1);
+    //Test comment
+    //genConfigFile(init_state, this.type, 20, 10, 0.7);
     //errorCheck(element);
     if(type.equals("Fire")){
       parseFire(element);
@@ -66,8 +66,8 @@ public class Configuration {
     else if(type.equals("PredatorPrey")){
       parsePredPray(element);
     }
-    else if(type.equals("Segregation")){
-      parseSeg(element);
+    else if(type.equals("Segregation") || type.equals("Rps")){
+      parseSegRps(element);
     }
 
   }
@@ -235,7 +235,7 @@ public class Configuration {
   }
 
   public boolean errorCheck(String type){
-    if(!type.equals("Fire") && !type.equals("GameOfLife") && !type.equals("Percolation") && !type.equals("PredatorPrey") && !type.equals("Segregation") || type==null){
+    if(!type.equals("Fire") && !type.equals("GameOfLife") && !type.equals("Percolation") && !type.equals("PredatorPrey") && !type.equals("Segregation") && !type.equals("Rps") || type==null){
       System.out.println("ERROR: Invalid Sim Type or No Sim Type Given");
       return true;
     }
@@ -247,7 +247,7 @@ public class Configuration {
    * Method to parse the variables and information from an xml file containing information on how to run a segmentation simulation.
    * @param
    */
-  public void parseSeg(Element el){
+  public void parseSegRps(Element el){
     seg_thresh = Double.parseDouble(el.getElementsByTagName("threshold").item(0).getTextContent());
   }
 

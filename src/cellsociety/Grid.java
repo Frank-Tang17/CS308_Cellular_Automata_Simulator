@@ -1,10 +1,6 @@
 package cellsociety;
 
-import cellsociety.cells.FireCell;
-import cellsociety.cells.GameOfLifeCell;
-import cellsociety.cells.PercolationCell;
-import cellsociety.cells.PredatorPreyCell;
-import cellsociety.cells.SegregationCell;
+import cellsociety.cells.*;
 import javafx.scene.Group;
 
 import java.util.ArrayList;
@@ -55,6 +51,8 @@ public class Grid {
           grid[i][j] = new SegregationCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
         } else if (sim_type.equals("PredatorPrey")) {
           grid[i][j] = new PredatorPreyCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
+        } else if(sim_type.equals("Rps")) {
+          grid[i][j] = new RPSCell(i, j, cellSize, init_state.get(k), this.nRowIndex, this.nColIndex);
         }
         k++;
       }

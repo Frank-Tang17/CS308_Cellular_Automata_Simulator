@@ -24,7 +24,7 @@ public class Simulator {
   private int framesToStepForward = 1;
   private int newState = 0;
 
-  private Configuration simulationLoaded;
+  private Configuration simulationConfiguration;
   private PolygonGrid shapeGrid;
   private SimulationGraph simulationGraph;
 
@@ -35,13 +35,13 @@ public class Simulator {
   private Scene scene;
 
 
-  public Simulator(String selectedSimulation, Scene userInterfaceScene, String languageSelected) {
+  public Simulator(Configuration passedConfiguration, String selectedSimulation, Scene userInterfaceScene, String languageSelected) {
     scene = userInterfaceScene;
     scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
     scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
-    simulationLoaded = new Configuration(selectedSimulation);
-    mainGrid = new Grid(simulationLoaded);
-    updateGrid = new Grid(simulationLoaded);
+    simulationConfiguration = passedConfiguration;
+    mainGrid = new Grid(simulationConfiguration);
+    updateGrid = new Grid(simulationConfiguration);
     shapeGrid = new PolygonGrid(mainGrid);
     simulationGraph = new SimulationGraph(selectedSimulation, languageSelected);
   }
@@ -56,6 +56,7 @@ public class Simulator {
     animation.play();
     shapeGrid.displayGrid(mainGrid, grid);
   }
+
   private void step() {
     if(runSimulation) {
       updateGrid.updateGrid(mainGrid);
@@ -104,20 +105,6 @@ public class Simulator {
     simulationRate = simulationSliderRate;
     animation.setRate(simulationRate);
   }
-
-//  public void speedUpSimulation() {
-//    if (simulationRate <= maxSimulationRate) {
-//      simulationRate *= 2;
-//      animation.setRate(simulationRate);
-//    }
-//  }
-//
-//  public void slowDownSimulation() {
-//    if (simulationRate >= minSimulationRate) {
-//      simulationRate /= 2;
-//      animation.setRate(simulationRate);
-//    }
-//  }
 
   public void checkMouseClick(Grid displayedGrid, double x, double y){
     for (int i = 0; i < displayedGrid.getHeight(); i++) {

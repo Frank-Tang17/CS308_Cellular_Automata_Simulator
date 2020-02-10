@@ -1,4 +1,7 @@
 package cellsociety;
+import java.awt.Window;
+import java.io.File;
+import java.io.ObjectInputFilter.Config;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,6 +19,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 
@@ -55,12 +60,14 @@ public class UserInterface {
   private Button pauseButton;
   private Button forwardButton;
   private Button resetButton;
-  private Button speedUpButton;
-  private Button slowDownButton;
   private Button loadSimulationButton;
   private Button makeSimulationWindow;
+  private Button saveSimulationButton;
+  private Button selectSimulationButton;
   private Slider simulationSpeedSlider;
   private Text simulationTitle;
+  private File initialDirectory = new File("./resources/");
+  private File currentSimulationFile;
 
 
 
@@ -70,6 +77,7 @@ public class UserInterface {
 
   private ResourceBundle userInterfaceResources;
   private Simulator currentSimulation;
+  private Configuration currentSimulationConfig;
   private String languageSelected;
 
   public UserInterface(String language){
@@ -136,8 +144,6 @@ public class UserInterface {
     forwardButton.setDisable(controlDisabled);
     resetButton.setDisable(controlDisabled);
     simulationSpeedSlider.setDisable(controlDisabled);
-//    speedUpButton.setDisable(controlDisabled);
-//    slowDownButton.setDisable(controlDisabled);
   }
 
   private Node makeSimulationControlPanel (String nodeID) {
@@ -155,18 +161,14 @@ public class UserInterface {
     simulationSpeedSlider = makeSlider("simulationSpeedSlider");
     controlPanel.add(simulationSpeedSlider, FIRST_COL, SECOND_ROW);
 
-//    speedUpButton = makeButton("speedUpButton", e -> currentSimulation.speedUpSimulation());
-//    controlPanel.add(speedUpButton, FIRST_COL, SECOND_ROW);
-//
-//    slowDownButton = makeButton("slowDownButton", e -> currentSimulation.slowDownSimulation());
-//    controlPanel.add(slowDownButton, SECOND_COL, SECOND_ROW);
+    selectSimulationButton = makeButton("selectSimulationButton", e -> chooseFile());
+    controlPanel.add(selectSimulationButton, SECOND_COL, SECOND_ROW);
 
-    loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(selectSimulationBox.getValue()));
+    loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(currentSimulationFile));
     controlPanel.add(loadSimulationButton, THIRD_COL, SECOND_ROW);
 
-    selectSimulationBox = makeComboBox("selectSimulationBox", configurationArray);
-    controlPanel.add(selectSimulationBox, THIRD_COL, SECOND_ROW);
-
+//    selectSimulationBox = makeComboBox("selectSimulationBox", configurationArray);
+//    controlPanel.add(selectSimulationBox, THIRD_COL, SECOND_ROW);
 
     controlPanel.setId(nodeID);
     return controlPanel;
@@ -175,27 +177,30 @@ public class UserInterface {
 
   private Node makeGameDisplayPanel (String nodeID) {
     HBox gameDisplay = new HBox();
-    makeSimulationWindow = makeButton("makeNewSimulationButton", e -> new SimulationWindow(new Stage()));
 
+    makeSimulationWindow = makeButton("makeNewSimulationButton", e -> new SimulationWindow(new Stage()));
     gameDisplay.getChildren().add(makeSimulationWindow);
 
     simulationTitle = new Text();
     gameDisplay.getChildren().add(simulationTitle);
 
+    saveSimulationButton = makeButton("saveSimulationButton", e -> chooseFile());
+    gameDisplay.getChildren().add(saveSimulationButton);
+
     gameDisplay.setId(nodeID);
     return gameDisplay;
   }
 
-  private void loadSimulation(Object selectBoxObject){
-    if(selectBoxObject == null){
-      new DisplayError(languageSelected, "NullSelection");
-    }
-    else{
-      selectedSimulationName = selectBoxObject.toString();
+  private void loadSimulation(File simulationFile){
+    try{
+//      selectedSimulationName = selectBoxObject.toString();
       makeSimulation(selectedSimulationName);
+      simulationTitle.setText(selectedSimulationName);
       controlDisabled = false;
       enableAndDisableButtons();
-      simulationTitle.setText(selectedSimulationName);
+    }
+    catch(Exception NullPointerException){
+      new DisplayError(languageSelected, "NullSelection");
     }
   }
 
@@ -206,8 +211,19 @@ public class UserInterface {
   }
 
   public void makeSimulation(String selectedSimulationName){
-    currentSimulation = new Simulator(selectedSimulationName, userInterfaceScene, languageSelected);
+    currentSimulationConfig = new Configuration(selectedSimulationName);
+    currentSimulation = new Simulator(currentSimulationConfig, selectedSimulationName, userInterfaceScene, languageSelected);
     currentSimulation.runSimulation(grid);
+  }
+
+  public void chooseFile () {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setInitialDirectory(initialDirectory);
+    fileChooser.setTitle("Choose Simulation XML Configuration File");
+    fileChooser.getExtensionFilters().addAll(
+        new ExtensionFilter("Text Files", "*.txt"));
+    File selectedFile = fileChooser.showOpenDialog(new Stage());
+    currentSimulationFile = selectedFile;
   }
 
 }

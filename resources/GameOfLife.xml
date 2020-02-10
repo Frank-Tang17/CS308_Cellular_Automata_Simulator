@@ -4,6 +4,8 @@
 		<sim_type>GameOfLife</sim_type>
 		<width>20</width>
 		<height>10</height>
+		<toroidal>0</toroidal>
+		<hexagonal>0</hexagonal>
 		<s1>01010101011010010011</s1>
 		<s2>01010101011010010011</s2>
 		<s3>01010101011010010011</s3>

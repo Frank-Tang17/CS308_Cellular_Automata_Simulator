@@ -44,6 +44,8 @@ public class Configuration {
   private int[] nColIndex;
   private int[] nRowIndex;
   private String[] colors;
+  private boolean toroidal;
+  private boolean hexagonal;
 
   /**
    * Constructor for a configuration object, takes in the filename and decides which type of the
@@ -54,28 +56,22 @@ public class Configuration {
    */
   public Configuration(File filename) {
     docInit(filename);
-    initStateOp(1);
-    //Test comment
+    randomize();
     //genConfigFile(init_state, this.type, 20, 10, 0.7);
     //errorCheck(element);
     if (type.equals("Fire")) {
       parseFire(element);
-    } else if (type.equals("GameOfLife")) {
-      //parseGameLife(xmlpath);
-    } else if (type.equals("Percolation")) {
-      //parsePercolation(xmlpath);
-    } else if (type.equals("PredatorPrey")) {
+    }
+    else if(type.equals("PredatorPrey")){
       parsePredPray(element);
     } else if (type.equals("Segregation") || type.equals("Rps")) {
       parseSegRps(element);
     }
-
   }
 
   /**
-   * Method to iniitialize the variables needed to extract information from the xml file that is
-   * read in. Reduces the amount of duplicate code needed from each simulation's parser.
-   *
+   * Method to iniitialize the variables needed to extract information from the xml file that is read in. Reduces the amount of duplicate code
+   * needed from each simulation's parser. Populates the required variables based on what type of simulation it is.
    * @param filename
    */
 
@@ -85,7 +81,6 @@ public class Configuration {
       DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
       Document doc = dBuilder.parse(fxml);
-
       doc.getDocumentElement().normalize();
 
       nList = doc.getElementsByTagName("type");
@@ -99,23 +94,20 @@ public class Configuration {
 
       for (int temp = 0; temp < nList.getLength(); temp++) {
         Node nNode = nList.item(temp);
-
-        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+        if(nNode.getNodeType() == Node.ELEMENT_NODE){
           element = (Element) nNode;
           width = Integer.parseInt(element.getElementsByTagName("width").item(0).getTextContent());
-          height = Integer
-              .parseInt(element.getElementsByTagName("height").item(0).getTextContent());
+          height = Integer.parseInt(element.getElementsByTagName("height").item(0).getTextContent());
+
           String tempp = element.getElementsByTagName("color").item(0).getTextContent();
           colors = tempp.trim().split(" ");
-          String temp1 = element.getElementsByTagName("neighborColIndex").item(0).getTextContent();
-          String[] temp11 = temp1.trim().split(" ");
-          String temp2 = element.getElementsByTagName("neighborRowIndex").item(0).getTextContent();
-          String[] temp22 = temp2.trim().split(" ");
-
+          String[] temp11 = (element.getElementsByTagName("neighborColIndex").item(0).getTextContent()).trim().split(" ");
+          String[] temp22 = (element.getElementsByTagName("neighborRowIndex").item(0).getTextContent()).trim().split(" ");
+          toroidal = (Integer.parseInt(element.getElementsByTagName("toroidal").item(0).getTextContent())) == 1;
+          hexagonal = (Integer.parseInt(element.getElementsByTagName("hexagonal").item(0).getTextContent())) == 1;
           nColIndex = new int[temp11.length];
           nRowIndex = new int[temp22.length];
-
-          for (int i = 0; i < temp11.length; i++) {
+          for(int i = 0; i<temp11.length; i++){
             nColIndex[i] = Integer.parseInt(temp11[i]);
           }
           for (int j = 0; j < temp22.length; j++) {
@@ -133,10 +125,9 @@ public class Configuration {
           }
         }
       }
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch(Exception e){
+      new DisplayError("English", "Error initializing doc");
     }
-
 
   }
 
@@ -149,29 +140,30 @@ public class Configuration {
    * @param i
    */
 
-  public void initStateOp(int i) {
+  public void randomize(){
 
     int max_val = Collections.max(init_state);
     int size = init_state.size();
-
-    if (i == 1) {
-      for (int j = 0; j < size; j++) {
-        Random rand = new Random();
-        //double randomDouble = Math.random();
-        //randomDouble = randomDouble * (max_val);
-        init_state.set(j, rand.nextInt(max_val + 1));
-      }
-    } else if (i == 2) {
-
+    for(int j = 0; j<size; j++){
+      Random rand = new Random();
+      //double randomDouble = Math.random();
+      //randomDouble = randomDouble * (max_val);
+      init_state.set(j, rand.nextInt(max_val+1));
     }
-
-    //init_state
   }
 
-  public void genConfigFile(ArrayList<Integer> currentState, String sim_type, int width, int height,
-      double prob) {
-
-    try {
+  /**
+   * Method that allows you to pause the simulation at any point and generate a configuration file of the current state.
+   * Saves all the variables and information of the simulation to be able to run it again starting from the same
+   * point.
+   * @param currentState
+   * @param sim_type
+   * @param width
+   * @param height
+   * @param prob
+   */
+  public void genConfigFile(ArrayList<Integer> currentState, String sim_type, int width, int height, double prob){
+    try{
       DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
       Document doc = docBuilder.newDocument();
@@ -209,12 +201,11 @@ public class Configuration {
       transformer.transform(source, result);
       System.out.println("File saved!");
 
-    } catch (ParserConfigurationException pce) {
-
-    } catch (TransformerException tfe) {
-
+    } catch(ParserConfigurationException pce){
+      new DisplayError("English", "ParserConfigurationException");
+    } catch(TransformerException tfe){
+      new DisplayError("English", "TransformerException");
     }
-
   }
 
   /**
@@ -236,14 +227,10 @@ public class Configuration {
   }
 
   /**
-   * Error checking method that checks for: 1. Invalid or no simulation type given. 2. Default
-   * parameter for sim type is Fire.
+   * Error checking method that checks for invalid or no simulation type given.
    *
    * @param el
    */
-  public void errorCheck(Element el) {
-
-  }
 
   public boolean errorCheck(String type) {
     if (!type.equals("Fire") && !type.equals("GameOfLife") && !type.equals("Percolation") && !type
@@ -254,7 +241,6 @@ public class Configuration {
     }
     return false;
   }
-
 
   /**
    * Method to parse the variables and information from an xml file containing information on how to
@@ -276,12 +262,38 @@ public class Configuration {
     this.prob = Double.parseDouble(el.getElementsByTagName("prob").item(0).getTextContent());
   }
 
-  public int[] getnColIndex() {
+  /**
+   * Returns the row indexes of the neighborhood of a given cell.
+   * @return
+   */
+  public int[] getnRowIndex(){
+    return this.nRowIndex;
+  }
+
+  /**
+   * Returns the col indexes of the neighborhood of a given cell.
+   * @return
+   */
+
+  public int[] getnColIndex(){
     return this.nColIndex;
   }
 
-  public int[] getnRowIndex() {
-    return this.nRowIndex;
+  /**
+   * Returns whether or not the grid is toroidal.
+   * @return
+   */
+
+  public boolean isToroidal(){
+    return this.toroidal;
+  }
+
+  /**
+   * Returns whether or not the grid is hexagonal.
+   * @return
+   */
+  public boolean isHexagonal(){
+    return this.hexagonal;
   }
 
   /**
@@ -302,7 +314,12 @@ public class Configuration {
     return this.height;
   }
 
-  public String[] getColors() {
+  /**
+   * Getter method that returns the fill colors of the cells, which will vary based on the simulation type
+   * and be housed in the xml file for each simulation.
+   * @return
+   */
+  public String[] getColors(){
     return this.colors;
   }
 

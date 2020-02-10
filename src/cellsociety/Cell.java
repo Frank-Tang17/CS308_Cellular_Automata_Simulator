@@ -38,7 +38,7 @@ public abstract class Cell {
     myRow = row;
     myCol = col;
     neighborRowIndex = neighborRowIndexes;
-    if (!hexagon) {
+    if (hexagon) {
       neighborEvenColIndex = new int[]{-1, -1, 0, 1, 0, -1};
       neighborOddColIndex = new int[]{-1, 0, 1, 1, 1, 0};
       neighborRowIndex = new int[]{0, -1, -1, 0, 1, 1};
@@ -147,5 +147,25 @@ public abstract class Cell {
     return neighborRowIndex;
   }
 
+  /**
+   * Setter method for toroidal
+   * @param newStatus
+   */
+  public void setToroidal(boolean newStatus) {
+    toroidal = newStatus;
+  }
+
+  /**
+   * Setter method for hexagon
+   * @param newStatus
+   */
+  public void setHexagon(boolean newStatus) {
+    hexagon = newStatus;
+    if (hexagon) {
+      neighborEvenColIndex = new int[]{-1, -1, 0, 1, 0, -1};
+      neighborOddColIndex = new int[]{-1, 0, 1, 1, 1, 0};
+      neighborRowIndex = new int[]{0, -1, -1, 0, 1, 1};
+    }
+  }
 }
 

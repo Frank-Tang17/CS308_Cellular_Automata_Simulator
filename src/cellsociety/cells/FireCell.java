@@ -9,9 +9,9 @@ import java.util.ArrayList;
  */
 public class FireCell extends Cell {
   private double prob = .55;
-  private static final int emptyState = 0;
-  private static final int treeState = 1;
-  private static final int burningState = 2;
+  private static final int EMPTY_STATE = 0;
+  private static final int TREE_STATE = 1;
+  private static final int BURNING_STATE = 2;
 
 
   /**
@@ -41,10 +41,11 @@ public class FireCell extends Cell {
     double rand = (Math.random() * 100);
     double compProb = 100 * prob;
 
-    if (theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == burningState) {
-      setCellState(emptyState);
-    } else if (neighborStatesAsList.contains(burningState) && theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == treeState && (rand <= compProb)) {
-      setCellState(burningState);
+    if (theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == BURNING_STATE) {
+      setCellState(EMPTY_STATE);
+    } else if (neighborStatesAsList.contains(BURNING_STATE) && theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == TREE_STATE
+        && (rand <= compProb)) {
+      setCellState(BURNING_STATE);
     }
   }
 

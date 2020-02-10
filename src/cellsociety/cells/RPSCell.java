@@ -10,9 +10,9 @@ import java.util.Collections;
  */
 public class RPSCell extends Cell {
   private int threshold = 3;
-  private static final int rockState = 0;
-  private static final int paperState = 1;
-  private static final int scissorState = 2;
+  private static final int ROCK_STATE = 0;
+  private static final int PAPER_STATE = 1;
+  private static final int SCISSOR_STATE = 2;
 
   /**
    * Constructor for RPSCell class Cell object
@@ -40,15 +40,15 @@ public class RPSCell extends Cell {
     int numberOfSimilarNeighbors = 0;
     int newState = 0;
 
-    if (getCurrentState() == rockState) {
-      numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, paperState);
-      newState = paperState;
-    } else if (getCurrentState() == paperState) {
-      numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, scissorState);
-      newState = scissorState;
-    } else if (getCurrentState() == scissorState) {
-      numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, rockState);
-      newState = rockState;
+    if (getCurrentState() == ROCK_STATE) {
+      numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, PAPER_STATE);
+      newState = PAPER_STATE;
+    } else if (getCurrentState() == PAPER_STATE) {
+      numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, SCISSOR_STATE);
+      newState = SCISSOR_STATE;
+    } else if (getCurrentState() == SCISSOR_STATE) {
+      numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, ROCK_STATE);
+      newState = ROCK_STATE;
     }
 
     if (numberOfSimilarNeighbors > threshold) {

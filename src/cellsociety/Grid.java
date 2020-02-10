@@ -61,6 +61,8 @@ public class Grid {
           RPSCell temp = (RPSCell) grid[i][j];
           temp.setThreshold(myConfig.getThreshold());
         }
+        grid[i][j].setToroidal(myConfig.getToroidal);
+        grid[i][j].setHexagon(myConfig.getHexagonal);
         k++;
       }
     }

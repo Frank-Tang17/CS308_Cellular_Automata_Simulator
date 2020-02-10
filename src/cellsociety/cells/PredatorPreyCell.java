@@ -9,14 +9,13 @@ import java.util.ArrayList;
  */
 public class PredatorPreyCell extends Cell {
 
-  private final int emptyState = 0;
-  private final int typeFish = 1;
-  private final int typeShark = 2;
+  private final int EMPTY_STATE = 0;
+  private final int TYPE_FISH = 1;
+  private final int TYPE_SHARK = 2;
   private int newFishTime = 4;
   private int newSharkTime = 20;
   private int startingSharkEnergy = 5;
   private int energyPerFish = 2;
-
   private int numFramesAlive;
   private int myEnergy;
 
@@ -35,7 +34,7 @@ public class PredatorPreyCell extends Cell {
       int[] neighborColIndexes) {
     super(row, col, startingState, neighborRowIndexes, neighborColIndexes);
     numFramesAlive = 0;
-    if (getCurrentState() == typeShark) {
+    if (getCurrentState() == TYPE_SHARK) {
       myEnergy = startingSharkEnergy;
     }
   }
@@ -53,11 +52,11 @@ public class PredatorPreyCell extends Cell {
     int[] neighborColIndex = getNeighborColIndex();
     int[] neighborRowIndex = getNeighborRowIndex();
 
-    if (getCurrentState() == this.typeFish) { // if I am a fish
+    if (getCurrentState() == this.TYPE_FISH) { // if I am a fish
       isFish(theOldGrid, theNewGrid, neighborStatesAsList);
-    } else if (getCurrentState() == typeShark) {
+    } else if (getCurrentState() == TYPE_SHARK) {
       if (myEnergy == 0) {
-        setCellState(emptyState);
+        setCellState(EMPTY_STATE);
         numFramesAlive = 0;
         return;
       }
@@ -66,7 +65,7 @@ public class PredatorPreyCell extends Cell {
         myEnergy -= 1;
       }
       if (myEnergy == 0) {
-        setCellState(emptyState);
+        setCellState(EMPTY_STATE);
       }
     }
     numFramesAlive += 1;
@@ -75,14 +74,14 @@ public class PredatorPreyCell extends Cell {
   private void isFish(Grid theOldGrid, Grid theNewGrid, ArrayList<Integer> neighborStatesAsList) {
     int[] neighborColIndex = getNeighborColIndex();
     int[] neighborRowIndex = getNeighborRowIndex();
-    if (neighborStatesAsList.contains(emptyState)) {
+    if (neighborStatesAsList.contains(EMPTY_STATE)) {
       for (int i = 0; i < neighborColIndex.length; i++) {
         if (theNewGrid.isValidIndex(getRowAndCol()[0] + neighborRowIndex[i],
             getRowAndCol()[1] + neighborColIndex[i])) {
           if (theOldGrid.getCell(getRowAndCol()[0] + neighborRowIndex[i], getRowAndCol()[1]
-              + neighborColIndex[i]).getCurrentState() == emptyState && theNewGrid
+              + neighborColIndex[i]).getCurrentState() == EMPTY_STATE && theNewGrid
               .getCell(getRowAndCol()[0] + neighborRowIndex[i],
-                  getRowAndCol()[1] + neighborColIndex[i]).getCurrentState() == emptyState) {
+                  getRowAndCol()[1] + neighborColIndex[i]).getCurrentState() == EMPTY_STATE) {
             alterFish(theNewGrid, i);
           }
         }
@@ -94,7 +93,7 @@ public class PredatorPreyCell extends Cell {
     int[] neighborColIndex = getNeighborColIndex();
     int[] neighborRowIndex = getNeighborRowIndex();
     theNewGrid.getCell(getRowAndCol()[0] + neighborRowIndex[i],
-        getRowAndCol()[1] + neighborColIndex[i]).setCellState(typeFish);
+        getRowAndCol()[1] + neighborColIndex[i]).setCellState(TYPE_FISH);
 
     try {
       PredatorPreyCell temp = (PredatorPreyCell) theNewGrid
@@ -106,7 +105,7 @@ public class PredatorPreyCell extends Cell {
     }
 
     if (numFramesAlive % newFishTime != 0 || numFramesAlive == 0) {
-      setCellState(emptyState);
+      setCellState(EMPTY_STATE);
     }
     numFramesAlive = 0;
   }
@@ -114,27 +113,27 @@ public class PredatorPreyCell extends Cell {
   private void isAShark(Grid theOldGrid, Grid theNewGrid, ArrayList<Integer> neighborStatesAsList) {
     int[] neighborColIndex = getNeighborColIndex();
     int[] neighborRowIndex = getNeighborRowIndex();
-    if (neighborStatesAsList.contains(typeFish)) {
+    if (neighborStatesAsList.contains(TYPE_FISH)) {
       for (int i = 0; i < neighborColIndex.length; i++) {
         if (theNewGrid.isValidIndex(getRowAndCol()[0] + neighborRowIndex[i],
             getRowAndCol()[1] + neighborColIndex[i])) {
           if (theOldGrid.getCell(getRowAndCol()[0] + neighborRowIndex[i], getRowAndCol()[1]
-              + neighborColIndex[i]).getCurrentState() == typeFish && theNewGrid
+              + neighborColIndex[i]).getCurrentState() == TYPE_FISH && theNewGrid
               .getCell(getRowAndCol()[0] + neighborRowIndex[i],
-                  getRowAndCol()[1] + neighborColIndex[i]).getCurrentState() == typeFish) {
+                  getRowAndCol()[1] + neighborColIndex[i]).getCurrentState() == TYPE_FISH) {
             myEnergy += energyPerFish;
             moveSharkAndCheckReproduce(theNewGrid, neighborRowIndex[i], neighborColIndex[i]);
           }
         }
       }
-    } else if (neighborStatesAsList.contains(emptyState)) {
+    } else if (neighborStatesAsList.contains(EMPTY_STATE)) {
       for (int i = 0; i < neighborColIndex.length; i++) {
         if (theNewGrid.isValidIndex(getRowAndCol()[0] + neighborRowIndex[i],
             getRowAndCol()[1] + neighborColIndex[i])) {
           if (theOldGrid.getCell(getRowAndCol()[0] + neighborRowIndex[i], getRowAndCol()[1]
-              + neighborColIndex[i]).getCurrentState() == emptyState && theNewGrid
+              + neighborColIndex[i]).getCurrentState() == EMPTY_STATE && theNewGrid
               .getCell(getRowAndCol()[0] + neighborRowIndex[i],
-                  getRowAndCol()[1] + neighborColIndex[i]).getCurrentState() == emptyState) {
+                  getRowAndCol()[1] + neighborColIndex[i]).getCurrentState() == EMPTY_STATE) {
             moveSharkAndCheckReproduce(theNewGrid, neighborRowIndex[i], neighborColIndex[i]);
           }
         }
@@ -145,7 +144,7 @@ public class PredatorPreyCell extends Cell {
   private void moveSharkAndCheckReproduce(Grid theNewGrid, int neighborRowShift,
       int neighborColShift) {
     theNewGrid.getCell(getRowAndCol()[0] + neighborRowShift, getRowAndCol()[1] + neighborColShift)
-        .setCellState(typeShark);
+        .setCellState(TYPE_SHARK);
     try {
       PredatorPreyCell temp = (PredatorPreyCell) theNewGrid
           .getCell(getRowAndCol()[0] + neighborRowShift, getRowAndCol()[1] + neighborColShift);
@@ -156,7 +155,7 @@ public class PredatorPreyCell extends Cell {
     }
     myEnergy = 0;
     if (numFramesAlive % newSharkTime != 0 || numFramesAlive == 0) { // If I should NOT REPRODUCE
-      setCellState(emptyState);
+      setCellState(EMPTY_STATE);
     } else if (numFramesAlive % newSharkTime == 0) {
       myEnergy = startingSharkEnergy;
     }

@@ -17,6 +17,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Class to handle the configuration file parsing and feeding the data back to the main classes for each simulation to use.
@@ -38,6 +39,8 @@ public class Configuration {
   private String celltype;
   private NodeList nList;
   private Element element;
+  private int[] nColIndex;
+  private int[] nRowIndex;
 
   /**
    * Constructor for a configuration object, takes in the filename and decides which type of the simulation the contents of the file represent.
@@ -98,6 +101,21 @@ public class Configuration {
           element = (Element) nNode;
           width = Integer.parseInt(element.getElementsByTagName("width").item(0).getTextContent());
           height = Integer.parseInt(element.getElementsByTagName("height").item(0).getTextContent());
+          String temp1 = element.getElementsByTagName("neighborColIndex").item(0).getTextContent();
+          String[] temp11 = temp1.trim().split(" ");
+          String temp2 = element.getElementsByTagName("neighborRowIndex").item(0).getTextContent();
+          String[] temp22 = temp2.trim().split(" ");
+
+          nColIndex = new int[temp11.length];
+          nRowIndex = new int[temp22.length];
+
+          for(int i = 0; i<temp11.length; i++){
+            nColIndex[i] = Integer.parseInt(temp11[i]);
+          }
+          for(int j = 0; j<temp22.length; j++){
+            nRowIndex[j] = Integer.parseInt(temp22[j]);
+          }
+
           for(int i = 1; i<=height; i++){
             String num = "s"+i;
             String s = element.getElementsByTagName(num).item(0).getTextContent();
@@ -238,6 +256,14 @@ public class Configuration {
     this.prob = Double.parseDouble(el.getElementsByTagName("prob").item(0).getTextContent());
   }
 
+  public int[] getnColIndex(){
+    return this.nColIndex;
+  }
+
+  public int[] getnRowIndex(){
+    return this.nRowIndex;
+  }
+
   /**
    * Getter method to retrieve the width of the simulation grid
    * @return
@@ -270,3 +296,5 @@ public class Configuration {
     return this.init_state;
   }
 }
+
+

@@ -87,7 +87,7 @@ public class PredatorPreyCell extends Cell {
               getRowAndCol()[1] + neighborColIndex[i])) {
             if (theOldGrid.getCell(getRowAndCol()[0] + neighborRowIndex[i], getRowAndCol()[1]
                 + neighborColIndex[i]).getCurrentState() == typeFish && theNewGrid
-                .getCell(getRowAndCol()[1] + neighborRowIndex[i],
+                .getCell(getRowAndCol()[0] + neighborRowIndex[i],
                     getRowAndCol()[1] + neighborColIndex[i]).getCurrentState() == typeFish) {
               myEnergy += energyPerFish;
               System.out.println("Hi 1");

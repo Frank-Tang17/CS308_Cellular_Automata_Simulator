@@ -10,15 +10,24 @@ public class PolygonGrid {
   private static final int upperLeftX = 75;
   private static final int upperLeftY = 70;
 
-  private Color[] cellFillColors = {Color.WHITE, Color.GREEN, Color.BLUE};
+  private Color[] cellFillColors;
   private Color[] cellStrokeColors = {Color.GREY, Color.GREY, Color.GREY};
   private static final StrokeType cellStrokeType = StrokeType.CENTERED; // INSIDE, OUTSIDE, or CENTERED
   private static final double cellStrokeProportion = 0.1;
 
   private Rectangle[][] polygonGrid;
 
-  public PolygonGrid(Grid gridToDisplay) {
+  public PolygonGrid(Grid gridToDisplay, Configuration simulationConfiguration) {
     polygonGrid = new Rectangle[gridToDisplay.getWidth()][gridToDisplay.getHeight()];
+    makeFillColorArray();
+
+  }
+
+  private void makeFillColorArray(String[] fillColorsFromConfig){
+    cellFillColors = new Color[fillColorsFromConfig.length];
+    for (int i = 0; i < cellFillColors.length; i++){
+      cellFillColors[i] = Color.web(fillColorsFromConfig[i]);
+    }
   }
 
   /**

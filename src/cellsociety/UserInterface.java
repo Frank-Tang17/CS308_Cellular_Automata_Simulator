@@ -132,17 +132,11 @@ public class UserInterface {
     return slider;
   }
 
-  private ComboBox makeComboBox (String property, ObservableList options) {
-    ComboBox resultBox = new ComboBox(options);
-    resultBox.setId(property);
-    return resultBox;
-  }
-
-
   private void enableAndDisableButtons(){
     pauseButton.setDisable(controlDisabled);
     forwardButton.setDisable(controlDisabled);
     resetButton.setDisable(controlDisabled);
+    saveSimulationButton.setDisable(controlDisabled);
     simulationSpeedSlider.setDisable(controlDisabled);
   }
 
@@ -192,15 +186,14 @@ public class UserInterface {
   }
 
   private void loadSimulation(File simulationFile){
-    try{
-//      selectedSimulationName = selectBoxObject.toString();
+    if (simulationFile == null) {
+      new DisplayError(languageSelected, "NullSelection");
+    }
+    else{
       makeSimulation(selectedSimulationName);
       simulationTitle.setText(selectedSimulationName);
       controlDisabled = false;
       enableAndDisableButtons();
-    }
-    catch(Exception NullPointerException){
-      new DisplayError(languageSelected, "NullSelection");
     }
   }
 

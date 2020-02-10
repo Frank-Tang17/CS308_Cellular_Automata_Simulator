@@ -131,5 +131,12 @@ public class Grid {
 
     return Math.min(maxWidth, maxHeight);
   }
+   public double getSimulationScreenWidth(){
+    return simulationScreenWidth;
+   }
+  public double getSimulationScreenHeight(){
+    return simulationScreenHeight;
+  }
+
 
 }

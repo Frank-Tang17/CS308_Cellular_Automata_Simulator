@@ -51,6 +51,7 @@ public class Configuration {
   public Configuration(File filename){
     docInit(filename);
     initStateOp(1);
+    //Test comment
     //genConfigFile(init_state, this.type, 20, 10, 0.7);
     //errorCheck(element);
     if(type.equals("Fire")){

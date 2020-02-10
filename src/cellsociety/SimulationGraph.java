@@ -10,6 +10,10 @@ import javafx.stage.Stage;
 
 
 public class SimulationGraph {
+  private final int graphWindowHeight = 400;
+  private final int graphWindowWidth = 400;
+
+
   private NumberAxis xAxis = new NumberAxis();
   private NumberAxis yAxis = new NumberAxis();
   //creating the chart
@@ -24,7 +28,7 @@ public class SimulationGraph {
     graphResources = ResourceBundle.getBundle(languageSelected);
 
     BorderPane graphRoot = new BorderPane();
-    Scene scene = new Scene(graphRoot, 400,400);
+    Scene scene = new Scene(graphRoot, graphWindowWidth,graphWindowHeight);
     Stage stage = new Stage();
     stage.setTitle(graphResources.getString("simulationGraphWindowTitle"));
 
@@ -38,17 +42,16 @@ public class SimulationGraph {
   private LineChart makeLineChart(String selectedSimulation){
     LineChart<Number,Number> newChart =
         new LineChart<>(xAxis, yAxis);
+    newChart.setCreateSymbols(false);
+    yAxis.setLabel(graphResources.getString("yAxis"));
+    xAxis.setLabel(graphResources.getString("xAxis"));
+    newChart.setTitle(selectedSimulation);
+
     series1.setName(graphResources.getString("cell1"));
     series2.setName(graphResources.getString("cell2"));
     series3.setName(graphResources.getString("cell3"));
-
     newChart.getData().addAll(series1, series2, series3);
-    newChart.setCreateSymbols(false);
 
-    xAxis.setLabel(graphResources.getString("xAxis"));
-    yAxis.setLabel(graphResources.getString("yAxis"));
-
-    newChart.setTitle(selectedSimulation);
     return newChart;
   }
 

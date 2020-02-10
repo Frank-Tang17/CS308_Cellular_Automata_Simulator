@@ -76,9 +76,6 @@ public class UserInterface {
     languageSelected = language;
     userInterfaceResources = ResourceBundle.getBundle(languageSelected);
   }
-  /**
-   * Initialize what will be displayed and how it will be updated.
-   */
 
   // Create the game's "scene": what shapes will be in the game and their starting properties
   public Scene setupUserInterface(int width, int height) {

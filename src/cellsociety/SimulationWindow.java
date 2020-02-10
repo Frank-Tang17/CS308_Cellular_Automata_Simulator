@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 public class SimulationWindow {
 
   private static final String TITLE = "Simulation";
-  private static final Dimension WINDOW_SIZE = new Dimension(600, 600);
+  private static final Dimension WINDOW_SIZE = new Dimension(600, 650);
 
   public SimulationWindow(Stage stage){
     UserInterface GUI = new UserInterface("English");

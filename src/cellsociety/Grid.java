@@ -41,17 +41,17 @@ public class Grid {
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        if (sim_type.equals("Fire")) {
-          grid[i][j] = new FireCell(i, j, cellSize, init_state.get(k));
-        } else if (sim_type.equals("GameOfLife")) {
-          grid[i][j] = new GameOfLifeCell(i, j, cellSize, init_state.get(k));
-        } else if (sim_type.equals("Percolation")) {
-          grid[i][j] = new PercolationCell(i, j, cellSize, init_state.get(k));
-        } else if (sim_type.equals("Segregation")) {
-          grid[i][j] = new SegregationCell(i, j, cellSize, init_state.get(k));
-        } else if (sim_type.equals("PredatorPrey")) {
-          grid[i][j] = new PredatorPreyCell(i, j, cellSize, init_state.get(k));
-        }
+//        if (sim_type.equals("Fire")) {
+//          grid[i][j] = new FireCell(i, j, cellSize, init_state.get(k));
+//        } else if (sim_type.equals("GameOfLife")) {
+//          grid[i][j] = new GameOfLifeCell(i, j, cellSize, init_state.get(k));
+//        } else if (sim_type.equals("Percolation")) {
+//          grid[i][j] = new PercolationCell(i, j, cellSize, init_state.get(k));
+//        } else if (sim_type.equals("Segregation")) {
+//          grid[i][j] = new SegregationCell(i, j, cellSize, init_state.get(k));
+//        } else if (sim_type.equals("PredatorPrey")) {
+//          grid[i][j] = new PredatorPreyCell(i, j, cellSize, init_state.get(k));
+//        }
         k++;
       }
     }

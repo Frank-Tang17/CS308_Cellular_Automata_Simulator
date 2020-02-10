@@ -19,7 +19,7 @@
 }
 
 #controlPanel{
-  -fx-pref-height: 120px;
+  -fx-pref-height: 170px;
   -fx-padding: 10px;
   -fx-border-width: 2px;
   -fx-border-color: #737373;
@@ -30,7 +30,7 @@
 }
 .button {
   -fx-pref-width: 185px;
-  -fx-pref-height: 50px;
+  -fx-pref-height: 30px;
   -fx-border-width: 2px;
   -fx-border-color: #000000;
   -fx-border-radius: 5px;
@@ -39,10 +39,10 @@
   -fx-background-radius: 5px;
 }
 
-#loadSimulationButton{
-  -fx-pref-width: 65px;
-  -fx-translate-x: 120px;
-}
+/*#loadSimulationButton{*/
+/*  -fx-pref-width: 65px;*/
+/*  -fx-translate-x: 120px;*/
+/*}*/
 
 #makeNewSimulationButton{
   -fx-pref-width: 200px;
@@ -53,23 +53,17 @@
   -fx-background-color: #3a3a3a;
 }
 
-.combo-box-base {
-  -fx-text-base-color: #000000;
-  -fx-border-width: 2px;
-  -fx-border-color: #000000;
-  -fx-background-color: #a6a6a6;
-  -fx-border-radius: 5;
-  -fx-background-radius: 5;
-  -fx-pref-width: 120px;
-  -fx-pref-height: 50px;
-}
-.combo-box-base:hover {
-  -fx-background-color: #3a3a3a;
-}
-
-#initialDirections {
-  -fx-font-size: 8px;
-}
-
+/*.combo-box-base {*/
+/*  -fx-text-base-color: #000000;*/
+/*  -fx-border-width: 2px;*/
+/*  -fx-border-color: #000000;*/
+/*  -fx-background-color: #a6a6a6;*/
+/*  -fx-border-radius: 5;*/
+/*  -fx-background-radius: 5;*/
+/*  -fx-pref-width: 120px;*/
+/*}*/
+/*.combo-box-base:hover {*/
+/*  -fx-background-color: #3a3a3a;*/
+/*}*/
 
 

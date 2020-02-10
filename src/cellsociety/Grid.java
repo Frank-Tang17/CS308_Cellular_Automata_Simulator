@@ -1,5 +1,10 @@
 package cellsociety;
 
+import cellsociety.cells.FireCell;
+import cellsociety.cells.GameOfLifeCell;
+import cellsociety.cells.PercolationCell;
+import cellsociety.cells.PredatorPreyCell;
+import cellsociety.cells.SegregationCell;
 import javafx.scene.Group;
 
 import java.util.ArrayList;
@@ -75,10 +80,6 @@ public class Grid {
         grid[i][j].update(oldGrid, this);
       }
     }
-  }
-
-  public Cell[][] getGrid() {
-    return grid;
   }
 
   public void copyGrid(Grid gridnew) {

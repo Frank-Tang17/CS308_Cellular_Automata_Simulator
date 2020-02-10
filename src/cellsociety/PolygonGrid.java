@@ -19,7 +19,7 @@ public class PolygonGrid {
 
   public PolygonGrid(Grid gridToDisplay, Configuration simulationConfiguration) {
     polygonGrid = new Rectangle[gridToDisplay.getWidth()][gridToDisplay.getHeight()];
-    makeFillColorArray();
+    makeFillColorArray(simulationConfiguration.getColors());
 
   }
 

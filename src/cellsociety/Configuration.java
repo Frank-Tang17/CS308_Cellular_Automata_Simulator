@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
+import java.util.Collections;
 
 /**
  * Class to handle the configuration file parsing and feeding the data back to the main classes for each simulation to use.
@@ -30,7 +32,7 @@ public class Configuration {
   private int num_frames_for_fish;
   private double seg_thresh;
   private String frontpath = "src/cellsociety/";
-  private String fpath = ".txt";
+  private String fpath = ".xml";
   private String celltype;
   private NodeList nList;
   private Element element;
@@ -41,9 +43,10 @@ public class Configuration {
    * @param filename
    */
   public Configuration(String filename){
-    type = filename;
-    String xmlpath = frontpath+type+fpath;
+    //type = filename;
+    String xmlpath = frontpath+filename+fpath;
     docInit(xmlpath);
+    //errorCheck(element);
     if(type.equals("Fire")){
       parseFire(element);
     }
@@ -78,6 +81,12 @@ public class Configuration {
       doc.getDocumentElement().normalize();
 
       nList = doc.getElementsByTagName("type");
+      String unverified_type = ((Element)nList.item(0)).getElementsByTagName("sim_type").item(0).getTextContent();
+      boolean isError = errorCheck(unverified_type);
+      if(isError){
+        return;
+      }
+      type = unverified_type;
 
       for(int temp = 0; temp<nList.getLength(); temp++){
         Node nNode = nList.item(temp);
@@ -86,8 +95,12 @@ public class Configuration {
           element = (Element) nNode;
           width = Integer.parseInt(element.getElementsByTagName("width").item(0).getTextContent());
           height = Integer.parseInt(element.getElementsByTagName("height").item(0).getTextContent());
-          for(int i = 0; i<width*height; i++){
-            init_state.add(Integer.parseInt(element.getElementsByTagName("s1").item(i).getTextContent()));
+          for(int i = 0; i<height; i++){
+            String s = element.getElementsByTagName("s1").item(i).getTextContent();
+            int[] arr = Arrays.stream(s.substring(0, s.length()).split("")).map(String::trim).mapToInt(Integer::parseInt).toArray();
+            for(int k = 0; k<arr.length; k++){
+              init_state.add(arr[k]);
+            }
           }
         }
       }
@@ -96,6 +109,33 @@ public class Configuration {
     }
 
 
+  }
+
+  /**
+   * Method to set the initial states to various difference values, by random, by preference and other options.
+   *
+   * i=1 Allows the user to generate a random init state based
+   * @param i
+   */
+
+  public void initStateOp(int i){
+
+    int max_val = Collections.max(init_state);
+    int size = init_state.size();
+
+    if(i == 1){
+      for(int j = 0; j<size; j++){
+        Random rand = new Random();
+        //double randomDouble = Math.random();
+        //randomDouble = randomDouble * (max_val);
+        init_state.set(j, rand.nextInt(max_val+1));
+      }
+    }
+    else if(i == 2){
+
+    }
+
+    //init_state
   }
 
   /**
@@ -108,6 +148,25 @@ public class Configuration {
     this.num_frames_for_shark = Integer.parseInt(el.getElementsByTagName("num_frames_for_shark").item(0).getTextContent());
     this.starting_energy_shark = Integer.parseInt(el.getElementsByTagName("starting_energy_shark").item(0).getTextContent());
     this.energy_in_fish = Integer.parseInt(el.getElementsByTagName("energy_in_fish").item(0).getTextContent());
+  }
+
+  /**
+   * Error checking method that checks for:
+   * 1. Invalid or no simulation type given.
+   * 2. Default parameter for sim type is Fire.
+   *
+   * @param el
+   */
+  public void errorCheck(Element el){
+
+  }
+
+  public boolean errorCheck(String type){
+    if(!type.equals("Fire") && !type.equals("GameOfLife") && !type.equals("Percolation") && !type.equals("PredatorPrey") && !type.equals("Segregation") || type==null){
+      System.out.println("ERROR: Invalid Sim Type or No Sim Type Given");
+      return true;
+    }
+    return false;
   }
 
 

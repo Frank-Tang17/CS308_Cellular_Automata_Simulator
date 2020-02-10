@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<company>
+	<type id="Segregation">
+		<sim_type>Segregation</sim_type>
+		<width>20</width>
+		<height>10</height>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<s1>02102001202001200201</s1>
+		<threshold>0.5</threshold>
+		<author>Michael, Frank, Amjad</author>
+	</type>
+</company>

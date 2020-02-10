@@ -8,7 +8,11 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-
+/**
+ * Class that makes a simulation graph in a new window with a corresponding simulation
+ *
+ * @author Frank Tang
+ */
 public class SimulationGraph {
 
   private final int graphWindowHeight = 400;
@@ -17,13 +21,17 @@ public class SimulationGraph {
 
   private NumberAxis xAxis = new NumberAxis();
   private NumberAxis yAxis = new NumberAxis();
-  //creating the chart
+
   private LineChart<Number, Number> simulationGraphChart;
 
   private XYChart.Series series1 = new XYChart.Series();
   private XYChart.Series series2 = new XYChart.Series();
   private XYChart.Series series3 = new XYChart.Series();
   private ResourceBundle graphResources;
+
+  /**
+   * Makes a graph in a new window that is instantiated when a valid simulation is loaded
+   */
 
   public SimulationGraph(String selectedSimulation, String languageSelected) {
     graphResources = ResourceBundle.getBundle(languageSelected);
@@ -40,6 +48,10 @@ public class SimulationGraph {
     stage.show();
   }
 
+  /**
+   * Method that makes a line chart object
+   */
+
   private LineChart makeLineChart(String selectedSimulation) {
     LineChart<Number, Number> newChart =
         new LineChart<>(xAxis, yAxis);
@@ -55,6 +67,10 @@ public class SimulationGraph {
 
     return newChart;
   }
+
+  /**
+   * Method that updates the line chart as the simulation is running
+   */
 
   public void updateGraph(int frameNumber, int state1Total, int state2Total, int state3Total) {
     series1.getData().add(new XYChart.Data(frameNumber, state1Total));

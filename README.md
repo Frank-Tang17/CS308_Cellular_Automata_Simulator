@@ -35,12 +35,12 @@ Simulation:
 * Added the ability to use toroidal edge conditions for all simulations and shapes. You can turn on toroidal edges by changing the appropriate tag in the XML file from 0 to 1.
 * Implemented hexagonal shapes for cells and used 6 neighbors. You can turn on hexagonal cells by changing the appropriate tag in the XML file from 0 to 1.
 * You can implement any type of neighborhood by changing the <neighborColIndex> and <neighborRowIndex> tags in the XML file.
-* Created ROck Paper Scissor simulation in addition to the other required simulations
+* Created Rock Paper Scissor simulation in addition to the other required simulations
 
 Configuration:
 * We can check the configuration file for invalid simulation types or no simulation types given at all
 * We can check the cell state values for invalid numbers that are not allowed
-* The initial configuration states can be randomized for any of the simulations based on a toggle button followed by the reset button.
+* The initial configuration states can be randomized for any of the simulations based on a toggle button ("Randomize Simulation" Button) followed by the reset button.
 * At any point during the simulation, the current state as well as the other variables of the simulation can be exported to an XML file  
 Color of the cells can be changed from the XML file
 

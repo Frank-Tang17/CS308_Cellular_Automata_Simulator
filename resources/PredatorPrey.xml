@@ -14,7 +14,7 @@
 		<s8>02102001202001200201</s8>
 		<s9>02102001202001200201</s9>
 		<s10>02102001202001200201</s10>
-		<colors>white blue orange</colors>
+		<color>white blue orange</color>
 		<neighborColIndex>0 1 0 -1</neighborColIndex>
 		<neighborRowIndex>-1 0 1 0</neighborRowIndex>
 		<num_frames_for_fish>4</num_frames_for_fish>

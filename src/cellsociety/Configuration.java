@@ -42,6 +42,7 @@ public class Configuration {
   private int[] nColIndex;
   private int[] nRowIndex;
   private String[] colors;
+  private String scolor;
   private boolean toroidal;
   private boolean hexagonal;
 
@@ -94,9 +95,8 @@ public class Configuration {
           element = (Element) nNode;
           width = Integer.parseInt(element.getElementsByTagName("width").item(0).getTextContent());
           height = Integer.parseInt(element.getElementsByTagName("height").item(0).getTextContent());
-
-          String tempp = element.getElementsByTagName("color").item(0).getTextContent();
-          colors = tempp.trim().split(" ");
+          scolor = (element.getElementsByTagName("color").item(0).getTextContent());
+          colors = (element.getElementsByTagName("color").item(0).getTextContent()).trim().split(" ");
           String[] temp11 = (element.getElementsByTagName("neighborColIndex").item(0).getTextContent()).trim().split(" ");
           String[] temp22 = (element.getElementsByTagName("neighborRowIndex").item(0).getTextContent()).trim().split(" ");
           toroidal = (Integer.parseInt(element.getElementsByTagName("toroidal").item(0).getTextContent())) == 1;
@@ -130,7 +130,7 @@ public class Configuration {
    * Method to set the initial states to various difference values, by random, by preference and other options.
    *
    * i=1 Allows the user to generate a random init state based
-   * @param i
+   * @param
    */
 
   public void randomize(){
@@ -174,7 +174,7 @@ public class Configuration {
       int marker = 0;
       for(int i = 1; i<=height; i++){
         Element temp = doc.createElement("s"+i);
-        List<Integer> list = init_state.subList(marker, marker+width);
+        List<Integer> list = currentState.subList(marker, marker+width);
         String stemp = Arrays.toString(list.toArray()).replaceAll(",","").replaceAll(" ", "");
         stemp = stemp.substring(1, stemp.length()-1);
         temp.appendChild(doc.createTextNode(""+stemp+""));
@@ -216,12 +216,15 @@ public class Configuration {
   /**
    * Error checking method that checks for invalid or no simulation type given.
    *
-   * @param el
+   * @param
    */
 
   public boolean errorCheck(String type){
     if(!type.equals("Fire") && !type.equals("GameOfLife") && !type.equals("Percolation") && !type.equals("PredatorPrey") && !type.equals("Segregation") && !type.equals("Rps") || type==null){
       System.out.println("ERROR: Invalid Sim Type or No Sim Type Given");
+      return true;
+    }
+    if(Collections.max(init_state)>2 || Collections.min(init_state)<0){
       return true;
     }
     return false;

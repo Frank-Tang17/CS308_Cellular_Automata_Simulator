@@ -42,7 +42,7 @@ public class Grid {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         if (sim_type.equals("Fire")) {
-          grid[i][j] = new FireCell(i, j, cellSize, init_state.get(k), new int{}, new int{});
+          grid[i][j] = new FireCell(i, j, cellSize, init_state.get(k));
         } else if (sim_type.equals("GameOfLife")) {
           grid[i][j] = new GameOfLifeCell(i, j, cellSize, init_state.get(k));
         } else if (sim_type.equals("Percolation")) {

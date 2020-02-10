@@ -3,7 +3,6 @@ package cellsociety.cells;
 import cellsociety.Cell;
 import cellsociety.Grid;
 import java.util.ArrayList;
-import javafx.scene.paint.Color;
 
 public class FireCell extends Cell {
   private double prob = .55;
@@ -23,8 +22,6 @@ public class FireCell extends Cell {
   public FireCell(int row, int col, double size, int startingState, int[] neighborRowIndexes,
       int[] neighborColIndexes) {
     super(row, col, size, startingState, neighborRowIndexes, neighborColIndexes);
-    neighborColIndex = new int[]{0, 1, 0, -1}; // Define sets of coordinates for neighbors
-    neighborRowIndex = new int[]{-1, 0, 1, 0}; // Define sets of coordinates for neighbors
   }
 
   @Override
@@ -34,10 +31,10 @@ public class FireCell extends Cell {
     double rand = (Math.random() * 100);
     double compProb = 100 * prob;
 
-    if (theOldGrid.getCell(myRow, myCol).getCurrentState() == burningState) {
-      myState = emptyState;
-    } else if (neighborStatesAsList.contains(burningState) && theOldGrid.getCell(myRow, myCol).getCurrentState() == treeState && (rand <= compProb)) {
-      myState = burningState;
+    if (theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == burningState) {
+      setCellState(emptyState);
+    } else if (neighborStatesAsList.contains(burningState) && theOldGrid.getCell(getRowAndCol()[0], getRowAndCol()[1]).getCurrentState() == treeState && (rand <= compProb)) {
+      setCellState(burningState);
     }
   }
 }

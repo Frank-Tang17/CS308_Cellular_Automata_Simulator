@@ -31,19 +31,19 @@ public class RPSCell extends Cell {
     int numberOfSimilarNeighbors = 0;
     int newState = 0;
 
-    if (myState == rockState) {
+    if (getCurrentState() == rockState) {
       numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, paperState);
       newState = paperState;
-    } else if (myState == paperState) {
+    } else if (getCurrentState() == paperState) {
       numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, scissorState);
       newState = scissorState;
-    } else if (myState == scissorState) {
+    } else if (getCurrentState() == scissorState) {
       numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, rockState);
       newState = rockState;
     }
 
     if (numberOfSimilarNeighbors > threshold) {
-      myState = newState;
+      setCellState(newState);
     }
 
   }

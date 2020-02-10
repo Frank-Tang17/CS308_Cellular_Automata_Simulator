@@ -42,7 +42,12 @@ public class Simulator {
     simulationConfiguration = passedConfiguration;
     mainGrid = new Grid(simulationConfiguration);
     updateGrid = new Grid(simulationConfiguration);
-    shapeGrid = new HexagonGrid(mainGrid, simulationConfiguration);
+    if(simulationConfiguration.isHexagonal()) {
+      shapeGrid = new HexagonGrid(mainGrid, simulationConfiguration);
+    }
+    else{
+      shapeGrid = new RectangleGrid(mainGrid, simulationConfiguration);
+    }
     simulationGraph = new SimulationGraph(selectedSimulation, languageSelected);
   }
 

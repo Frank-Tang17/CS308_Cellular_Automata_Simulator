@@ -47,11 +47,11 @@ public class Configuration {
    * Based on what type of simulation it is, the appropriate method will be called for parsing.
    * @param filename
    */
-  public Configuration(String filename){
+  public Configuration(File filename){
     //type = filename;
-    String xmlpath = frontpath+filename+fpath;
-    docInit(xmlpath);
-    genConfigFile(init_state, filename, 20, 10, 0.7);
+    //String xmlpath = frontpath+filename+fpath;
+    docInit(filename);
+    genConfigFile(init_state, this.type, 20, 10, 0.7);
     //errorCheck(element);
     if(type.equals("Fire")){
       parseFire(element);
@@ -77,9 +77,9 @@ public class Configuration {
    * @param filename
    */
 
-  public void docInit(String filename){
+  public void docInit(File filename){
     try{
-      File fxml = new File(filename);
+      File fxml = filename;
       DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
       Document doc = dBuilder.parse(fxml);

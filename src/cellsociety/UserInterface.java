@@ -7,15 +7,16 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 
 /**
@@ -26,7 +27,7 @@ import javax.imageio.ImageIO;
 public class UserInterface {
 
   private static final String RESOURCES = "resources";
-  private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
+  private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + "/";
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
   private static final String STYLESHEET = "userInterface.css";
   private static final String BLANK = " ";
@@ -40,38 +41,49 @@ public class UserInterface {
   private static final int SECOND_COL = 1;
   private static final int THIRD_COL = 2;
 
+  private final double maxSimulationRate = 10;
+  private final double minSimulationRate = 1;
 
+  private boolean controlDisabled = true;
 
   private Scene userInterfaceScene;
 
   private String controlPanelID = "controlPanel";
   private String gameDisplayID = "gameDisplay";
-  private String initialDirectionsID = "initialDirections";
 
 
+  private Button pauseButton;
   private Button forwardButton;
+  private Button resetButton;
+  private Button speedUpButton;
+  private Button slowDownButton;
+  private Button loadSimulationButton;
+  private Button makeSimulationWindow;
+  private Slider simulationSpeedSlider;
+  private Text simulationTitle;
+
+
+
   private ComboBox selectSimulationBox;
   private ObservableList<String> configurationArray = FXCollections.observableArrayList("Percolation", "GameOfLife", "Fire", "Segregation", "PredatorPrey");
   private String selectedSimulationName;
 
   private ResourceBundle userInterfaceResources;
   private Simulator currentSimulation;
+  private String languageSelected;
 
   public UserInterface(String language){
-    userInterfaceResources = ResourceBundle.getBundle(language);
+    languageSelected = language;
+    userInterfaceResources = ResourceBundle.getBundle(languageSelected);
   }
-  /**
-   * Initialize what will be displayed and how it will be updated.
-   */
 
   // Create the game's "scene": what shapes will be in the game and their starting properties
   public Scene setupUserInterface(int width, int height) {
     BorderPane root = new BorderPane();
     root.setBottom(makeSimulationControlPanel(controlPanelID));
     root.setTop(makeGameDisplayPanel(gameDisplayID));
-    root.setCenter(makeText(initialDirectionsID));
     root.getChildren().add(grid);
-    //enableButtons();
+    enableAndDisableButtons();
     userInterfaceScene = new Scene(root, width, height);
     // activate CSS styling
     userInterfaceScene.getStylesheets().add(getClass().getClassLoader().getResource(STYLESHEET).toExternalForm());
@@ -96,6 +108,22 @@ public class UserInterface {
     return resultButton;
   }
 
+  private Slider makeSlider (String property) {
+    // represent all supported image suffixes
+    Slider slider = new Slider();
+    slider.setId(property);
+
+    slider.setMin(minSimulationRate);
+    slider.setMax(maxSimulationRate);
+    slider.setValue(minSimulationRate);
+    slider.setMajorTickUnit(minSimulationRate);
+    slider.setShowTickLabels(true);
+    slider.setShowTickMarks(true);
+    slider.valueProperty().addListener(
+        (ov, old_val, new_val) -> currentSimulation.setSimulationRate((Double) new_val));
+    return slider;
+  }
+
   private ComboBox makeComboBox (String property, ObservableList options) {
     ComboBox resultBox = new ComboBox(options);
     resultBox.setId(property);
@@ -103,91 +131,71 @@ public class UserInterface {
   }
 
 
-  // Display given message as an error in the GUI
-  private void showError (String message) {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.setTitle(userInterfaceResources.getString("ErrorTitle"));
-    alert.setContentText(message);
-    alert.showAndWait();
+  private void enableAndDisableButtons(){
+    pauseButton.setDisable(controlDisabled);
+    forwardButton.setDisable(controlDisabled);
+    resetButton.setDisable(controlDisabled);
+    simulationSpeedSlider.setDisable(controlDisabled);
+//    speedUpButton.setDisable(controlDisabled);
+//    slowDownButton.setDisable(controlDisabled);
   }
 
-  // only enable buttons when useful to user
-  private void enableButtons () {
-    forwardButton.setDisable(!currentSimulation.getSimulationStatus());
-  }
-
-//  private Node makeInitialDirections (String directionText){
-//    initialDirections = new Text();
-//    initialDirections.setText(userInterfaceResources.getString(directionText));
-//    initialDirections.setId(directionText);
-//    return initialDirections;
-//  }
-//
-//  private void removeInitialDirections (){
-//    if (initialDirections != null){
-//      root.getChildren().remove(initialDirections);
-//    }
-//  }
-  // make the panel where "would-be" clicked URL is displayed
   private Node makeSimulationControlPanel (String nodeID) {
     GridPane controlPanel = new GridPane();
 
-    Button pauseButton = makeButton("pauseButton", e -> currentSimulation.pauseResume());
+    pauseButton = makeButton("pauseButton", e -> currentSimulation.pauseResume());
     controlPanel.add(pauseButton, FIRST_COL, FIRST_ROW);
 
     forwardButton = makeButton("forwardButton", e -> currentSimulation.stepForward());
     controlPanel.add(forwardButton, SECOND_COL, FIRST_ROW);
 
-    Button resetButton = makeButton("resetButton", e -> resetSimulation());
+    resetButton = makeButton("resetButton", e -> resetSimulation());
     controlPanel.add(resetButton, THIRD_COL, FIRST_ROW);
 
-    Button speedUpButton = makeButton("speedUpButton", e -> currentSimulation.speedUpSimulation());
-    controlPanel.add(speedUpButton, FIRST_COL, SECOND_ROW);
+    simulationSpeedSlider = makeSlider("simulationSpeedSlider");
+    controlPanel.add(simulationSpeedSlider, FIRST_COL, SECOND_ROW);
 
-    Button slowDownButton = makeButton("slowDownButton", e -> currentSimulation.slowDownSimulation());
-    controlPanel.add(slowDownButton, SECOND_COL, SECOND_ROW);
+//    speedUpButton = makeButton("speedUpButton", e -> currentSimulation.speedUpSimulation());
+//    controlPanel.add(speedUpButton, FIRST_COL, SECOND_ROW);
+//
+//    slowDownButton = makeButton("slowDownButton", e -> currentSimulation.slowDownSimulation());
+//    controlPanel.add(slowDownButton, SECOND_COL, SECOND_ROW);
 
-    Button loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(selectSimulationBox.getValue()));
+    loadSimulationButton = makeButton("loadSimulationButton", e -> loadSimulation(selectSimulationBox.getValue()));
     controlPanel.add(loadSimulationButton, THIRD_COL, SECOND_ROW);
 
     selectSimulationBox = makeComboBox("selectSimulationBox", configurationArray);
     controlPanel.add(selectSimulationBox, THIRD_COL, SECOND_ROW);
 
+
     controlPanel.setId(nodeID);
     return controlPanel;
   }
 
+
   private Node makeGameDisplayPanel (String nodeID) {
-    GridPane gameDisplay = new GridPane();
-    Text frameCounter = makeText("frameCounterID");
-    gameDisplay.add(frameCounter, FIRST_COL, FIRST_ROW);
+    HBox gameDisplay = new HBox();
+    makeSimulationWindow = makeButton("makeNewSimulationButton", e -> new SimulationWindow(new Stage()));
 
-    Text simulationTitle = makeText("simulationTypeID");
-    gameDisplay.add(simulationTitle, SECOND_COL, FIRST_ROW);
+    gameDisplay.getChildren().add(makeSimulationWindow);
 
-    Text simulationRate = makeText("simulationRateID");
-    gameDisplay.add(simulationRate, THIRD_COL, FIRST_ROW);
+    simulationTitle = new Text();
+    gameDisplay.getChildren().add(simulationTitle);
 
     gameDisplay.setId(nodeID);
     return gameDisplay;
   }
 
-  private Text makeText(String inputTextID){
-    Text newText = new Text();
-    newText.setText(userInterfaceResources.getString(inputTextID));
-    newText.setId(inputTextID);
-    return newText;
-  }
-
-
   private void loadSimulation(Object selectBoxObject){
     if(selectBoxObject == null){
-      showError(userInterfaceResources.getString("NullSelection"));
+      new DisplayError(languageSelected, "NullSelection");
     }
     else{
-      //removeInitialDirections();
       selectedSimulationName = selectBoxObject.toString();
       makeSimulation(selectedSimulationName);
+      controlDisabled = false;
+      enableAndDisableButtons();
+      simulationTitle.setText(selectedSimulationName);
     }
   }
 
@@ -198,8 +206,9 @@ public class UserInterface {
   }
 
   public void makeSimulation(String selectedSimulationName){
-    currentSimulation = new Simulator(selectedSimulationName);
+    currentSimulation = new Simulator(selectedSimulationName, userInterfaceScene, languageSelected);
     currentSimulation.runSimulation(grid);
   }
+
 }
 

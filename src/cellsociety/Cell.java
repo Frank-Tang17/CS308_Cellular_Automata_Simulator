@@ -18,14 +18,11 @@ public abstract class Cell {
   private ImageView myImage; // This may be on a subclass by subclass basis
   protected int[] neighborColIndex;
   protected int[] neighborRowIndex;
-  protected Color[] cellFillColors;
-  protected Color[] cellStrokeColors;
+//  protected Color[] cellFillColors;
+//  protected Color[] cellStrokeColors;
 
   public boolean justSwitched;
 
-
-  private static final int upperLeftX = 75;
-  private static final int upperLeftY = 30;
 
   /**
    * Constructor for master class Cell object
@@ -39,9 +36,6 @@ public abstract class Cell {
     myState = startingState;
     myRow = row;
     myCol = col;
-    myRect = new Rectangle(col * size + upperLeftX, row * size + upperLeftY, size, size);
-    myRect.setStrokeType(Simulator.cellStrokeType);
-    myRect.setStrokeWidth(Simulator.cellStrokeProportion * size);
   }
     /*
     public Cell(int row, int col, int xCoor, int yCoor, int width, int height, int startingState) {
@@ -54,41 +48,43 @@ public abstract class Cell {
     }
     */
 
-    /**
-     * Getter method for row and column
-     *
-     * @return array of Cell row and col in that order
-     */
-    public int[] getRowAndCol() {
-        return new int[] {myRow, myCol};
+  /**
+   * Getter method for row and column
+   *
+   * @return array of Cell row and col in that order
+   */
+  public int[] getRowAndCol() {
+    return new int[]{myRow, myCol};
+  }
+
+  /**
+   * Returns the states of each neighboring cell
+   *
+   * @param theGrid current Grid to update state based on
+   * @return array of neighboring states
+   */
+  public List<Integer> getNeighborStates(Grid theGrid) {
+    ArrayList<Integer> neighborStates = new ArrayList();
+    for (int i = 0; i < neighborColIndex.length; i++) {
+      if (theGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
+        neighborStates.add(
+            theGrid.getCell((myRow + neighborRowIndex[i]), (myCol + neighborColIndex[i]))
+                .getCurrentState());
+      }
     }
 
-    /**
-     * Returns the states of each neighboring cell
-     *
-     * @param theGrid current Grid to update state based on
-     * @return array of neighboring states
-     */
-    public List<Integer> getNeighborStates(Grid theGrid) {
-        ArrayList<Integer> neighborStates = new ArrayList();
-        for (int i = 0; i < neighborColIndex.length; i++) {
-            if (theGrid.isValidIndex(myRow + neighborRowIndex[i], myCol + neighborColIndex[i])) {
-                neighborStates.add(theGrid.getCell((myRow + neighborRowIndex[i]),(myCol + neighborColIndex[i])).getCurrentState());
-            }
-        }
-
-        return neighborStates;
-    }
+    return neighborStates;
+  }
 
 
   public void setCellState(int newState) {
     this.myState = newState;
   }
 
-    public Rectangle getCellNode(){
-      return this.myRect;
-    }
-
+//  public Rectangle getCellNode() {
+//    return this.myRect;
+//  }
+//
 
   /**
    * Cell type dependent method that changes the current state of the cell
@@ -113,15 +109,15 @@ public abstract class Cell {
   private void setCellImage() {
 
   }
-
-  /**
-   * Update the fill and the stroke color of the rectangle based on current state
-   */
-  public void updateRectangle() {
-    myRect.setFill(cellFillColors[myState]);
-    myRect.setStroke(cellStrokeColors[myState]);
-  }
 }
+//  /**
+//   * Update the fill and the stroke color of the rectangle based on current state
+//   */
+//  public void updateRectangle() {
+//    myRect.setFill(cellFillColors[myState]);
+//    myRect.setStroke(cellStrokeColors[myState]);
+//  }
+//}
 
 /*
 public enum CellTypeEnum {

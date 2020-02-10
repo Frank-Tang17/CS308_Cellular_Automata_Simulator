@@ -6,22 +6,25 @@ import java.util.ArrayList;
 
 
 public class Grid {
+
   private Cell[][] grid;
   private int height;
   private int width;
   private final int simulationScreenWidth = 450;
   private final int simulationScreenHeight = 450;
-  private Configuration simulationLoaded;
+  private Configuration test;
+  private int numberofCellState0 = 0;
+  private int numberofCellState1 = 0;
+  private int numberofCellState2 = 0;
 
-  public Grid(String selectedSimulation) {
-    simulationLoaded = new Configuration(selectedSimulation);
-    width = simulationLoaded.getWidth();
-    height = simulationLoaded.getHeight();
+  public Grid(Configuration simulationLoaded) {
+    test = simulationLoaded;
+    width = test.getWidth();
+    height = test.getHeight();
     grid = new Cell[height][width];
 
-    fillInitState(simulationLoaded.getInitState());
+    fillInitState(test.getInitState());
   }
-
 
   //Populate the grid values with the initial state//
 
@@ -29,23 +32,19 @@ public class Grid {
     //Need to figure out how the state data is incoming, whether we can store it in an ArrayList.
     double cellSize = determineCellSize(height, width);
     int k = 0;
-    String sim_type = simulationLoaded.getType();
+    String sim_type = test.getType();
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        if(sim_type.equals("Fire")){
+        if (sim_type.equals("Fire")) {
           grid[i][j] = new FireCell(i, j, cellSize, init_state.get(k));
-        }
-        else if(sim_type.equals("GameOfLife")){
+        } else if (sim_type.equals("GameOfLife")) {
           grid[i][j] = new GameOfLifeCell(i, j, cellSize, init_state.get(k));
-        }
-        else if(sim_type.equals("Percolation")){
+        } else if (sim_type.equals("Percolation")) {
           grid[i][j] = new PercolationCell(i, j, cellSize, init_state.get(k));
-        }
-        else if(sim_type.equals("Segregation")){
+        } else if (sim_type.equals("Segregation")) {
           grid[i][j] = new SegregationCell(i, j, cellSize, init_state.get(k));
-        }
-        else if(sim_type.equals("PredatorPrey")){
+        } else if (sim_type.equals("PredatorPrey")) {
           grid[i][j] = new PredatorPreyCell(i, j, cellSize, init_state.get(k));
         }
         k++;
@@ -53,14 +52,13 @@ public class Grid {
     }
   }
 
-
-  public void gridVisualization(Group node){
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        node.getChildren().add(grid[i][j].getCellNode());
-      }
-    }
-  }
+//  public void gridVisualization(Group node){
+//    for (int i = 0; i < height; i++) {
+//      for (int j = 0; j < width; j++) {
+//        node.getChildren().add(grid[i][j].getCellNode());
+//      }
+//    }
+//  }
 
   public int getHeight() {
     return height;
@@ -75,7 +73,6 @@ public class Grid {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         grid[i][j].update(oldGrid, this);
-
       }
     }
   }
@@ -88,11 +85,11 @@ public class Grid {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         grid[i][j].setCellState(gridnew.getCell(i, j).getCurrentState());
-        grid[i][j].updateRectangle();
         grid[i][j].justSwitched = false;
       }
     }
   }
+
   public Cell getCell(int row, int col) {
     return grid[row][col];
   }
@@ -101,7 +98,36 @@ public class Grid {
     return (row >= 0 && row < grid.length && col >= 0 && col < grid[0].length);
   }
 
-  private double determineCellSize(int numRows, int numCols) {
+  public void updateStateTotal() {
+    numberofCellState0 = 0;
+    numberofCellState1 = 0;
+    numberofCellState2 = 0;
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        if (this.getCell(i, j).getCurrentState() == 0) {
+          numberofCellState0++;
+        } else if (this.getCell(i, j).getCurrentState() == 1) {
+          numberofCellState1++;
+        } else {
+          numberofCellState2++;
+        }
+      }
+    }
+  }
+
+  public int getNumberofCellState0() {
+    return numberofCellState0;
+  }
+
+  public int getNumberofCellState1() {
+    return numberofCellState1;
+  }
+
+  public int getNumberofCellState2() {
+    return numberofCellState2;
+  }
+
+  public double determineCellSize(int numRows, int numCols) {
     double maxWidth = simulationScreenWidth / numCols;
     double maxHeight = simulationScreenHeight / numRows;
 

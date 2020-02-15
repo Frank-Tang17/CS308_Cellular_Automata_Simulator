@@ -360,30 +360,64 @@ public class Configuration {
     return this.init_state;
   }
 
+/**
+   * Getter method to retrieve the probability 
+   *
+   * @return probability
+   */
   public double getProb() {
     return prob;
   }
 
+/**
+   * Getter method to retrieve the starting energy of a fish
+   *
+   * @return starting energy of a fish
+   */
   public int getStartingEnergy() {
     return starting_energy_shark;
   }
 
+/**
+   * Getter method to retrieve the energy in a fish
+   * @returnenergy in a fish
+   */
   public int getEnergyInFish() {
     return energy_in_fish;
   }
 
+/**
+   * Getter method to retrieve the number of frames for a fish to reproduce
+   *
+   * @return number of frames for a fish to reproduce
+   */
   public int getFramesForFish() {
     return num_frames_for_fish;
   }
 
+/**
+   * Getter method to retrieve the number of frames for a shark to reproduce
+   *
+   * @return number of frames for a shark to reproduce
+   */
   public int getFramesForShark() {
     return num_frames_for_shark;
   }
 
+/**
+   * Getter method to retrieve the segeration thereshold
+   *
+   * @return segeration thereshold
+   */
   public double getThreshold() {
     return seg_thresh;
   }
 
+/**
+   * Getter method to retrieve the random simualtion
+   *
+   * @return random simulation
+   */
   public boolean getRandomSimulationGeneration() {
     return generateRandomSimulation;
   }

@@ -10,9 +10,9 @@ import java.util.Collections;
  */
 public class SegregationCell extends Cell {
   private double threshold = 0.5;
-  private static final int emptyState = 0;
-  private static final int typeAState = 1;
-  private static final int typeBState = 2;
+  private static final int EMPTY_STATE = 0;
+  // typeAState = 1;
+  // typeBState = 2;
 
 
   /**
@@ -42,16 +42,17 @@ public class SegregationCell extends Cell {
     ArrayList<Integer> neighborStatesAsList = new ArrayList<>(this.getNeighborStates(theOldGrid));
 
     int numberOfSimilarNeighbors = Collections.frequency(neighborStatesAsList, getCurrentState());
-    double proportionOfSimilarNeighbors = (double)numberOfSimilarNeighbors / ((double)neighborStatesAsList.size() - (double) Collections.frequency(neighborStatesAsList, emptyState));
+    double proportionOfSimilarNeighbors = (double)numberOfSimilarNeighbors / ((double)neighborStatesAsList.size() - (double) Collections.frequency(neighborStatesAsList,
+        EMPTY_STATE));
 
     boolean notSwitchedYet = true;
-    if (proportionOfSimilarNeighbors < threshold && getCurrentState() != emptyState) {
+    if (proportionOfSimilarNeighbors < threshold && getCurrentState() != EMPTY_STATE) {
       for (int i = 0; i < theOldGrid.getHeight(); i++) {
         for (int j = 0; j < theOldGrid.getWidth(); j++) {
           Cell currentCell = theOldGrid.getCell(i, j);
-          if (currentCell.getCurrentState() == emptyState && !currentCell.justSwitched && notSwitchedYet) {
+          if (currentCell.getCurrentState() == EMPTY_STATE && !currentCell.justSwitched && notSwitchedYet) {
             theNewGrid.getCell(currentCell.getRowAndCol()[0], currentCell.getRowAndCol()[1]).setCellState(getCurrentState());
-            setCellState(emptyState);
+            setCellState(EMPTY_STATE);
             currentCell.justSwitched = true;
             justSwitched = true;
             notSwitchedYet = false;
@@ -63,7 +64,7 @@ public class SegregationCell extends Cell {
 
   /**
    * Setter method for the threshold of neighbors
-   * @param newThreshold
+   * @param newThreshold the threshold to set it to
    */
   public void setThreshold(double newThreshold) {
     threshold = newThreshold;

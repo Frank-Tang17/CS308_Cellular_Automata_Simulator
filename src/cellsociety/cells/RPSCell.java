@@ -59,7 +59,7 @@ public class RPSCell extends Cell {
 
   /**
    * Setter method for threshold value
-   * @param newThreshold
+   * @param newThreshold the new Threshold value
    */
   public void setThreshold(double newThreshold) {
     threshold = (int) newThreshold;

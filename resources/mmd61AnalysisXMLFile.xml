@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<company>
+  <type id="GameOfLife">
+    <sim_type>GameOfLife</sim_type>
+    <width>20</width>
+    <height>11</height>
+    <toroidal>1</toroidal>
+    <hexagonal>1</hexagonal>
+    <s1>01010101011010010011</s1>
+    <s2>01010101011010010011</s2>
+    <s3>01010101011010010011</s3>
+    <s4>01010101011010010011</s4>
+    <s5>01010101011010010011</s5>
+    <s6>01010101011010010011</s6>
+    <s7>01010101011010010011</s7>
+    <s8>01010101011010010011</s8>
+    <s9>01010101011010010011</s9>
+    <s10>01010101011010010011</s10>
+    <s11>01010101011010010011</s11>
+
+    <color>white blue</color>
+    <neighborColIndex>0 1 0 -1</neighborColIndex>
+    <neighborRowIndex>-1 0 1 0</neighborRowIndex>
+    <author>Michael Dodd</author>
+  </type>
+</company>

@@ -137,7 +137,7 @@ public class Configuration {
    * <p>
    * i=1 Allows the user to generate a random init state based
    *
-   * @param i
+   * @param
    */
 
   public void randomize(){
@@ -229,7 +229,7 @@ public class Configuration {
   /**
    * Error checking method that checks for invalid or no simulation type given.
    *
-   * @param el
+   * @param
    */
 
   public boolean errorCheck(String type) {

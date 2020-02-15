@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Percolation Cell class
  */
 public class PercolationCell extends Cell {
-  private static final int BLOCKED_STATE = 0;
+  // BLOCKED_STATE = 0;
   private static final int OPEN_STATE = 1;
   private static final int WATER_STATE = 2;
 

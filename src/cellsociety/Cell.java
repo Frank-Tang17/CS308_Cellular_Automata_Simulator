@@ -12,13 +12,12 @@ public abstract class Cell {
   private int myRow, myCol;
   private int myState;
 
-  private int[] neighborColIndex;
   private int[] neighborRowIndex;
   private int[] neighborEvenColIndex;
   private int[] neighborOddColIndex;
 
-  private boolean toroidal = true;
-  private boolean hexagon = true;
+  private boolean toroidal = false;
+  private boolean hexagon = false;
 
   public boolean justSwitched;
 
@@ -39,13 +38,17 @@ public abstract class Cell {
     myCol = col;
     neighborRowIndex = neighborRowIndexes;
     if (hexagon) {
-      neighborEvenColIndex = new int[]{-1, -1, 0, 1, 0, -1};
-      neighborOddColIndex = new int[]{-1, 0, 1, 1, 1, 0};
-      neighborRowIndex = new int[]{0, -1, -1, 0, 1, 1};
+      setHexagonNeighborhood();
     } else {
       neighborEvenColIndex = neighborColIndexes;
       neighborOddColIndex = neighborColIndexes;
     }
+  }
+
+  private void setHexagonNeighborhood() {
+    neighborEvenColIndex = new int[]{-1, -1, 0, 1, 0, -1};
+    neighborOddColIndex = new int[]{-1, 0, 1, 1, 1, 0};
+    neighborRowIndex = new int[]{0, -1, -1, 0, 1, 1};
   }
 
   /**
@@ -64,7 +67,7 @@ public abstract class Cell {
    * @return array of neighboring states
    */
   public List<Integer> getNeighborStates(Grid theGrid) {
-    ArrayList<Integer> neighborStates = new ArrayList();
+    ArrayList<Integer> neighborStates = new ArrayList<>();
     int[] neighborColIndexForMyRow = getNeighborColIndex();
 
     for (int i = 0; i < neighborColIndexForMyRow.length; i++) {
@@ -104,7 +107,7 @@ public abstract class Cell {
 
   /**
    * Setter method for cell state
-   * @param newState
+   * @param newState the new state
    */
   public void setCellState(int newState) {
     this.myState = newState;
@@ -129,7 +132,7 @@ public abstract class Cell {
 
   /**
    * Getter method for the column indexes for the neighborhood
-   * @return
+   * @return the index
    */
   public int[] getNeighborColIndex() {
     if (myRow % 2 == 0) {
@@ -141,7 +144,7 @@ public abstract class Cell {
 
   /**
    * Getter method for the row indexes for the neighborhood
-   * @return
+   * @return the index
    */
   public int[] getNeighborRowIndex() {
     return neighborRowIndex;
@@ -149,7 +152,7 @@ public abstract class Cell {
 
   /**
    * Setter method for toroidal
-   * @param newStatus
+   * @param newStatus the status
    */
   public void setToroidal(boolean newStatus) {
     toroidal = newStatus;
@@ -157,14 +160,12 @@ public abstract class Cell {
 
   /**
    * Setter method for hexagon
-   * @param newStatus
+   * @param newStatus the status
    */
   public void setHexagon(boolean newStatus) {
     hexagon = newStatus;
     if (hexagon) {
-      neighborEvenColIndex = new int[]{-1, -1, 0, 1, 0, -1};
-      neighborOddColIndex = new int[]{-1, 0, 1, 1, 1, 0};
-      neighborRowIndex = new int[]{0, -1, -1, 0, 1, 1};
+      setHexagonNeighborhood();
     }
   }
 }

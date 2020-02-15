@@ -51,7 +51,7 @@ public class FireCell extends Cell {
 
   /**
    * Setter method for probability of catching fire
-   * @param newProb
+   * @param newProb the new probabilty threshold
    */
   public void setProb(double newProb) {
     prob = newProb;

@@ -164,7 +164,7 @@ public class PredatorPreyCell extends Cell {
 
   /**
    * Setter method for the number of frames needed to make a new fish
-   * @param fishTime
+   * @param fishTime the new time for a fish to reproduce
    */
   public void setNewFishTime(int fishTime) {
     newFishTime = fishTime;
@@ -172,7 +172,7 @@ public class PredatorPreyCell extends Cell {
 
   /**
    * Setter method for the number of frames needed to make a new shark
-   * @param sharkTime
+   * @param sharkTime the new time for a shark to reproduce
    */
   public void setNewSharkTime(int sharkTime) {
     newSharkTime = sharkTime;
@@ -180,7 +180,7 @@ public class PredatorPreyCell extends Cell {
 
   /**
    * Setter method for the starting energy of a shark
-   * @param newStartingSharkEnergy
+   * @param newStartingSharkEnergy the new starting shark energy
    */
   public void setStartingSharkEnergy(int newStartingSharkEnergy) {
     startingSharkEnergy = newStartingSharkEnergy;
@@ -188,7 +188,7 @@ public class PredatorPreyCell extends Cell {
 
   /**
    * Setter method for the energy in a fish
-   * @param newEnergyPerFish
+   * @param newEnergyPerFish the new energy per fish
    */
   public void  setEnergyPerFish(int newEnergyPerFish) {
     energyPerFish = newEnergyPerFish;

@@ -42,26 +42,41 @@ public class Grid {
     String sim_type = myConfig.getType();
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        if (sim_type.equals("Fire")) {
-          grid[i][j] = new FireCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
-          FireCell temp = (FireCell) grid[i][j];
-          temp.setProb(myConfig.getProb());
-        } else if (sim_type.equals("GameOfLife")) {
-          grid[i][j] = new GameOfLifeCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
-        } else if (sim_type.equals("Percolation")) {
-          grid[i][j] = new PercolationCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
-        } else if (sim_type.equals("Segregation")) {
-          grid[i][j] = new SegregationCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
-          SegregationCell temp = (SegregationCell) grid[i][j];
-          temp.setThreshold(myConfig.getThreshold());
-        } else if (sim_type.equals("PredatorPrey")) {
-          grid[i][j] = new PredatorPreyCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
-          PredatorPreyCell temp = (PredatorPreyCell) grid[i][j];
-          createPredatorPreyCell(temp);
-        } else if(sim_type.equals("Rps")) {
-          grid[i][j] = new RPSCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
-          RPSCell temp = (RPSCell) grid[i][j];
-          temp.setThreshold(myConfig.getThreshold());
+        switch (sim_type) {
+          case "Fire": {
+            grid[i][j] = new FireCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
+            FireCell temp = (FireCell) grid[i][j];
+            temp.setProb(myConfig.getProb());
+            break;
+          }
+          case "GameOfLife":
+            grid[i][j] = new GameOfLifeCell(i, j, init_state.get(k), this.nRowIndex,
+                this.nColIndex);
+            break;
+          case "Percolation":
+            grid[i][j] = new PercolationCell(i, j, init_state.get(k), this.nRowIndex,
+                this.nColIndex);
+            break;
+          case "Segregation": {
+            grid[i][j] = new SegregationCell(i, j, init_state.get(k), this.nRowIndex,
+                this.nColIndex);
+            SegregationCell temp = (SegregationCell) grid[i][j];
+            temp.setThreshold(myConfig.getThreshold());
+            break;
+          }
+          case "PredatorPrey": {
+            grid[i][j] = new PredatorPreyCell(i, j, init_state.get(k), this.nRowIndex,
+                this.nColIndex);
+            PredatorPreyCell temp = (PredatorPreyCell) grid[i][j];
+            createPredatorPreyCell(temp);
+            break;
+          }
+          case "Rps": {
+            grid[i][j] = new RPSCell(i, j, init_state.get(k), this.nRowIndex, this.nColIndex);
+            RPSCell temp = (RPSCell) grid[i][j];
+            temp.setThreshold(myConfig.getThreshold());
+            break;
+          }
         }
         grid[i][j].setToroidal(myConfig.isToroidal());
         grid[i][j].setHexagon(myConfig.isHexagonal());
@@ -130,9 +145,9 @@ public class Grid {
 
   /**
    * Checks to see if the row and col exist in the grid
-   * @param row
-   * @param col
-   * @return
+   * @param row the row
+   * @param col the col
+   * @return wether it is valid or not
    */
   public boolean isValidIndex(int row, int col) {
     return (row >= 0 && row < grid.length && col >= 0 && col < grid[0].length);

@@ -1,15 +1,15 @@
 package cellsociety.view;
 
 /**
- * This piece of code is well designed because it represents the User Interface of the program
- * and is very separate from the rest of the code. It tells and instantiates objects that it
- * needs in order for the program to function, such as making Simulator objects when the user loads
- * one, and also has private methods for the specific creation of its GUI. I was tempted to split this
- * into separate classes, and while I do see some value in splitting it up into classes like GameDisplay
- * and ControlPanel; however, I felt that this was unnecessary because these interface pieces are only going
- * to be made once per simulation instance. By having them as separate objects, it introduces the ability for
- * a programmer to call these objects in another place where they do not belong. Thus, I kept the creation methods
- * of the interface private in this file.
+ * This piece of code is well designed because it represents the User Interface of the program and
+ * is very separate from the rest of the code. It tells and instantiates objects that it needs in
+ * order for the program to function, such as making Simulator objects when the user loads one, and
+ * also has private methods for the specific creation of its GUI. I was tempted to split this into
+ * separate classes, and while I do see some value in splitting it up into classes like GameDisplay
+ * and ControlPanel; however, I felt that this was unnecessary because these interface pieces are
+ * only going to be made once per simulation instance. By having them as separate objects, it
+ * introduces the ability for a programmer to call these objects in another place where they do not
+ * belong. Thus, I kept the creation methods of the interface private in this file.
  */
 
 import cellsociety.configuration.Configuration;
@@ -103,51 +103,6 @@ public class UserInterface {
   }
 
   /**
-   * Method to create a button
-   *
-   * @return Button with a label, ID, and action
-   */
-  private Button makeButton(String property, EventHandler<ActionEvent> handler) {
-    Button resultButton = new Button();
-    String label = languageBundle.getString(property);
-    resultButton.setText(label);
-    resultButton.setOnAction(handler);
-    resultButton.setId(property);
-    return resultButton;
-  }
-
-  /**
-   * Method that makes the slider that controls the simulation rate
-   *
-   * @return Slider with an ID and values for representing the simulation rate
-   */
-  private Slider makeSimulationSpeedSlider(String property, double minSliderValue, double maxSliderValue) {
-    Slider slider = new Slider();
-    slider.setId(property);
-
-    slider.setMin(minSliderValue);
-    slider.setMax(maxSliderValue);
-    slider.setValue(minSliderValue);
-    slider.setMajorTickUnit(minSliderValue);
-    slider.setShowTickLabels(true);
-    slider.setShowTickMarks(true);
-    slider.valueProperty().addListener(
-        (ov, old_val, new_val) -> currentSimulation.setSimulationRate((Double) new_val));
-    return slider;
-  }
-
-  /**
-   * Method to disable and enable buttons that will cause errors if run at the wrong time
-   */
-  private void enableAndDisableButtons() {
-    pauseButton.setDisable(controlDisabled);
-    forwardButton.setDisable(controlDisabled);
-    resetButton.setDisable(controlDisabled);
-    randomizeSimulationButton.setDisable(controlDisabled);
-    simulationSpeedSlider.setDisable(controlDisabled);
-  }
-
-  /**
    * Method that makes the bottom part of the GUI that holds all the buttons
    *
    * @return GridPane with buttons for controlling the simulation
@@ -180,20 +135,6 @@ public class UserInterface {
   }
 
   /**
-   * Method to turn on the randomize simulation property and displays a message
-   */
-  private void toggleRandomSimulationButton() {
-    currentSimulationConfig.toggleRandomSimulationGeneration();
-    Alert alert = new Alert(AlertType.INFORMATION);
-    alert.setTitle(languageBundle.getString("Random"));
-    alert.setContentText(
-        languageBundle.getString("randomSimulationStatus") + currentSimulationConfig
-            .getRandomSimulationGeneration());
-    alert.showAndWait();
-    currentSimulationConfig = new Configuration(currentSimulationFile, languageBundle);
-  }
-
-  /**
    * Method that makes the top part of the GUI with the new Simulation Window button and the
    * simulation rate slider
    *
@@ -209,11 +150,72 @@ public class UserInterface {
     simulationTitle = new Text();
     gameDisplay.getChildren().add(simulationTitle);
 
-    simulationSpeedSlider = makeSimulationSpeedSlider("simulationSpeedSlider", minSimulationRate, maxSimulationRate);
+    simulationSpeedSlider = makeSimulationSpeedSlider("simulationSpeedSlider", minSimulationRate,
+        maxSimulationRate);
     gameDisplay.getChildren().add(simulationSpeedSlider);
 
     gameDisplay.setId(nodeID);
     return gameDisplay;
+  }
+
+  /**
+   * Method to create a button
+   *
+   * @return Button with a label, ID, and action
+   */
+  private Button makeButton(String property, EventHandler<ActionEvent> handler) {
+    Button resultButton = new Button();
+    String label = languageBundle.getString(property);
+    resultButton.setText(label);
+    resultButton.setOnAction(handler);
+    resultButton.setId(property);
+    return resultButton;
+  }
+
+  /**
+   * Method that makes the slider that controls the simulation rate
+   *
+   * @return Slider with an ID and values for representing the simulation rate
+   */
+  private Slider makeSimulationSpeedSlider(String property, double minSliderValue,
+      double maxSliderValue) {
+    Slider slider = new Slider();
+    slider.setId(property);
+
+    slider.setMin(minSliderValue);
+    slider.setMax(maxSliderValue);
+    slider.setValue(minSliderValue);
+    slider.setMajorTickUnit(minSliderValue);
+    slider.setShowTickLabels(true);
+    slider.setShowTickMarks(true);
+    slider.valueProperty().addListener(
+        (ov, old_val, new_val) -> currentSimulation.setSimulationRate((Double) new_val));
+    return slider;
+  }
+
+  /**
+   * Method to disable and enable buttons that will cause errors if run at the wrong time
+   */
+  private void enableAndDisableButtons() {
+    pauseButton.setDisable(controlDisabled);
+    forwardButton.setDisable(controlDisabled);
+    resetButton.setDisable(controlDisabled);
+    randomizeSimulationButton.setDisable(controlDisabled);
+    simulationSpeedSlider.setDisable(controlDisabled);
+  }
+
+  /**
+   * Method to turn on the randomize simulation property and displays a message
+   */
+  private void toggleRandomSimulationButton() {
+    currentSimulationConfig.toggleRandomSimulationGeneration();
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle(languageBundle.getString("Random"));
+    alert.setContentText(
+        languageBundle.getString("randomSimulationStatus") + currentSimulationConfig
+            .getRandomSimulationGeneration());
+    alert.showAndWait();
+    currentSimulationConfig = new Configuration(currentSimulationFile, languageBundle);
   }
 
   /**

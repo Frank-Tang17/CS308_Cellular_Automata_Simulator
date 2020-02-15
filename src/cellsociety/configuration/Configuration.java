@@ -19,7 +19,18 @@ import java.util.*;
 
 /**
  * Class to handle the configuration file parsing and feeding the data back to the main classes for
- * each simulation to use.
+ * each simulation to use. Code that will be used for masterpiece.
+ *
+ * The getter and setter methods have been removed for the purpose of meeting the line requirement and focus on the big elements.
+ *
+ * I think this code is well designed because it separates the different features of the config parser and makes the method lean
+ * and functional. The data is also all private and dealt with only when needed, with getter and setter methods provided correctly.
+ * Additionally, the code was significantly refactored to remove all of the redundancies that the parsing methods had that were specific
+ * to each simulation. To resolve this, the core functional parsing operations were put into docInit, while lighter methods to deal with the specific
+ * simulation variables in each type were created. This greatly improved the code's design and flexibility to accommodate future simulations as well.
+ * The gen config file method also had many redundancies when creating the tags for the xml file, but these were resolved by putting in for loops.
+ *
+ *
  */
 public class Configuration {
 
@@ -52,9 +63,10 @@ public class Configuration {
    */
   public Configuration(File filename) {
     docInit(filename);
-    if (generateRandomSimulation) {
-      randomize();
-    }
+    //randomize();
+    //if (generateRandomSimulation) {
+    //randomize();
+    //}
     if (type.equals("Fire")) {
       parseFire(element);
     } else if (type.equals("PredatorPrey")) {
@@ -82,7 +94,7 @@ public class Configuration {
 
       nList = doc.getElementsByTagName("type");
       String unverified_type = ((Element) nList.item(0)).getElementsByTagName("sim_type").item(0)
-          .getTextContent();
+              .getTextContent();
       boolean isError = errorCheck(unverified_type);
       if (isError) {
         return;
@@ -95,22 +107,22 @@ public class Configuration {
           element = (Element) nNode;
           width = Integer.parseInt(element.getElementsByTagName("width").item(0).getTextContent());
           height = Integer
-              .parseInt(element.getElementsByTagName("height").item(0).getTextContent());
+                  .parseInt(element.getElementsByTagName("height").item(0).getTextContent());
 
           String tempp = element.getElementsByTagName("color").item(0).getTextContent();
           colors = tempp.trim().split(" ");
           String stempp = element.getElementsByTagName("scolor").item(0).getTextContent();
           scolors = stempp.trim().split(" ");
           String[] temp11 = (element.getElementsByTagName("neighborColIndex").item(0)
-              .getTextContent()).trim().split(" ");
+                  .getTextContent()).trim().split(" ");
           String[] temp22 = (element.getElementsByTagName("neighborRowIndex").item(0)
-              .getTextContent()).trim().split(" ");
+                  .getTextContent()).trim().split(" ");
           toroidal =
-              (Integer.parseInt(element.getElementsByTagName("toroidal").item(0).getTextContent()))
-                  == 1;
+                  (Integer.parseInt(element.getElementsByTagName("toroidal").item(0).getTextContent()))
+                          == 1;
           hexagonal =
-              (Integer.parseInt(element.getElementsByTagName("hexagonal").item(0).getTextContent()))
-                  == 1;
+                  (Integer.parseInt(element.getElementsByTagName("hexagonal").item(0).getTextContent()))
+                          == 1;
           nColIndex = new int[temp11.length];
           nRowIndex = new int[temp22.length];
           for (int i = 0; i < temp11.length; i++) {
@@ -124,7 +136,7 @@ public class Configuration {
             String num = "s" + i;
             String s = element.getElementsByTagName(num).item(0).getTextContent();
             int[] arr = Arrays.stream(s.substring(0, s.length()).split("")).map(String::trim)
-                .mapToInt(Integer::parseInt).toArray();
+                    .mapToInt(Integer::parseInt).toArray();
             for (int k = 0; k < arr.length; k++) {
               init_state.add(arr[k]);
             }
@@ -165,8 +177,8 @@ public class Configuration {
    * @param height
    * @param prob
    */
-  public void genConfigFile(ArrayList<Integer> currentState, String sim_type, int width, int height,
-      double prob) {
+  private void genConfigFile(ArrayList<Integer> currentState, String sim_type, int width, int height,
+                             double prob) {
     try {
       DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -219,15 +231,15 @@ public class Configuration {
    * @param
    */
 
-  public void parsePredPray(Element el) {
+  private void parsePredPray(Element el) {
     this.num_frames_for_fish = Integer
-        .parseInt(el.getElementsByTagName("num_frames_for_fish").item(0).getTextContent());
+            .parseInt(el.getElementsByTagName("num_frames_for_fish").item(0).getTextContent());
     this.num_frames_for_shark = Integer
-        .parseInt(el.getElementsByTagName("num_frames_for_shark").item(0).getTextContent());
+            .parseInt(el.getElementsByTagName("num_frames_for_shark").item(0).getTextContent());
     this.starting_energy_shark = Integer
-        .parseInt(el.getElementsByTagName("starting_energy_shark").item(0).getTextContent());
+            .parseInt(el.getElementsByTagName("starting_energy_shark").item(0).getTextContent());
     this.energy_in_fish = Integer
-        .parseInt(el.getElementsByTagName("energy_in_fish").item(0).getTextContent());
+            .parseInt(el.getElementsByTagName("energy_in_fish").item(0).getTextContent());
   }
 
   /**
@@ -236,10 +248,10 @@ public class Configuration {
    * @param type is the type of simulation being inputted
    */
 
-  public boolean errorCheck(String type) {
+  private boolean errorCheck(String type) {
     if (!type.equals("Fire") && !type.equals("GameOfLife") && !type.equals("Percolation") && !type
-        .equals("PredatorPrey") && !type.equals("Segregation") && !type.equals("Rps")
-        || type == null) {
+            .equals("PredatorPrey") && !type.equals("Segregation") && !type.equals("Rps")
+            || type == null) {
       System.out.println("ERROR: Invalid Sim Type or No Sim Type Given");
       return true;
     }
@@ -252,7 +264,7 @@ public class Configuration {
    *
    * @param
    */
-  public void parseSegRps(Element el) {
+  private void parseSegRps(Element el) {
     seg_thresh = Double.parseDouble(el.getElementsByTagName("threshold").item(0).getTextContent());
   }
 
@@ -262,138 +274,7 @@ public class Configuration {
    *
    * @param
    */
-  public void parseFire(Element el) {
+  private void parseFire(Element el) {
     this.prob = Double.parseDouble(el.getElementsByTagName("prob").item(0).getTextContent());
   }
-
-  /**
-   * Returns the row indexes of the neighborhood of a given cell.
-   *
-   * @return
-   */
-  public int[] getnRowIndex() {
-    return this.nRowIndex;
-  }
-
-  /**
-   * Returns the col indexes of the neighborhood of a given cell.
-   *
-   * @return
-   */
-
-  public int[] getnColIndex() {
-    return this.nColIndex;
-  }
-
-  /**
-   * Returns whether or not the grid is toroidal.
-   *
-   * @return
-   */
-
-  public boolean isToroidal() {
-    return this.toroidal;
-  }
-
-  /**
-   * Returns whether or not the grid is hexagonal.
-   *
-   * @return
-   */
-  public boolean isHexagonal() {
-    return this.hexagonal;
-  }
-
-  /**
-   * Getter method to retrieve the width of the simulation grid
-   *
-   * @return
-   */
-  public int getWidth() {
-    return this.width;
-  }
-
-  /**
-   * Getter method to retrieve the height of the simulation grid
-   *
-   * @return
-   */
-  public int getHeight() {
-    return this.height;
-  }
-
-  /**
-   * Getter method that returns the fill colors of the cells, which will vary based on the
-   * simulation type and be housed in the xml file for each simulation.
-   *
-   * @return
-   */
-  public String[] getColors() {
-    return this.colors;
-  }
-
-  /**
-   * Getter method that returns the stroke colors of the cells, which will vary based on the
-   * simulation type and be housed in the xml file for each simulation.
-   *
-   * @return
-   */
-  public String[] getSColors() {
-    return this.scolors;
-  }
-
-  /**
-   * Getter method to retrieve the type of the simulation grid
-   *
-   * @return
-   */
-  public String getType() {
-    return this.type;
-  }
-
-  /**
-   * Getter method to retrieve the initial state of the simulation grid
-   *
-   * @return
-   */
-  public ArrayList<Integer> getInitState() {
-    return this.init_state;
-  }
-
-  public double getProb() {
-    return prob;
-  }
-
-  public int getStartingEnergy() {
-    return starting_energy_shark;
-  }
-
-  public int getEnergyInFish() {
-    return energy_in_fish;
-  }
-
-  public int getFramesForFish() {
-    return num_frames_for_fish;
-  }
-
-  public int getFramesForShark() {
-    return num_frames_for_shark;
-  }
-
-  public double getThreshold() {
-    return seg_thresh;
-  }
-
-  public boolean getRandomSimulationGeneration() {
-    return generateRandomSimulation;
-  }
-
-  /**
-   * Method to toggle random simulation generation
-   */
-  public void toggleRandomSimulationGeneration() {
-    generateRandomSimulation = !generateRandomSimulation;
-  }
 }
-
-

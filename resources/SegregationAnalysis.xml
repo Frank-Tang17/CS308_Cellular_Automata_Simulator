@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<company>
+	<type id="Segregation">
+		<sim_type>Segregation</sim_type>
+		<width>20</width>
+		<height>10</height>
+		<toroidal>0</toroidal>
+		<hexagonal>0</hexagonal>
+		<s1>0210200120200120120102102001202001201201</s1>
+		<s2>0210200120200111120102102001202001201201</s2>
+		<s3>0210212120200120022102102001202001201201</s3>
+		<s4>0212120112211120021102102001202001201201</s4>
+		<s5>0210200120212120120102102001202001201201</s5>
+		<s6>0210211222200112120102102001202001201201</s6>
+		<s7>0210212112200122020102102001202001201201</s7>
+		<s8>0210222210200122121202102001202001201201</s8>
+		<s9>0210212120200120020102102001202001201201</s9>
+		<s10>0210200120200112120102102001202001201201</s10>
+		<color>white blue orange</color>
+    <scolor>gray gray gray</scolor>
+		<neighborColIndex>0 1 1 1 0 -1 -1 -1</neighborColIndex>
+		<neighborRowIndex>-1 -1 0 1 1 1 0 -1</neighborRowIndex>
+		<threshold>0.5</threshold>
+		<author>Michael, Frank, Amjad</author>
+	</type>
+</company>

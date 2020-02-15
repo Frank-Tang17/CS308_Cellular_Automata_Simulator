@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<company>
+	<type id="Fire">
+		<sim_type>Fire</sim_type>
+		<width>20</width>
+		<height>11</height>
+		<toroidal>1</toroidal>
+		<hexagonal>0</hexagonal>
+		<s1>11111111111111111111</s1>
+		<s2>11111111111111111111</s2>
+		<s3>11111111111111111111</s3>
+		<s4>11111111111111111111</s4>
+		<s5>11111111111111111111</s5>
+		<s6>11111111111111111111</s6>
+		<s7>11111111111111111111</s7>
+		<s8>11111111111111111111</s8>
+		<s9>11111111111111111111</s9>
+		<s10>11111111111111111111</s10>
+    <s11>11111111111111111111</s11>
+    <color>yellow green red</color>
+    <scolor>gray gray gray</scolor>
+    <neighborColIndex>0 1 0 -1</neighborColIndex>
+		<neighborRowIndex>-1 0 1 0</neighborRowIndex>
+		<prob>0.5</prob>
+		<author>Michael, Frank, Amjad</author>
+	</type>
+</company>

@@ -136,7 +136,7 @@ public class Configuration {
         }
       }
     } catch (Exception e) {
-      new DisplayError(languageBundle, "Error initializing doc");
+      new DisplayError(languageBundle, "ErrorInitializingDoc");
     }
 
   }

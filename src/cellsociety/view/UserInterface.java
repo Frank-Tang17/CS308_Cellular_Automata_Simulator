@@ -225,6 +225,7 @@ public class UserInterface {
       new DisplayError(languageBundle, "NullSelection");
     } else {
       try {
+        discardOldSimulation();
         currentSimulationConfig = new Configuration(this.currentSimulationFile, languageBundle);
         selectedSimulationName = currentSimulationConfig.getType();
         makeSimulation(selectedSimulationName);
@@ -242,10 +243,17 @@ public class UserInterface {
    * previous one.
    */
   private void resetSimulation() {
-    currentSimulation = null;
-    grid.getChildren().clear();
+    discardOldSimulation();
     currentSimulationConfig = new Configuration(currentSimulationFile, languageBundle);
     makeSimulation(selectedSimulationName);
+  }
+
+  /**
+   * Method that sends the old Simulation to the garbage collector and clears the grid node.
+   */
+  private void discardOldSimulation() {
+    currentSimulation = null;
+    grid.getChildren().clear();
   }
 
   /**

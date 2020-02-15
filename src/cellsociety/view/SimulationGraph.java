@@ -33,8 +33,8 @@ public class SimulationGraph {
    * Makes a graph in a new window that is instantiated when a valid simulation is loaded
    */
 
-  public SimulationGraph(String selectedSimulation, String languageSelected) {
-    graphResources = ResourceBundle.getBundle(languageSelected);
+  public SimulationGraph(String selectedSimulation, ResourceBundle languageBundle) {
+    graphResources = languageBundle;
 
     BorderPane graphRoot = new BorderPane();
     Scene scene = new Scene(graphRoot, graphWindowWidth, graphWindowHeight);

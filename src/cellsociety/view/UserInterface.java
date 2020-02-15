@@ -1,5 +1,17 @@
 package cellsociety.view;
 
+/**
+ * This piece of code is well designed because it represents the User Interface of the program
+ * and is very separate from the rest of the code. It tells and instantiates objects that it
+ * needs in order for the program to function, such as making Simulator objects when the user loads
+ * one, and also has private methods for the specific creation of its GUI. I was tempted to split this
+ * into separate classes, and while I do see some value in splitting it up into classes like GameDisplay
+ * and ControlPanel; however, I felt that this was unnecessary because these interface pieces are only going
+ * to be made once per simulation instance. By having them as separate objects, it introduces the ability for
+ * a programmer to call these objects in another place where they do not belong. Thus, I kept the creation methods
+ * of the interface private in this file.
+ */
+
 import cellsociety.configuration.Configuration;
 import java.io.File;
 import java.util.ResourceBundle;
@@ -62,14 +74,13 @@ public class UserInterface {
 
   private String selectedSimulationName;
 
-  private ResourceBundle userInterfaceResources;
+  private ResourceBundle languageBundle;
   private Simulator currentSimulation;
   private Configuration currentSimulationConfig;
-  private String languageSelected;
 
-  public UserInterface(String language) {
-    languageSelected = language;
-    userInterfaceResources = ResourceBundle.getBundle(languageSelected);
+  public UserInterface(ResourceBundle selectedLanguageBundle) {
+    languageBundle = selectedLanguageBundle;
+
   }
 
   /**
@@ -98,7 +109,7 @@ public class UserInterface {
    */
   private Button makeButton(String property, EventHandler<ActionEvent> handler) {
     Button resultButton = new Button();
-    String label = userInterfaceResources.getString(property);
+    String label = languageBundle.getString(property);
     resultButton.setText(label);
     resultButton.setOnAction(handler);
     resultButton.setId(property);
@@ -110,14 +121,14 @@ public class UserInterface {
    *
    * @return Slider with an ID and values for representing the simulation rate
    */
-  private Slider makeSlider(String property) {
+  private Slider makeSimulationSpeedSlider(String property, double minSliderValue, double maxSliderValue) {
     Slider slider = new Slider();
     slider.setId(property);
 
-    slider.setMin(minSimulationRate);
-    slider.setMax(maxSimulationRate);
-    slider.setValue(minSimulationRate);
-    slider.setMajorTickUnit(minSimulationRate);
+    slider.setMin(minSliderValue);
+    slider.setMax(maxSliderValue);
+    slider.setValue(minSliderValue);
+    slider.setMajorTickUnit(minSliderValue);
     slider.setShowTickLabels(true);
     slider.setShowTickMarks(true);
     slider.valueProperty().addListener(
@@ -174,12 +185,12 @@ public class UserInterface {
   private void toggleRandomSimulationButton() {
     currentSimulationConfig.toggleRandomSimulationGeneration();
     Alert alert = new Alert(AlertType.INFORMATION);
-    alert.setTitle(userInterfaceResources.getString("Random"));
+    alert.setTitle(languageBundle.getString("Random"));
     alert.setContentText(
-        userInterfaceResources.getString("randomSimulationStatus") + currentSimulationConfig
+        languageBundle.getString("randomSimulationStatus") + currentSimulationConfig
             .getRandomSimulationGeneration());
     alert.showAndWait();
-    currentSimulationConfig = new Configuration(currentSimulationFile);
+    currentSimulationConfig = new Configuration(currentSimulationFile, languageBundle);
   }
 
   /**
@@ -198,7 +209,7 @@ public class UserInterface {
     simulationTitle = new Text();
     gameDisplay.getChildren().add(simulationTitle);
 
-    simulationSpeedSlider = makeSlider("simulationSpeedSlider");
+    simulationSpeedSlider = makeSimulationSpeedSlider("simulationSpeedSlider", minSimulationRate, maxSimulationRate);
     gameDisplay.getChildren().add(simulationSpeedSlider);
 
     gameDisplay.setId(nodeID);
@@ -211,17 +222,17 @@ public class UserInterface {
    */
   private void loadSimulation(File simulationFile) {
     if (simulationFile == null) {
-      new DisplayError(languageSelected, "NullSelection");
+      new DisplayError(languageBundle, "NullSelection");
     } else {
       try {
-        currentSimulationConfig = new Configuration(this.currentSimulationFile);
+        currentSimulationConfig = new Configuration(this.currentSimulationFile, languageBundle);
         selectedSimulationName = currentSimulationConfig.getType();
         makeSimulation(selectedSimulationName);
         simulationTitle.setText(selectedSimulationName);
         controlDisabled = false;
         enableAndDisableButtons();
       } catch (Exception e) {
-        new DisplayError(languageSelected, "BadFile");
+        new DisplayError(languageBundle, "BadFile");
       }
     }
   }
@@ -230,29 +241,29 @@ public class UserInterface {
    * Method that resets the current simulation by loading a new simulation of the same type as the
    * previous one.
    */
-  public void resetSimulation() {
+  private void resetSimulation() {
     currentSimulation = null;
     grid.getChildren().clear();
-    currentSimulationConfig = new Configuration(currentSimulationFile);
+    currentSimulationConfig = new Configuration(currentSimulationFile, languageBundle);
     makeSimulation(selectedSimulationName);
   }
 
   /**
    * Method that makes the Simulator object and runs the simulation
    */
-  public void makeSimulation(String selectedSimulationName) {
+  private void makeSimulation(String selectedSimulationName) {
     currentSimulation = new Simulator(currentSimulationConfig, selectedSimulationName,
-        userInterfaceScene, languageSelected);
+        userInterfaceScene, languageBundle);
     currentSimulation.runSimulation(grid);
   }
 
   /**
    * Method that opens a file explorer to the XML file directory for the user to choose a new file.
    */
-  public void chooseFile() {
+  private void chooseFile() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialDirectory(initialDirectory);
-    fileChooser.setTitle("Choose Simulation XML Configuration File");
+    fileChooser.setTitle(languageBundle.getString("FileTitle"));
     fileChooser.getExtensionFilters().addAll(
         new ExtensionFilter("XML Files", "*.xml"));
     File selectedFile = fileChooser.showOpenDialog(new Stage());

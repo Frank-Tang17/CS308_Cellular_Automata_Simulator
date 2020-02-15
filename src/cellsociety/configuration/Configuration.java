@@ -43,6 +43,8 @@ public class Configuration {
   private boolean hexagonal;
   private static boolean generateRandomSimulation = false;
 
+  private ResourceBundle languageBundle;
+
   /**
    * Constructor for a configuration object, takes in the filename and decides which type of the
    * simulation the contents of the file represent. Based on what type of simulation it is, the
@@ -50,8 +52,10 @@ public class Configuration {
    *
    * @param filename
    */
-  public Configuration(File filename) {
+  public Configuration(File filename, ResourceBundle selectedLanguageBundle) {
+    languageBundle = selectedLanguageBundle;
     docInit(filename);
+    genConfigFile(this.init_state, "Fire", 20, 10, 0.7);
     if (generateRandomSimulation) {
       randomize();
     }
@@ -132,7 +136,7 @@ public class Configuration {
         }
       }
     } catch (Exception e) {
-      new DisplayError("English", "Error initializing doc");
+      new DisplayError(languageBundle, "Error initializing doc");
     }
 
   }
@@ -206,9 +210,9 @@ public class Configuration {
       System.out.println("File saved!");
 
     } catch (ParserConfigurationException pce) {
-      new DisplayError("English", "ParserConfigurationException");
+      new DisplayError(languageBundle, "ParserConfigurationException");
     } catch (TransformerException tfe) {
-      new DisplayError("English", "TransformerException");
+      new DisplayError(languageBundle, "TransformerException");
     }
   }
 

@@ -1,5 +1,11 @@
 package cellsociety.view;
 
+/**
+ * This class is well-designed because it allows us to display an Error message whenever an
+ * error can occur in the program. By being its own object with a specific purpose, we can use it
+ * anywhere in the program as needed.
+ */
+
 import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -11,16 +17,13 @@ import javafx.scene.control.Alert.AlertType;
  */
 public class DisplayError {
 
-  ResourceBundle errorEnglishResources;
-
   /**
    * Makes an alert pop up with a specific message in it
    */
-  public DisplayError(String language, String message) {
-    errorEnglishResources = ResourceBundle.getBundle(language);
+  public DisplayError(ResourceBundle languageBundle, String message) {
     Alert alert = new Alert(AlertType.ERROR);
-    alert.setTitle(errorEnglishResources.getString("ErrorTitle"));
-    alert.setContentText(errorEnglishResources.getString(message));
+    alert.setTitle(languageBundle.getString("ErrorTitle"));
+    alert.setContentText(languageBundle.getString(message));
     alert.showAndWait();
   }
 }

@@ -4,6 +4,7 @@ import cellsociety.configuration.Configuration;
 import cellsociety.model.Grid;
 import cellsociety.view.gridshapes.HexagonGrid;
 import cellsociety.view.gridshapes.RectangleGrid;
+import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -45,7 +46,7 @@ public class Simulator {
    * values from the Grid objects.
    */
   public Simulator(Configuration passedConfiguration, String selectedSimulation,
-      Scene userInterfaceScene, String languageSelected) {
+      Scene userInterfaceScene, ResourceBundle languageBundle) {
     scene = userInterfaceScene;
     scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
     scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
@@ -57,7 +58,7 @@ public class Simulator {
     } else {
       shapeGrid = new RectangleGrid(mainGrid, simulationConfiguration);
     }
-    simulationGraph = new SimulationGraph(selectedSimulation, languageSelected);
+    simulationGraph = new SimulationGraph(selectedSimulation, languageBundle);
   }
 
   /**
